@@ -1,1 +1,1 @@
-[[escaped, *], *esc bold, [bold_, []]]
+[[para, [[escaped, *], *esc bold, [bold_, []]]]]
