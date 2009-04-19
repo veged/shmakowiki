@@ -1,20 +1,29 @@
 ometa W {
     escapedChar = '~' char:c -> c,
     escaped = escapedChar+:c -> [`escaped, c.join('')],
+
     b = seq('**'),
     i = seq('//'),
     s = seq('--'),
-    special = (b | i | s):c -> [`special, c],
+    nl = '\n' ((~'\n' space)* '\n')+,
+    special = (b | i | s | nl):c -> [`special, c],
+
     bold = b (~b allInline)+:c b -> [`bold, c],
     bold_ = b (~special text)*:c (~~special | end) -> [`bold_, c],
     italic = i (~i allInline)+:c i -> [`italic, c],
     italic_ = i (~special text)*:c (~~special | end) -> [`italic_, c],
     strike = s (~s allInline)+:c s -> [`strike, c],
     strike_ = s (~special text)*:c (~~special | end) -> [`strike_, c],
+
     text = (~special ~escapedChar char)+:c -> c.join('')
            | escaped:c -> c,
+
     inline = bold | italic | strike | text,
     inline_ = bold_ | italic_ | strike_,
     allInline = inline | (~inline inline_),
-    topLevel = (allInline)*
+
+    para = (~nl allInline)+:c (nl | end) -> [`para, c],
+    allBlock = para,
+
+    topLevel = (allBlock)+
 }
