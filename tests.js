@@ -1,5 +1,5 @@
 load("ometa-rhino.js");
-load('wackowiki.js');
+load('shmakowiki.js');
 
 function getFromFile(fileName) {
     var file = new File(fileName);

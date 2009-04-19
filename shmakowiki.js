@@ -7,7 +7,7 @@ function ometaFile(fileName) {
     return ometa(data.join(''));
 };
 
-ometaFile('wackowiki.txt');
+ometaFile('shmakowiki.txt');
 
 if (arguments[0]) print(W.matchAll(arguments[0], 'topLevel'));
 
