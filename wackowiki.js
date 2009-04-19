@@ -9,5 +9,5 @@ function ometaFile(fileName) {
 
 ometaFile('wackowiki.txt');
 
-print(W.matchAll(arguments[0], 'topLevel'));
+if (arguments[0]) print(W.matchAll(arguments[0], 'topLevel'));
 
