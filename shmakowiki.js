@@ -4,7 +4,7 @@ function ometaFile(fileName) {
     var file = new File(fileName);
     file.open("read", "text");
     data = file.readAll();
-    return ometa(data.join(''));
+    return ometa(data.join('\n'));
 };
 
 ometaFile('shmakowiki.txt');

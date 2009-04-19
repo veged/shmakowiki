@@ -7,7 +7,7 @@ function getFromFile(fileName) {
     file.open("read", "text");
     data = file.readAll();
     file.close();
-    return data.join('');
+    return data.join('\n');
 }
 
 var i = 1,
