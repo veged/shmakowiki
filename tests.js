@@ -10,7 +10,7 @@ function getFromFile(fileName) {
     return data.join('\n');
 }
 
-var i = 1,
+var i = 7,
     noTests = false;
 
 while (!noTests) {

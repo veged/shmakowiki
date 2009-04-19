@@ -1,12 +1,19 @@
 ometa W {
+    spacesNoNl   = (~'\n' space)*,
+
     escapedChar = '~' char:c -> c,
     escaped = escapedChar+:c -> [`escaped, c.join('')],
 
     b = seq('**'),
     i = seq('//'),
     s = seq('--'),
-    nl = '\n' ((~'\n' space)* '\n')+,
-    special = (b | i | s | nl):c -> [`special, c],
+    nl = '\n' (spacesNoNl '\n')+,
+    li = spacesNoNl '*' ~'*' spacesNoNl,
+    liNl = '\n' li,
+
+    blockEnd = nl | liNl,
+
+    special = (b | i | s | blockEnd):c -> [`special, c],
 
     between :t = apply(t) (~apply(t) allInline)*:c apply(t) -> c,
     between_ :t = apply(t) (~special text)*:c (~~special | end) -> c,
@@ -28,9 +35,13 @@ ometa W {
 
     allInline = inline | (~inline inline_),
 
-    para = (~nl allInline)+:c (nl | end) -> [`para, c],
+    para = ~li (~blockEnd allInline)+:c (nl | (~~liNl '\n') | end) -> [`para, c],
 
-    allBlock = para,
+    listItem = li allInline+:c ((~~liNl '\n') | end) -> [`li, c],
+    uList = (~nl listItem)+:c (nl | end) -> [`ulist, c],
 
-    topLevel = (allBlock)+
+    allBlock = para | uList,
+
+    topLevel1 = (allBlock)+,
+    topLevel = uList
 }
