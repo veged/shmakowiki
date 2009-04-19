@@ -8,21 +8,28 @@ ometa W {
     nl = '\n' ((~'\n' space)* '\n')+,
     special = (b | i | s | nl):c -> [`special, c],
 
-    bold = b (~b allInline)+:c b -> [`bold, c],
-    bold_ = b (~special text)*:c (~~special | end) -> [`bold_, c],
-    italic = i (~i allInline)+:c i -> [`italic, c],
-    italic_ = i (~special text)*:c (~~special | end) -> [`italic_, c],
-    strike = s (~s allInline)+:c s -> [`strike, c],
-    strike_ = s (~special text)*:c (~~special | end) -> [`strike_, c],
+    between :t = apply(t) (~apply(t) allInline)*:c apply(t) -> c,
+    between_ :t = apply(t) (~special text)*:c (~~special | end) -> c,
+
+    bold = between(`b):c -> [`bold, c],
+    bold_ = between_(`b):c -> [`bold_, c],
+
+    italic = between(`i):c -> [`italic, c],
+    italic_ = between_(`i):c -> [`italic_, c],
+
+    strike = between(`s):c -> [`strike, c],
+    strike_ = between_(`s):c -> [`strike_, c],
 
     text = (~special ~escapedChar char)+:c -> c.join('')
            | escaped:c -> c,
 
     inline = bold | italic | strike | text,
     inline_ = bold_ | italic_ | strike_,
+
     allInline = inline | (~inline inline_),
 
     para = (~nl allInline)+:c (nl | end) -> [`para, c],
+
     allBlock = para,
 
     topLevel = (allBlock)+
