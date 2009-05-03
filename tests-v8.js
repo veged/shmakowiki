@@ -26,6 +26,18 @@ var tests = [
     {
         'in': 'para1**bla**\n//dsds//\n\npara2\npara2\n\npara3',
         'out': '[[para, [para1, [bold, [bla]], \n, [italic, [dsds]]]], [para, [para2\npara2]], [para, [para3]]]'
+    },
+    {
+        'in': '* listitem1\n* listitem2',
+        'out': '[[list, [[listItem, [listitem1]], [listItem, [listitem2]]]]]'
+    },
+    {
+        'in': 'para1\n* listitem1\n* listitem2\n\npara2',
+        'out': '[[para, [para1]], [list, [[listItem, [listitem1]], [listItem, [listitem2]]]], [para, [para2]]]'
+    },
+    {
+        'in': '* list **bold**\n* list //italic//\n* list **bo//italic_**',
+        'out': '[[list, [[listItem, [list , [bold, [bold]]]], [listItem, [list , [italic, [italic]]]], [listItem, [list , [bold, [bo, [italic_, [italic_]]]]]]]]]'
     }
 ];
 

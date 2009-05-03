@@ -1,4 +1,6 @@
 ometa W {
+	spacesNoNl   = (~'\n' space)*,
+
     oneOf :a ?(a.length == 1) = apply(a.pop()),
     oneOf :a ?(a.length > 1) = apply(a.pop()) | oneOf(a),
 
@@ -8,8 +10,14 @@ ometa W {
     b = seq('**'),
     i = seq('//'),
     s = seq('--'),
-    nl = '\n' ((~'\n' space)* '\n')+,
-    special = (b | i | s | nl):c -> [`special, c],
+    nl = '\n' (spacesNoNl '\n')+,
+	uli = spacesNoNl '*' ~'*' spacesNoNl,
+	oli = spacesNoNl '1' '.' spacesNoNl,
+	anyLi = uli | oli,
+
+	blockEnd = nl | ('\n' ~~anyLi) | end,
+
+    special = (b | i | s | blockEnd):c -> [`special, c],
 
     between :t :n = (apply(t) -> W.arrAdd(n, t)):nn (~oneOf(W.arrCopy(nn)) allInline(nn))*:c apply(t) -> c,
     between_ :t = apply(t) (~special text)*:c (~~special | end) -> c,
@@ -31,11 +39,14 @@ ometa W {
 
     allInline :n = inline(n) | (~inline(n) inline_),
 
-    para = (~nl allInline([]))+:c (nl | end) -> [`para, c],
+    para = ~anyLi (~blockEnd allInline([]))+:c blockEnd -> [`para, c],
 
-    allBlock = para,
+	listItem = anyLi (~blockEnd allInline([]))+:c blockEnd -> [`listItem, c],
+	list = listItem+:c -> [`list, c],
 
-    topLevel = (allBlock)+
+    allBlock = para | list,
+
+    topLevel = allBlock+
 }
 
 W.arrCopy = function(arr) {
