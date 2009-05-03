@@ -11,9 +11,12 @@ ometa W {
     i = seq('//'),
     s = seq('--'),
     nl = '\n' (spacesNoNl '\n')+,
-	uli = spacesNoNl '*' ~'*' spacesNoNl,
-	oli = spacesNoNl '1' '.' spacesNoNl,
-	anyLi = uli | oli,
+
+	uli = '*' ~'*' spacesNoNl,
+	oli = number '.' spacesNoNl,
+
+	anyLi = spacesNoNl:s (uli | oli) -> s.join(''),
+	anySubLi :ss = anyLi:s ?(s.length > ss.length) -> s,
 
 	blockEnd = nl | ('\n' ~~anyLi) | end,
 
@@ -41,10 +44,10 @@ ometa W {
 
     para = ~anyLi (~blockEnd allInline([]))+:c blockEnd -> [`para, c],
 
-	listItem = anyLi (~blockEnd allInline([]))+:c blockEnd -> [`listItem, c],
-	list = listItem+:c -> [`list, c],
+	listItem :l = anyLi:s ?(s.length >= l.length) (~blockEnd allInline([]))+:c blockEnd (~~(anySubLi(s):ss) list(ss):ll)* -> { if (ll) c[c.length] = ll; [`listItem, c] },
+	list :l = listItem(l)+:c -> [`list, c],
 
-    allBlock = para | list,
+    allBlock = para | list(''),
 
     topLevel = allBlock+
 }
