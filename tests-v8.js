@@ -29,23 +29,43 @@ var tests = [
     },
     {
         'in': '* listitem1\n* listitem2\n  * sublistitem2',
-        'out': '[[list, [[listItem, [listitem1]], [listItem, [listitem2, [list, [[listItem, [sublistitem2]]]]]]]]]'
+        'out': '[[ulist, [[ulistItem, [listitem1]], [ulistItem, [listitem2, [ulist, [[ulistItem, [sublistitem2]]]]]]]]]'
+    },
+    {
+        'in': '1. listitem1\n2. listitem2\n  1. sublistitem2',
+        'out': '[[olist, [[olistItem, [listitem1]], [olistItem, [listitem2, [olist, [[olistItem, [sublistitem2]]]]]]]]]'
+    },
+    {
+        'in': '1. olistitem1\n* ulistitem2',
+        'out': '[[olist, [[olistItem, [olistitem1]]]], [ulist, [[ulistItem, [ulistitem2]]]]]'
     },
     {
         'in': '* listitem1\n  * sublistitem1\n    * subsublistitem1',
-        'out': '[[list, [[listItem, [listitem1, [list, [[listItem, [sublistitem1, [list, [[listItem, [subsublistitem1]]]]]]]]]]]]]'
+        'out': '[[ulist, [[ulistItem, [listitem1, [ulist, [[ulistItem, [sublistitem1, [ulist, [[ulistItem, [subsublistitem1]]]]]]]]]]]]]'
+    },
+    {
+        'in': '* listitem1\n  * sublistitem1\n    * subsublistitem1\n  * sublistitem2',
+        'out': '[[ulist, [[ulistItem, [listitem1, [ulist, [[ulistItem, [sublistitem1, [ulist, [[ulistItem, [subsublistitem1]]]]]], [ulistItem, [sublistitem2]]]]]]]]]'
+    },
+    {
+        'in': '* listitem1\n  * sublistitem1\n    1. osubsublistitem1\n    * usubsublistitem1\n  * sublistitem2',
+        'out': '[[ulist, [[ulistItem, [listitem1, [ulist, [[ulistItem, [sublistitem1, [olist, [[olistItem, [osubsublistitem1]]]], [ulist, [[ulistItem, [usubsublistitem1]]]]]], [ulistItem, [sublistitem2]]]]]]]]]'
+    },
+    {
+        'in': '* listitem1\n  * sublistitem1\n    * subsublistitem1\n  * sublistitem2\n    * subsublistitem2',
+        'out': '[[ulist, [[ulistItem, [listitem1, [ulist, [[ulistItem, [sublistitem1, [ulist, [[ulistItem, [subsublistitem1]]]]]], [ulistItem, [sublistitem2, [ulist, [[ulistItem, [subsublistitem2]]]]]]]]]]]]]'
     },
     {
         'in': '* listitem1\n* listitem2\n  * sublistitem21\n* listitem3\n  * sublistitem31\n  * sublistitem32',
-        'out': '[[list, [[listItem, [listitem1]], [listItem, [listitem2, [list, [[listItem, [sublistitem21]]]]]], [listItem, [listitem3, [list, [[listItem, [sublistitem31]], [listItem, [sublistitem32]]]]]]]]]'
+        'out': '[[ulist, [[ulistItem, [listitem1]], [ulistItem, [listitem2, [ulist, [[ulistItem, [sublistitem21]]]]]], [ulistItem, [listitem3, [ulist, [[ulistItem, [sublistitem31]], [ulistItem, [sublistitem32]]]]]]]]]'
     },
     {
         'in': 'para1\n* listitem1\n* listitem2\n\npara2',
-        'out': '[[para, [para1]], [list, [[listItem, [listitem1]], [listItem, [listitem2]]]], [para, [para2]]]'
+        'out': '[[para, [para1]], [ulist, [[ulistItem, [listitem1]], [ulistItem, [listitem2]]]], [para, [para2]]]'
     },
     {
         'in': '* listitem **bold**\n* listitem //italic//\n* listitem **bo//italic_**',
-        'out': '[[list, [[listItem, [listitem , [bold, [bold]]]], [listItem, [listitem , [italic, [italic]]]], [listItem, [listitem , [bold, [bo, [italic_, [italic_]]]]]]]]]'
+        'out': '[[ulist, [[ulistItem, [listitem , [bold, [bold]]]], [ulistItem, [listitem , [italic, [italic]]]], [ulistItem, [listitem , [bold, [bo, [italic_, [italic_]]]]]]]]]'
     }
 ];
 
