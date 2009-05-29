@@ -1,6 +1,4 @@
 ometa W {
-    spacesNoNl   = (~'\n' space)*,
-
     oneOf :a ?(a.length == 1) = apply(a.pop()),
     oneOf :a ?(a.length > 1) = apply(a.pop()) | oneOf(a),
 
@@ -10,17 +8,7 @@ ometa W {
     b = seq('**'),
     i = seq('//'),
     s = seq('--'),
-    nl = '\n' (spacesNoNl '\n')+,
-
-    uli = spacesNoNl:s '*' ~'*' spacesNoNl -> s.join(''),
-    oli = spacesNoNl:s digit+ '.' spacesNoNl -> s.join(''),
-
-    anyLi = uli | oli,
-    anySubLi :ss = anyLi:s ?(s.length > ss.length) -> s,
-
-    blockEnd = nl | ('\n' ~~anyLi) | end,
-
-    special = (b | i | s | blockEnd):c -> [`special, c],
+    special = (b | i | s):c -> [`special, c],
 
     between :t :n = (apply(t) -> W.arrAdd(n, t)):nn (~oneOf(W.arrCopy(nn)) allInline(nn))*:c apply(t) -> c,
     between_ :t = apply(t) (~special text)*:c (~~special | end) -> c,
@@ -41,11 +29,25 @@ ometa W {
     inline_ = bold_ | italic_ | strike_,
 
     allInline :n = inline(n) | (~inline(n) inline_),
+    topInline = allInline([])+,
 
-    para = ~anyLi (~blockEnd allInline([]))+:c blockEnd -> [`para, c],
+
+    spacesNoNl   = (~'\n' space)*,
+
+    nl = '\n' (spacesNoNl '\n')+,
+
+    uli = spacesNoNl:s '*' ~'*' spacesNoNl -> s.join(''),
+    oli = spacesNoNl:s digit+ '.' spacesNoNl -> s.join(''),
+
+    anyLi = uli | oli,
+    anySubLi :ss = anyLi:s ?(s.length > ss.length) -> s,
+
+    blockEnd = nl | ('\n' ~~anyLi) | end,
+
+    para = ~anyLi ((~blockEnd char)+:cc -> cc.join('')):c  blockEnd -> [`para, W.matchAll(c, 'topInline')],
 
     listItem :t :l = apply(t):s ?(s.length >= l.length)
-                     (~blockEnd allInline([]))+:c blockEnd
+                     ((~blockEnd char)+:cc -> W.matchAll(cc.join(''), 'topInline')):c blockEnd
                      (~~(anySubLi(s):ss) anyList(ss))*:ll -> { if (ll) c = W.arrJoin(c, ll); c },
 
     ulistItem :l = listItem(`uli, l):c -> [`ulistItem, c],
