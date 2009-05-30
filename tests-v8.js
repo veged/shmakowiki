@@ -70,7 +70,7 @@ var tests = [
 ];
 
 load("ometa-rhino.js");
-load('shmakowiki.txt');
+load('shmakowiki.js');
 
 for (var i = 0; i < tests.length; i++) {
     var test = tests[i];
