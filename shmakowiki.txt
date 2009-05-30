@@ -42,9 +42,14 @@ ometa W {
     anyLi = uli | oli,
     anySubLi :ss = anyLi:s ?(s.length > ss.length) -> s,
 
-    blockEnd = nl | ('\n' ~~anyLi) | end,
+    headerStart = '='+:c -> (c.join('').length - 1),
+    headerEnd = '='* (('\n' (spacesNoNl '\n')*) | end),
+    header = headerStart:l ((~headerEnd char)+:cc -> cc.join('')):c headerEnd -> ['header' + (l <= 6 ? l : 6), W.matchAll(c, 'topInline')],
 
-    para = ~anyLi ((~blockEnd char)+:cc -> cc.join('')):c  blockEnd -> [`para, W.matchAll(c, 'topInline')],
+    blockEnd = nl | ('\n' ~~anyLi) | ('\n' ~~headerStart) | end,
+
+    para = ~anyLi ((~blockEnd char)+:cc -> cc.join('')):c blockEnd -> [`para, W.matchAll(c, 'topInline')],
+
 
     listItem :t :l = apply(t):s ?(s.length >= l.length)
                      ((~blockEnd char)+:cc -> W.matchAll(cc.join(''), 'topInline')):c blockEnd
@@ -58,7 +63,7 @@ ometa W {
 
     anyList :l = ulist(l) | olist(l),
 
-    allBlock = para | anyList(''),
+    allBlock = anyList('') | header | para,
 
     topLevel = allBlock+
 }

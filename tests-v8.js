@@ -64,13 +64,17 @@ var tests = [
         'out': '[[para, [para1]], [ulist, [[ulistItem, [listitem1]], [ulistItem, [listitem2]]]], [para, [para2]]]'
     },
     {
+        'in': '==header11**bold1**\n\npara2\n===header22\npara2\n====header33==',
+        'out': '[[header1, [header11, [bold, [bold1]]]], [para, [para2]], [header2, [header22]], [para, [para2]], [header3, [header33]]]'
+    },
+    {
         'in': '* listitem **bold**\n* listitem //italic//\n* listitem **bo//italic_**',
         'out': '[[ulist, [[ulistItem, [listitem , [bold, [bold]]]], [ulistItem, [listitem , [italic, [italic]]]], [ulistItem, [listitem , [bold, [bo, [italic_, [italic_]]]]]]]]]'
     }
 ];
 
 load("ometa-rhino.js");
-load('shmakowiki.js');
+load('shmakowiki.txt');
 
 for (var i = 0; i < tests.length; i++) {
     var test = tests[i];
