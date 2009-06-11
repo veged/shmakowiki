@@ -1,5 +1,9 @@
 var tests = [
     {
+        'in': '**xboldx**',
+        'out': '[[para, [[bold, [xboldx]]]]]'
+    },
+    {
         'in': '**bold******',
         'out': '[[para, [[bold, [bold]], [bold, []]]]]'
     },
@@ -68,6 +72,10 @@ var tests = [
         'out': '[[header1, [header11, [bold, [bold1]]]], [para, [para2]], [header2, [header22]], [para, [para2]], [header3, [header33]]]'
     },
     {
+        'in': '==**xbold1**\n\n**para2**\n===**header22**\n**para2**\n====**header33**==',
+        'out': '[[header1, [[bold, [xbold1]]]], [para, [[bold, [para2]]]], [header2, [[bold, [header22]]]], [para, [[bold, [para2]]]], [header3, [[bold, [header33]]]]]'
+    },
+    {
         'in': '* listitem **bold**\n* listitem //italic//\n* listitem **bo//italic_**',
         'out': '[[ulist, [[ulistItem, [listitem , [bold, [bold]]]], [ulistItem, [listitem , [italic, [italic]]]], [ulistItem, [listitem , [bold, [bo, [italic_, [italic_]]]]]]]]]'
     }
@@ -75,17 +83,22 @@ var tests = [
 
 load("ometa-rhino.js");
 load('shmakowiki.txt');
+load('shmakowiki2html.txt');
 
 for (var i = 0; i < tests.length; i++) {
     var test = tests[i];
 
-    var testRes = W.matchAll(test['in'], 'topLevel'),
-        isOk = testRes == test.out;
+    test.res = ShmakoWiki.matchAll(test['in'], 'topLevel');
+    var isOk = test.res == test.out;
 
     print('Test in:\n' + test['in'] + '\n: ' + (isOk ? 'ok' : 'FAIL'));
+    print('Test result:\n' + test.res);
     if (!isOk) {
-        print('Test result:\n' + testRes);
         print('Test out:\n' + test.out);
     }
+
+    test.html = ShmakoWikiToHtml.match(test.res, 'topLevel');
+    print('Test html:\n' + test.html);
+
     print('-----------------------------------------------------');
 }

@@ -1,4 +1,4 @@
-ometa W {
+ometa ShmakoWiki {
     oneOf :a ?(a.length == 1) = apply(a.pop()),
     oneOf :a ?(a.length > 1) = apply(a.pop()) | oneOf(a),
 
@@ -10,7 +10,7 @@ ometa W {
     s = seq('--'),
     special = (b | i | s):c -> [`special, c],
 
-    between :t :n = (apply(t) -> W.arrAdd(n, t)):nn (~oneOf(W.arrCopy(nn)) allInline(nn))*:c apply(t) -> c,
+    between :t :n = (apply(t) -> ShmakoWiki.arrAdd(n, t)):nn (~oneOf(ShmakoWiki.arrCopy(nn)) allInline(nn))*:c apply(t) -> c,
     between_ :t = apply(t) (~special text)*:c (~~special | end) -> c,
 
     bold :n = between(`b, n):c -> [`bold, c],
@@ -44,16 +44,16 @@ ometa W {
 
     headerStart = '='+:c -> (c.join('').length - 1),
     headerEnd = '='* (('\n' (spacesNoNl '\n')*) | end),
-    header = headerStart:l ((~headerEnd char)+:cc -> cc.join('')):c headerEnd -> ['header' + (l <= 6 ? l : 6), W.matchAll(c, 'topInline')],
+    header = headerStart:l ((~headerEnd char)+:cc -> cc.join('')):c headerEnd -> ['header' + (l <= 6 ? l : 6), ShmakoWiki.matchAll(c, 'topInline')],
 
     blockEnd = nl | ('\n' ~~anyLi) | ('\n' ~~headerStart) | end,
 
-    para = ~anyLi ((~blockEnd char)+:cc -> cc.join('')):c blockEnd -> [`para, W.matchAll(c, 'topInline')],
+    para = ~anyLi ((~blockEnd char)+:cc -> cc.join('')):c blockEnd -> [`para, ShmakoWiki.matchAll(c, 'topInline')],
 
 
     listItem :t :l = apply(t):s ?(s.length >= l.length)
-                     ((~blockEnd char)+:cc -> W.matchAll(cc.join(''), 'topInline')):c blockEnd
-                     (~~(anySubLi(s):ss) anyList(ss))*:ll -> { if (ll) c = W.arrJoin(c, ll); c },
+                     ((~blockEnd char)+:cc -> ShmakoWiki.matchAll(cc.join(''), 'topInline')):c blockEnd
+                     (~~(anySubLi(s):ss) anyList(ss))*:ll -> { if (ll) c = ShmakoWiki.arrJoin(c, ll); c },
 
     ulistItem :l = listItem(`uli, l):c -> [`ulistItem, c],
     olistItem :l = listItem(`oli, l):c -> [`olistItem, c],
@@ -68,28 +68,27 @@ ometa W {
     topLevel = allBlock+
 }
 
-W.arrJoin = function(arr1, arr2) {
-    var newArr = W.arrCopy(arr1);
+ShmakoWiki.arrJoin = function(arr1, arr2) {
+    var newArr = ShmakoWiki.arrCopy(arr1);
     for (var i = 0; i < arr2.length; i++) {
        newArr[newArr.length] = arr2[i];
     }
     return newArr;
-}
+};
 
-W.arrCopy = function(arr) {
+ShmakoWiki.arrCopy = function(arr) {
     var newArr = [];
     for (var i = 0; i < arr.length; i++) {
        newArr[newArr.length] = arr[i];
     }
     return newArr;
-}
+};
 
-W.arrAdd = function(arr, elem) {
+ShmakoWiki.arrAdd = function(arr, elem) {
     for (var i = 0; i < arr.length; i++) {
        if (arr[i] == elem) return arr;
     }
     arr[arr.length] = elem;
     return arr;
-}
-
+};
 

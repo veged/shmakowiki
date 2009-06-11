@@ -1,0 +1,35 @@
+ometa ShmakoWikiToHtml {
+    keyword = 'para'
+            | 'header1' | 'header2' | 'header3'
+            | 'olist' | 'ulist' | 'olistItem' | 'ulistItem'
+            | 'bold' | 'bold_' | 'italic' | 'italic_' | 'strike' | 'strike_' | 'escaped',
+
+    token = [keyword:t apply(t):ans] -> ans
+          | :c -> c,
+    tokens = [token+:c] -> c.join(''),
+
+
+    bold tokens:c -> ('<b>' + c + '</b>'),
+    bold_ tokens:c -> ('<b>' + c + '</b>'),
+
+    italic tokens:c -> ('<i>' + c + '</i>'),
+    italic_ tokens:c -> ('<i>' + c + '</i>'),
+
+    strike tokens:c -> ('<s>' + c + '</s>'),
+    strike_ tokens:c -> ('<s>' + c + '</s>'),
+
+    escaped tokens:c -> ('<span>' + c + '</span>'),
+
+    para tokens:c -> ('<p>' + c + '</p>'),
+
+    header1 tokens:c -> ('<h1>' + c + '</h1>'),
+    header2 tokens:c -> ('<h2>' + c + '</h2>'),
+    header3 tokens:c -> ('<h3>' + c + '</h3>'),
+
+    olist tokens:c -> ('<ol>' + c + '</ol>'),
+    ulist tokens:c -> ('<ul>' + c + '</ul>'),
+    olistItem tokens:c -> ('<li>' + c + '</li>'),
+    ulistItem tokens:c -> ('<li>' + c + '</li>'),
+
+    topLevel = tokens
+}
