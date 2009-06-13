@@ -78,7 +78,11 @@ var tests = [
     {
         'in': '* listitem **bold**\n* listitem //italic//\n* listitem **bo//italic_**',
         'out': '[[ulist, [[ulistItem, [listitem , [bold, [bold]]]], [ulistItem, [listitem , [italic, [italic]]]], [ulistItem, [listitem , [bold, [bo, [italic_, [italic_]]]]]]]]]'
-    }
+    },
+    {
+        'in': '~**xb~ol -- dx**',
+        'out': '[[para, [[escaped, *], *xb, [escaped, o], l – dx, [bold_, []]]]]'
+    },
 ];
 
 load("ometa-rhino.js");

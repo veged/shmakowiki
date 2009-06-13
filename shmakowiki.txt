@@ -7,7 +7,7 @@ ometa ShmakoWiki {
 
     b = seq('**'),
     i = seq('//'),
-    s = seq('--'),
+    s = ~' ' seq('--') ~' ',
     special = (b | i | s):c -> [`special, c],
 
     between :t :n = (apply(t) -> ShmakoWiki.arrAdd(n, t)):nn (~oneOf(ShmakoWiki.arrCopy(nn)) allInline(nn))*:c apply(t) -> c,
@@ -22,7 +22,9 @@ ometa ShmakoWiki {
     strike :n = between(`s, n):c -> [`strike, c],
     strike_ = between_(`s):c -> [`strike_, c],
 
-    text = (~special ~escapedChar char)+:c -> c.join('')
+    mdash = seq(' -- ') -> ' – ',
+
+    text = (~special ~escapedChar (mdash | char))+:c -> c.join('')
            | escaped:c -> c,
 
     inline :n = bold(n) | italic(n) | strike(n) | text,
