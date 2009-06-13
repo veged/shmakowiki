@@ -42,7 +42,7 @@ ometa ShmakoWiki {
     anyLi = uli | oli,
     anySubLi :ss = anyLi:s ?(s.length > ss.length) -> s,
 
-    headerStart = '='+:c -> (c.join('').length - 1),
+    headerStart = '='+:c spacesNoNl -> (c.join('').length - 1),
     headerEnd = '='* (('\n' (spacesNoNl '\n')*) | end),
     header = headerStart:l ((~headerEnd char)+:cc -> cc.join('')):c headerEnd -> ['header' + (l <= 6 ? l : 6), ShmakoWiki.matchAll(c, 'topInline')],
 
