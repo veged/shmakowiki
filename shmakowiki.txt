@@ -9,11 +9,12 @@ ometa ShmakoWiki {
     i = seq('//'),
     u = seq('__'),
     s = ~' ' seq('--') ~' ',
+    m = seq('##'),
     linkStart = seq('((') | seq('[['),
     linkEnd = seq('))') | seq(']]'),
     l = linkStart | linkEnd,
     lineBreak = seq('\\\\') -> [`lineBreak, []],
-    special = (b | i | u | s | l | lineBreak):c -> [`special, c],
+    special = (b | i | u | s | m | l | lineBreak):c -> [`special, c],
 
     between :t :n = (apply(t) -> ShmakoWiki.arrAdd(n, t)):nn (~oneOf(ShmakoWiki.arrCopy(nn)) allInline(nn))*:c apply(t) -> c,
     between_ :t = apply(t) (~special text)*:c (~~special | end) -> c,
@@ -30,6 +31,9 @@ ometa ShmakoWiki {
     strike :n = between(`s, n):c -> [`strike, c],
     strike_ = between_(`s):c -> [`strike_, c],
 
+    monospace :n = between(`m, n):c -> [`monospace, c],
+    monospace_ = between_(`m):c -> [`monospace_, c],
+
     link :n = (linkStart -> ShmakoWiki.arrAdd(n, 'l')):nn
               (~space ~linkEnd char)+:c spacesNoNl
               (~oneOf(ShmakoWiki.arrCopy(nn)) allInline(nn))*:cc
@@ -42,8 +46,8 @@ ometa ShmakoWiki {
     text = (~special ~escapedChar (mdash | char))+:c -> c.join('')
            | escaped:c -> c,
 
-    inline :n = bold(n) | italic(n) | underline(n) | strike(n) | link(n) | lineBreak | text,
-    inline_ = bold_ | italic_ | underline_ | strike_ | link_,
+    inline :n = bold(n) | italic(n) | underline(n) | strike(n) | monospace(n) | link(n) | lineBreak | text,
+    inline_ = bold_ | italic_ | underline_ | strike_ | monospace_ | link_,
 
     allInline :n = inline(n) | (~inline(n) inline_),
     topInline = allInline([])+,

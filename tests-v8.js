@@ -20,6 +20,10 @@ var tests = [
         'out': '[[para, [[strike, [strike]]]]]'
     },
     {
+        'in': '##monospace##',
+        'out': '[[para, [[monospace, [monospace]]]]]'
+    },
+    {
         'in': '**bb//bb**nn**bb//bb**',
         'out': '[[para, [[bold, [bb, [italic_, [bb]]]], nn, [bold, [bb, [italic_, [bb]]]]]]]'
     },
@@ -89,7 +93,7 @@ var tests = [
     },
     {
         'in': '((http://ya.ru',
-        'out': '[[para, [[link_, http://ya.ru], [link, http://x.ru, xxx]]]]'
+        'out': '[[para, [[link_, http://ya.ru]]]]'
     },
     {
         'in': '//iii ((http://ya".ru ((http://x.ru x<x>x))',
@@ -109,6 +113,7 @@ load("ometa-rhino.js");
 load('shmakowiki.txt');
 load('shmakowiki2html.txt');
 
+var totalFail = 0;
 for (var i = 0; i < tests.length; i++) {
     var test = tests[i];
 
@@ -118,6 +123,7 @@ for (var i = 0; i < tests.length; i++) {
     print('Test in:\n' + test['in'] + '\n: ' + (isOk ? 'ok' : 'FAIL'));
     print('Test result:\n' + test.res);
     if (!isOk) {
+        totalFail++;
         print('Test out:\n' + test.out);
     }
 
@@ -126,3 +132,4 @@ for (var i = 0; i < tests.length; i++) {
 
     print('-----------------------------------------------------');
 }
+print('\n' + (totalFail ? 'Total FAIL: ' + totalFail : 'All Ok'));

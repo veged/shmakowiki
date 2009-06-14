@@ -6,6 +6,7 @@ ometa ShmakoWikiToHtml {
             | 'italic' | 'italic_'
             | 'underline' | 'underline_'
             | 'strike' | 'strike_'
+            | 'monospace' | 'monospace_'
             | 'link' | 'link_'
             | 'lineBreak'
             | 'escaped',
@@ -26,6 +27,9 @@ ometa ShmakoWikiToHtml {
 
     strike tokens:c -> ('<s>' + c + '</s>'),
     strike_ tokens:c -> ('<s>' + c + '</s>'),
+
+    monospace tokens:c -> ('<tt>' + c + '</tt>'),
+    monospace_ tokens:c -> ('<tt>' + c + '</tt>'),
 
     link token:c [] -> ('<a href="' + c + '">' + c + '</a>'),
     link token:c tokens:cc -> ('<a href="' + c + '">' + cc + '</a>'),
