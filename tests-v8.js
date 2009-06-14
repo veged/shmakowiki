@@ -94,6 +94,10 @@ var tests = [
     {
         'in': '[[http://ya.ru]] bla]]bla',
         'out': '[[para, [[link, http://ya.ru, []],  bla, , bla]]]'
+    },
+    {
+        'in': 'line1\\\\line2',
+        'out': '[[para, [line1, [lineBreak, []], line2]]]'
     }
 ];
 

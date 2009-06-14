@@ -6,6 +6,7 @@ ometa ShmakoWikiToHtml {
             | 'italic' | 'italic_'
             | 'strike' | 'strike_'
             | 'link' | 'link_'
+            | 'lineBreak'
             | 'escaped',
 
     token = [keyword:t apply(t):ans] -> ans
@@ -25,6 +26,8 @@ ometa ShmakoWikiToHtml {
     link token:c [] -> ('<a href="' + c + '">' + c + '</a>'),
     link token:c tokens:cc -> ('<a href="' + c + '">' + cc + '</a>'),
     link_ token:c -> ('<a href="' + c + '">' + c + '</a>'),
+
+    lineBreak :c -> ('<br/>'),
 
     escaped tokens:c -> ('<span>' + c + '</span>'),
 

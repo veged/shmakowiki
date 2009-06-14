@@ -11,7 +11,8 @@ ometa ShmakoWiki {
     linkStart = seq('((') | seq('[['),
     linkEnd = seq('))') | seq(']]'),
     l = linkStart | linkEnd,
-    special = (b | i | s | l):c -> [`special, c],
+    lineBreak = seq('\\\\') -> [`lineBreak, []],
+    special = (b | i | s | l | lineBreak):c -> [`special, c],
 
     between :t :n = (apply(t) -> ShmakoWiki.arrAdd(n, t)):nn (~oneOf(ShmakoWiki.arrCopy(nn)) allInline(nn))*:c apply(t) -> c,
     between_ :t = apply(t) (~special text)*:c (~~special | end) -> c,
@@ -37,7 +38,7 @@ ometa ShmakoWiki {
     text = (~special ~escapedChar (mdash | char))+:c -> c.join('')
            | escaped:c -> c,
 
-    inline :n = bold(n) | italic(n) | strike(n) | link(n) | text,
+    inline :n = bold(n) | italic(n) | strike(n) | link(n) | lineBreak | text,
     inline_ = bold_ | italic_ | strike_ | link_,
 
     allInline :n = inline(n) | (~inline(n) inline_),
