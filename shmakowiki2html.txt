@@ -7,6 +7,8 @@ ometa ShmakoWikiToHtml {
             | 'underline' | 'underline_'
             | 'strike' | 'strike_'
             | 'monospace' | 'monospace_'
+            | 'superscript' | 'superscript_'
+            | 'subscript' | 'subscript_'
             | 'link' | 'link_'
             | 'lineBreak'
             | 'escaped',
@@ -30,6 +32,12 @@ ometa ShmakoWikiToHtml {
 
     monospace tokens:c -> ('<tt>' + c + '</tt>'),
     monospace_ tokens:c -> ('<tt>' + c + '</tt>'),
+
+    superscript tokens:c -> ('<sup>' + c + '</sup>'),
+    superscript_ tokens:c -> ('<sup>' + c + '</sup>'),
+
+    subscript tokens:c -> ('<sub>' + c + '</sub>'),
+    subscript_ tokens:c -> ('<sub>' + c + '</sub>'),
 
     link token:c [] -> ('<a href="' + c + '">' + c + '</a>'),
     link token:c tokens:cc -> ('<a href="' + c + '">' + cc + '</a>'),

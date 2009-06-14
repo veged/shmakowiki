@@ -24,6 +24,10 @@ var tests = [
         'out': '[[para, [[monospace, [monospace]]]]]'
     },
     {
+        'in': 'bla ,,suber,, und ^^super^^',
+        'out': '[[para, [bla , [subscript, [suber]],  und , [superscript, [super]]]]]'
+    },
+    {
         'in': '**bb//bb**nn**bb//bb**',
         'out': '[[para, [[bold, [bb, [italic_, [bb]]]], nn, [bold, [bb, [italic_, [bb]]]]]]]'
     },
