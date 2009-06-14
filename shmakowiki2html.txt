@@ -4,6 +4,7 @@ ometa ShmakoWikiToHtml {
             | 'olist' | 'ulist' | 'olistItem' | 'ulistItem'
             | 'bold' | 'bold_'
             | 'italic' | 'italic_'
+            | 'underline' | 'underline_'
             | 'strike' | 'strike_'
             | 'link' | 'link_'
             | 'lineBreak'
@@ -19,6 +20,9 @@ ometa ShmakoWikiToHtml {
 
     italic tokens:c -> ('<i>' + c + '</i>'),
     italic_ tokens:c -> ('<i>' + c + '</i>'),
+
+    underline tokens:c -> ('<u>' + c + '</u>'),
+    underline_ tokens:c -> ('<u>' + c + '</u>'),
 
     strike tokens:c -> ('<s>' + c + '</s>'),
     strike_ tokens:c -> ('<s>' + c + '</s>'),

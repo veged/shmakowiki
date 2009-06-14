@@ -12,6 +12,10 @@ var tests = [
         'out': '[[para, [[italic, [italic]]]]]'
     },
     {
+        'in': '__underline__',
+        'out': '[[para, [[underline, [underline]]]]]'
+    },
+    {
         'in': '--strike--',
         'out': '[[para, [[strike, [strike]]]]]'
     },
