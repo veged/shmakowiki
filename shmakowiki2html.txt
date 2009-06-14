@@ -2,11 +2,15 @@ ometa ShmakoWikiToHtml {
     keyword = 'para'
             | 'header1' | 'header2' | 'header3'
             | 'olist' | 'ulist' | 'olistItem' | 'ulistItem'
-            | 'bold' | 'bold_' | 'italic' | 'italic_' | 'strike' | 'strike_' | 'escaped',
+            | 'bold' | 'bold_'
+            | 'italic' | 'italic_'
+            | 'strike' | 'strike_'
+            | 'link' | 'link_'
+            | 'escaped',
 
     token = [keyword:t apply(t):ans] -> ans
-          | :c -> c,
-    tokens = [token+:c] -> c.join(''),
+          | :c -> ShmakoWikiToHtml._escape(c),
+    tokens = [token*:c] -> c.join(''),
 
 
     bold tokens:c -> ('<b>' + c + '</b>'),
@@ -17,6 +21,10 @@ ometa ShmakoWikiToHtml {
 
     strike tokens:c -> ('<s>' + c + '</s>'),
     strike_ tokens:c -> ('<s>' + c + '</s>'),
+
+    link token:c [] -> ('<a href="' + c + '">' + c + '</a>'),
+    link token:c tokens:cc -> ('<a href="' + c + '">' + cc + '</a>'),
+    link_ token:c -> ('<a href="' + c + '">' + c + '</a>'),
 
     escaped tokens:c -> ('<span>' + c + '</span>'),
 
@@ -33,3 +41,20 @@ ometa ShmakoWikiToHtml {
 
     topLevel = tokens
 }
+
+ShmakoWikiToHtml._escape = (function() {
+    var amp = new RegExp('&', 'g'),
+        lt = new RegExp('<', 'g'),
+        gt = new RegExp('>', 'g'),
+        apos = new RegExp("'", 'g'),
+        quot = new RegExp('"', 'g');
+
+    return function(s) {
+        return String(s)
+            .replace(amp, '&amp;')
+            .replace(lt, '&lt;')
+            .replace(gt, '&gt;')
+            .replace(apos, '&apos;')
+            .replace(quot, '&quot;');
+    }
+})()

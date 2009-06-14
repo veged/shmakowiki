@@ -83,6 +83,18 @@ var tests = [
         'in': '~**xb~ol -- dx**',
         'out': '[[para, [[escaped, *], *xb, [escaped, o], l – dx, [bold_, []]]]]'
     },
+    {
+        'in': '((http://ya.ru',
+        'out': '[[para, [[link_, http://ya.ru], [link, http://x.ru, xxx]]]]'
+    },
+    {
+        'in': '//iii ((http://ya".ru ((http://x.ru x<x>x))',
+        'out': '[[para, [[italic_, [iii ]], [link_, http://ya".ru],  , [link, http://x.ru, [x<x>x]]]]]'
+    },
+    {
+        'in': '[[http://ya.ru]] bla]]bla',
+        'out': '[[para, [[link, http://ya.ru, []],  bla, , bla]]]'
+    }
 ];
 
 load("ometa-rhino.js");
