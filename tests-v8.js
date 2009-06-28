@@ -110,6 +110,10 @@ var tests = [
     {
         'in': 'line1\\\\line2',
         'out': '[[para, [line1, [lineBreak, []], line2]]]'
+    },
+    {
+        'in': 'line1\n%%\next1\n%%\n%%A%\next2\n%A%%\n%%A%html\n<b>bol%%d</b>\n%A%%\n\n%%bla\nblabla\n%%',
+        'out': '[[para, [line1]], [extention, , ext1], [extention, , ext2], [extention, html, <b>bol%%d</b>], [extention, bla, blabla]]'
     }
 ];
 

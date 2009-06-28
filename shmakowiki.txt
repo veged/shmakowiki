@@ -12,6 +12,7 @@ ometa ShmakoWiki {
     m = seq('##'),
     sup = seq('^^'),
     sub = seq(',,'),
+    ext = seq('%%'),
     linkStart = seq('((') | seq('[['),
     linkEnd = seq('))') | seq(']]'),
     l = linkStart | linkEnd,
@@ -82,7 +83,7 @@ ometa ShmakoWiki {
     headerEnd = '='* (('\n' (spacesNoNl '\n')*) | end),
     header = headerStart:l ((~headerEnd char)+:cc -> cc.join('')):c headerEnd -> ['header' + (l <= 6 ? l : 6), ShmakoWiki.matchAll(c, 'topInline')],
 
-    blockEnd = nl | ('\n' ~~anyLi) | ('\n' ~~headerStart) | end,
+    blockEnd = ('\n' ~~extBlockStart) | nl | ('\n' ~~anyLi) | ('\n' ~~headerStart) | end,
 
     para = ~anyLi ((~blockEnd char)+:cc -> cc.join('')):c blockEnd -> [`para, ShmakoWiki.matchAll(c, 'topInline')],
 
@@ -99,10 +100,23 @@ ometa ShmakoWiki {
 
     anyList :l = ulist(l) | olist(l),
 
-    allBlock = anyList('') | header | para,
+
+    extBlockStart = ((ext char:t '%') -> t | ext -> ''):tt
+               (~space char)*:c '\n' -> [tt, c.join('')],
+    extBlockEnd :t ?(t.length == 0) = space* ext,
+    extBlockEnd char:t ?(t.length > 0) = space* '%' seq(t) ext,
+
+    extBlock = extBlockStart:s
+               ((~extBlockEnd(s[0]) char)+:cc -> cc.join('')):c
+               extBlockEnd(s[0]) blockEnd -> [`extention, s[1],
+                   (ShmakoWiki.extentions.hasOwnProperty(s[1]) ? ShmakoWiki.extentions[s[1]](c) : c)],
+
+    allBlock = extBlock | anyList('') | header | para,
 
     topLevel = allBlock+
 }
+
+ShmakoWiki.extentions = {};
 
 ShmakoWiki.arrJoin = function(arr1, arr2) {
     var newArr = ShmakoWiki.arrCopy(arr1);

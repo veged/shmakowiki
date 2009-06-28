@@ -11,7 +11,8 @@ ometa ShmakoWikiToHtml {
             | 'subscript' | 'subscript_'
             | 'link' | 'link_'
             | 'lineBreak'
-            | 'escaped',
+            | 'escaped'
+            | 'extention',
 
     token = [keyword:t apply(t):ans] -> ans
           | :c -> ShmakoWikiToHtml._escape(c),
@@ -58,8 +59,16 @@ ometa ShmakoWikiToHtml {
     olistItem tokens:c -> ('<li>' + c + '</li>'),
     ulistItem tokens:c -> ('<li>' + c + '</li>'),
 
+    extention :t :c -> (ShmakoWikiToHtml.extentions.hasOwnProperty(t) ?
+                           ShmakoWikiToHtml.extentions[t](c) :
+                           '<div>' + ShmakoWikiToHtml._escape(c) + '</div>'),
+
     topLevel = tokens
 }
+
+ShmakoWikiToHtml.extentions = {
+    'html': function(c) { return c }
+};
 
 ShmakoWikiToHtml._escape = (function() {
     var amp = new RegExp('&', 'g'),
