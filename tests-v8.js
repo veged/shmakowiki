@@ -1,3 +1,8 @@
+if (!load && include && system.getcwd)
+    var load = function(f) { return include(system.getcwd() + '/' + f) };
+if (!print && system.stdout)
+    var print = function(d) { return system.stdout(d + '\n') };
+
 var tests = [
     {
         'in': '**xboldx**',
@@ -117,9 +122,9 @@ var tests = [
     }
 ];
 
-load("ometa-rhino.js");
-load('shmakowiki.txt');
-load('shmakowiki2html.txt');
+load('ometa-rhino.js');
+load('shmakowiki.js');
+load('shmakowiki2html.js');
 
 var totalFail = 0;
 for (var i = 0; i < tests.length; i++) {
