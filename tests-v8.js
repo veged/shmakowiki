@@ -1,7 +1,7 @@
 if (!load && include && system.getcwd)
     var load = function(f) { return include(system.getcwd() + '/' + f) };
 if (!print && system.stdout)
-    var print = function(d) { return system.stdout(d + '\n') };
+    var print = function(d) { system.stdout(d + '\n'); return d; };
 
 var tests = [
     {
@@ -45,8 +45,8 @@ var tests = [
         'out': '[[para, [[bold, [[italic, [bolditalic]]]]]]]'
     },
     {
-        'in': 'para1**bla**\n//dsds//\n\npara2\npara2\n\npara3',
-        'out': '[[para, [para1, [bold, [bla]], \n, [italic, [dsds]]]], [para, [para2\npara2]], [para, [para3]]]'
+        'in': 'para1**bla**\n//dsds//\n\npara2 \n para2\n\npara3',
+        'out': '[[para, [para1, [bold, [bla]],  , [italic, [dsds]]]], [para, [para2 para2]], [para, [para3]]]'
     },
     {
         'in': '* listitem1\n* listitem2\n  * sublistitem2',
@@ -119,7 +119,11 @@ var tests = [
     {
         'in': 'line1\n%%\next1\n%%\n%%A%\next2\n%A%%\n%%A%html\n<b>bol%%d</b>\n%A%%\n\n%%bla\nblabla\n%%',
         'out': '[[para, [line1]], [extention, , ext1], [extention, , ext2], [extention, html, <b>bol%%d</b>], [extention, bla, blabla]]'
-    }
+    },
+    {
+        'in': 'para1\n\npara2\npara2\n\npara3',
+        'out': '[[para, [para1]], [para, [para2 para2]], [para, [para3]]]'
+    },
 ];
 
 load('ometa-rhino.js');

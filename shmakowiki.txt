@@ -85,8 +85,13 @@ ometa ShmakoWiki {
 
     blockEnd = ('\n' ~~extBlockStart) | nl | ('\n' ~~anyLi) | ('\n' ~~headerStart) | end,
 
-    para = ~anyLi ((~blockEnd char)+:cc -> cc.join('')):c blockEnd -> [`para, ShmakoWiki.matchAll(c, 'topInline')],
-
+    paraSpace = (~'\n' space)* '\n' (~'\n' space)* -> ' ',
+    paraText = (~blockEnd ~paraSpace char)+:c -> c.join(''),
+    paraLine = paraText:t ~blockEnd paraSpace:s -> (t + s),
+    para = (
+               (paraLine*:l -> l.join('')):ll
+               paraText:t
+           ) -> (ll + t):c blockEnd -> [`para, ShmakoWiki.matchAll(c, 'topInline')],
 
     listItem :t :l = apply(t):s ?(s.length >= l.length)
                      ((~blockEnd char)+:cc -> ShmakoWiki.matchAll(cc.join(''), 'topInline')):c blockEnd
