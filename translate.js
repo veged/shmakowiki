@@ -1,5 +1,5 @@
 if (!load && include && system.getcwd)
-    var load = function(f) { return include(system.getcwd() + '/' + f) };
+    var load = function(f) { return eval.call(global, new File(system.getcwd() + '/' + f).open("r").read()) };
 if (!print && system.stdout)
     var print = function(d) { return system.stdout(d + '\n') };
 
