@@ -74,12 +74,6 @@ ometa ShmakoWiki {
 
     nl = '\n' (spacesNoNl '\n')+,
 
-    uli = spacesNoNl:s '*' ~'*' spacesNoNl -> s.join(''),
-    oli = spacesNoNl:s digit+ '.' spacesNoNl -> s.join(''),
-
-    anyLi = uli | oli,
-    anySubLi :ss = anyLi:s ?(s.length > ss.length) -> s,
-
     headerStart = '='+:c spacesNoNl -> (c.join('').length - 1),
     headerEnd = '='* (('\n' (spacesNoNl '\n')*) | end),
     header = headerStart:l ((~headerEnd char)+:cc -> cc.join('')):c headerEnd -> ['header' + (l <= 6 ? l : 6), ShmakoWiki.matchAll(c, 'topInline')],
@@ -88,17 +82,21 @@ ometa ShmakoWiki {
 
     para = (~blockEnd (spacesNlSpaces | char))+:c -> c.join('') blockEnd -> [`para, ShmakoWiki.matchAll(c, 'topInline')],
 
-    listItem :t :l = apply(t):s ?(s.length >= l.length)
-                     ((~blockEnd char)+:cc -> ShmakoWiki.matchAll(cc.join(''), 'topInline')):c blockEnd
-                     (~~(anySubLi(s):ss) anyList(ss))*:ll -> { if (ll) c = ShmakoWiki.arrJoin(c, ll); c },
+    uli = spacesNoNl:s '*' ~'*' spacesNoNl -> s.join(''),
+    oli = spacesNoNl:s digit+ '.' spacesNoNl -> s.join(''),
 
-    ulistItem :l = listItem(`uli, l):c -> [`ulistItem, c],
-    olistItem :l = listItem(`oli, l):c -> [`olistItem, c],
+    anyLi = uli | oli,
 
-    ulist :l = ulistItem(l)+:c -> [`ulist, c],
-    olist :l = olistItem(l)+:c -> [`olist, c],
+    listItemContent = (~blockEnd char)+:c -> ShmakoWiki.matchAll(c.join(''), 'topInline'),
 
-    anyList :l = ulist(l) | olist(l),
+    anySubList :l = '\n' ~~(anyLi:s) ?(s.length > l.length) anyList:sl -> sl,
+
+    listItem :t :l = apply(t):s ?(s.length == l.length) listItemContent:c
+                     (anySubList(s)+ | (('\n' ~~apply(t)) | ~~blockEnd) -> ''):cc -> { if(cc) c = c.concat(cc); [t + 'stItem', c] },
+
+    list :t = ~~(apply(t):s) listItem(t, s)+:c -> [t + 'st', c],
+
+    anyList = list('uli') | list('oli'),
 
 
     extBlockStart = ((ext char:t '%') -> t | ext -> ''):tt
@@ -111,7 +109,7 @@ ometa ShmakoWiki {
                extBlockEnd(s[0]) blockEnd -> [`extention, s[1],
                    (ShmakoWiki.extentions.hasOwnProperty(s[1]) ? ShmakoWiki.extentions[s[1]](c) : c)],
 
-    allBlock = extBlock | anyList('') | header | para,
+    allBlock = extBlock | (anyList:l blockEnd) -> l | header | para,
 
     topLevel = allBlock+
 }
