@@ -1,3 +1,5 @@
+#!/usr/bin/env v8cgi
+
 if (!load && include && system.getcwd)
     var load = function(f) { return eval.call(global, new File(system.getcwd() + '/' + f).open("r").read()) };
 if (!print && system.stdout)
