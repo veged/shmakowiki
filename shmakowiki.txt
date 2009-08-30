@@ -100,14 +100,14 @@ ometa ShmakoWiki {
 
 
     extBlockStart = ((ext char:t '%') -> t | ext -> ''):tt
-               (~space char)*:c '\n' -> [tt, c.join('')],
+                    (~space char)*:c spacesNoNl (~'\n' char)*:cc '\n' -> [tt, c.join(''), cc.join('')],
     extBlockEnd :t ?(t.length == 0) = space* ext,
     extBlockEnd char:t ?(t.length > 0) = space* '%' seq(t) ext,
 
     extBlock = extBlockStart:s
                ((~extBlockEnd(s[0]) char)+:cc -> cc.join('')):c
-               extBlockEnd(s[0]) blockEnd -> [`extention, s[1],
-                   (ShmakoWiki.extentions.hasOwnProperty(s[1]) ? ShmakoWiki.extentions[s[1]](c) : c)],
+               extBlockEnd(s[0]) (blockEnd | '\n') -> [`extention, s[1],
+                   (ShmakoWiki.extentions.hasOwnProperty(s[1]) ? ShmakoWiki.extentions[s[1]](c) : c), s[2]],
 
     allBlock = extBlock | (anyList:l blockEnd) -> l | header | para,
 

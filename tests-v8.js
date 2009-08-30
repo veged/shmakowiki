@@ -122,7 +122,15 @@ var tests = [
     },
     {
         'in': 'line1\n%%\next1\n%%\n%%A%\next2\n%A%%\n%%A%html\n<b>bol%%d</b>\n%A%%\n\n%%bla\nblabla\n%%',
-        'out': '[[para, [line1]], [extention, , ext1], [extention, , ext2], [extention, html, <b>bol%%d</b>], [extention, bla, blabla]]'
+        'out': '[[para, [line1]], [extention, , ext1, ], [extention, , ext2, ], [extention, html, <b>bol%%d</b>, ], [extention, bla, blabla, ]]'
+    },
+    {
+        'in': '%%ext params\nextcont\n%%',
+        'out': '[[extention, ext, extcont, params]]'
+    },
+    {
+        'in': 'bla\n%%hljs javascript\nfunction() { return true }\n%%\nbla',
+        'out': '[[para, [bla]], [extention, hljs, function() { return true }, javascript], [para, [bla]]]'
     },
     {
         'in': 'para1\n\npara2\npara2\n\npara3',

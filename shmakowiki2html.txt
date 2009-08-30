@@ -59,15 +59,20 @@ ometa ShmakoWikiToHtml {
     olistItem tokens:c -> ('<li>' + c + '</li>'),
     ulistItem tokens:c -> ('<li>' + c + '</li>'),
 
-    extention :t :c -> (ShmakoWikiToHtml.extentions.hasOwnProperty(t) ?
-                           ShmakoWikiToHtml.extentions[t](c) :
+    extention :t :c :p -> (ShmakoWikiToHtml.extentions.hasOwnProperty(t) ?
+                           ShmakoWikiToHtml.extentions[t](c, p) :
                            '<div>' + ShmakoWikiToHtml._escape(c) + '</div>'),
 
     topLevel = tokens
 }
 
 ShmakoWikiToHtml.extentions = {
-    'html': function(c) { return c }
+    'html': function(c) { return c },
+    'hljs': function(c, p) {
+            return '<pre><code class="'+ p + '">' +
+                    ShmakoWikiToHtml._escape(c) +
+                '</code></pre>'
+        }
 };
 
 ShmakoWikiToHtml._escape = (function() {
