@@ -30,9 +30,9 @@
 
     $(document).bind('ready.shmakowiki2html', function(){
         $('textarea').show().change(function(e){
-            console.time('do');
+            //console.time('do');
             $('#res').html(shmakowiki2html(e.target.value));
-            console.timeEnd('do');
+            //console.timeEnd('do');
         });
     });
 </script>
