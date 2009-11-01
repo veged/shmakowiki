@@ -6,3 +6,6 @@ shmakowiki.js: shmakowiki.txt
 
 shmakowiki2html.js: shmakowiki2html.txt
 	./translate.js -o shmakowiki2html.js shmakowiki2html.txt
+
+test:
+	v8cgi tests-v8.js
