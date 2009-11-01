@@ -1,0 +1,3 @@
+[submodule "ometa-highlighter"]
+	path = ometa-highlighter
+	url = git@github.com:veged/ometa-highlighter.git

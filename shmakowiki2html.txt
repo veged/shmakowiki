@@ -68,12 +68,14 @@ ometa ShmakoWikiToHtml {
 
 ShmakoWikiToHtml.extentions = {
     'html': function(c) { return c },
+    'ohl': function(c, p) { return OmetaHighlighterToHtml.match(c, 'topLevel') },
     'hljs': function(c, p) {
             return '<pre><code class="'+ p + '">' +
                     ShmakoWikiToHtml._escape(c) +
                 '</code></pre>'
         }
 };
+ShmakoWikiToHtml.extentions.hl = ShmakoWikiToHtml.extentions.ohl;
 
 ShmakoWikiToHtml._escape = (function() {
     var amp = new RegExp('&', 'g'),

@@ -136,6 +136,14 @@ var tests = [
         'out': '[[extention, ext, extcont, params]]'
     },
     {
+        'in': '%%ohl js\nvar b = \'bla\';\n%%',
+        'out': '[[extention, ohl, [js, [[keyword.declaration, var],  , [name, b],  , [operator, [=]],  , [string.single, [[punctuation, \'], b, l, a, [punctuation, \']]], [punctuation, [;]]]], js]]'
+    },
+    {
+        'in': '%%hl js\nvar b = \'bla\';\n%%',
+        'out': '[[extention, hl, [js, [[keyword.declaration, var],  , [name, b],  , [operator, [=]],  , [string.single, [[punctuation, \'], b, l, a, [punctuation, \']]], [punctuation, [;]]]], js]]'
+    },
+    {
         'in': 'bla\n%%hljs javascript\nfunction() { return true }\n%%\nbla',
         'out': '[[para, [bla]], [extention, hljs, function() { return true }, javascript], [para, [bla]]]'
     },
@@ -146,6 +154,8 @@ var tests = [
 ];
 
 load('ometa-js/ometa-rhino.js');
+load('ometa-highlighter/ometa-highlighter.js');
+load('ometa-highlighter/ometa-highlighter2html.js');
 load('shmakowiki.js');
 load('shmakowiki2html.js');
 
