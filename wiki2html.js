@@ -1,4 +1,4 @@
-load("ometa-rhino.js");
+load("ometa-js/ometa-rhino.js");
 load('shmakowiki.txt');
 load('shmakowiki2html.txt');
 
