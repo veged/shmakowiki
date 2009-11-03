@@ -1,8 +1,8 @@
 #!/usr/bin/env v8cgi
 
 if (!load && include && system.getcwd)
-    var load = function(f) {
-        var oldLoad = load;
+    var load = global.load = function(f) {
+        var oldLoad = global.load;
         if (f.indexOf('/') != -1)
             global.load = function(ff){ return oldLoad(f.replace(/[^\/]+$/, '') + ff) };
         var result = eval.call(global, new File(system.getcwd() + '/' + f).open("r").read());
@@ -10,7 +10,7 @@ if (!load && include && system.getcwd)
         return result;
     };
 if (!print && system.stdout)
-    var print = function(d) { return system.stdout(d + '\n') };
+    var print = global.print = function(d) { return system.stdout(d + '\n') };
 
 
 (function(){
