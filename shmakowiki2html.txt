@@ -63,7 +63,7 @@ ometa ShmakoWikiToHtml {
                            ShmakoWikiToHtml.extentions[t](c, p) :
                            '<div>' + ShmakoWikiToHtml._escape(c) + '</div>'),
 
-    topLevel = tokens
+    topLevel = tokens:c -> ('<div class="shmakowiki">' + c + '</div>')
 }
 
 ShmakoWikiToHtml.extentions = {
