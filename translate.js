@@ -10,7 +10,7 @@ if (!load && include && system.getcwd)
         return result;
     };
 if (!print && system.stdout)
-    var print = global.load = function(d) { return system.stdout(d + '\n') };
+    var print = global.print = function(d) { return system.stdout(d + '\n') };
 
 
 (function(){
