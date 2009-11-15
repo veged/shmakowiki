@@ -153,7 +153,7 @@ var tests = [
     },
 ];
 
-load('ometa-js/ometa-rhino.js');
+include('./ometa-js/ometajs');
 load('ometa-highlighter/ometa-highlighter.js');
 load('ometa-highlighter/ometa-highlighter2html.js');
 load('shmakowiki.ometajs.js');
