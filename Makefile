@@ -1,11 +1,8 @@
 
-all: shmakowiki.js shmakowiki2html.js
+all: $(patsubst %.ometajs,%.ometajs.js,$(wildcard *.ometajs))
 
-shmakowiki.js: shmakowiki.txt
-	./translate.js -o shmakowiki.js shmakowiki.txt
-
-shmakowiki2html.js: shmakowiki2html.txt
-	./translate.js -o shmakowiki2html.js shmakowiki2html.txt
+%.ometajs.js: %.ometajs
+	./translate.js -o $@ $?
 
 test:
 	v8cgi tests.js
