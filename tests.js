@@ -1,15 +1,3 @@
-if (!load && include && system.getcwd)
-    var load = global.load = function(f) {
-        var oldLoad = global.load;
-        if (f.indexOf('/') != -1)
-            global.load = function(ff){ return oldLoad(f.replace(/[^\/]+$/, '') + ff) };
-        var result = eval.call(global, new File(system.getcwd() + '/' + f).open("r").read());
-        global.load = oldLoad;
-        return result;
-    };
-if (!print && system.stdout)
-    var print = global.print = function(d) { system.stdout(d + '\n'); return d; };
-
 var tests = [
     {
         'in': '**xboldx**',
@@ -154,8 +142,8 @@ var tests = [
 ];
 
 include('./ometa-js/ometajs');
-load('ometa-highlighter/ometa-highlighter.js');
-load('ometa-highlighter/ometa-highlighter2html.js');
+include('./ometa-highlighter/ometa-highlighter.ometajs.js');
+include('./ometa-highlighter/ometa-highlighter2html.ometajs.js');
 include('./shmakowiki.ometajs.js');
 include('./shmakowiki2html.ometajs.js');
 
@@ -166,16 +154,16 @@ for (var i = 0; i < tests.length; i++) {
     test.res = ShmakoWiki.matchAll(test['in'], 'topLevel');
     var isOk = test.res == test.out;
 
-    print('Test in:\n' + test['in'] + '\n: ' + (isOk ? 'ok' : 'FAIL'));
-    print('Test result:\n' + test.res);
+    system.stdout('Test in:\n' + test['in'] + '\n: ' + (isOk ? 'ok' : 'FAIL') + '\n');
+    system.stdout('Test result:\n' + test.res + '\n');
     if (!isOk) {
         totalFail++;
-        print('Test out:\n' + test.out);
+        system.stdout('Test out:\n' + test.out + '\n');
     }
 
     test.html = ShmakoWikiToHtml.match(test.res, 'topLevel');
-    print('Test html:\n' + test.html);
+    system.stdout('Test html:\n' + test.html + '\n');
 
-    print('-----------------------------------------------------');
+    system.stdout('-----------------------------------------------------');
 }
-print('\n' + (totalFail ? 'Total FAIL: ' + totalFail : 'All Ok'));
+system.stdout('\n' + (totalFail ? 'Total FAIL: ' + totalFail : 'All Ok') + '\n');
