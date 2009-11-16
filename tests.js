@@ -156,8 +156,8 @@ var tests = [
 include('./ometa-js/ometajs');
 load('ometa-highlighter/ometa-highlighter.js');
 load('ometa-highlighter/ometa-highlighter2html.js');
-load('shmakowiki.ometajs.js');
-load('shmakowiki2html.ometajs.js');
+include('./shmakowiki.ometajs.js');
+include('./shmakowiki2html.ometajs.js');
 
 var totalFail = 0;
 for (var i = 0; i < tests.length; i++) {
