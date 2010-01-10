@@ -70,7 +70,7 @@ ometa ShmakoWiki {
 
 
     spacesNoNl   = (~'\n' space)*,
-    spacesNlSpaces = spacesNoNl '\n' spacesNoNl -> ' ',
+    spacesNlSpaces = spacesNoNl:s1 '\n' spacesNoNl ~end -> ' ',
 
     nl = '\n' (spacesNoNl '\n')+,
 
@@ -78,7 +78,7 @@ ometa ShmakoWiki {
     headerEnd = '='* (('\n' (spacesNoNl '\n')*) | end),
     header = headerStart:l ((~headerEnd char)+:cc -> cc.join('')):c headerEnd -> ['header' + (l <= 6 ? l : 6), ShmakoWiki.matchAll(c, 'topInline')],
 
-    blockEnd = ('\n' ~~extBlockStart) | nl | ('\n' ~~anyLi) | ('\n' ~~headerStart) | end,
+    blockEnd = ('\n' ~~extBlockStart) | nl | ('\n' ~~anyLi) | ('\n' ~~headerStart) | ('\n'* end),
 
     para = (~blockEnd (spacesNlSpaces | char))+:c -> c.join('') blockEnd -> [`para, ShmakoWiki.matchAll(c, 'topInline')],
 

@@ -44,6 +44,10 @@ var tests = [
         'out': '[[para, [para1, [bold, [bla]],  , [italic, [dsds]]]], [para, [para2 para2]], [para, [para3]]]'
     },
     {
+        'in': 'para11  \n  para11\n\npara2\n',
+        'out': '[[para, [para11 para11]], [para, [para2]]]'
+    },
+    {
         'in': '* listitem1\n* listitem2\n  * sublistitem2',
         'out': '[[ulist, [[ulistItem, [listitem1]], [ulistItem, [listitem2, [ulist, [[ulistItem, [sublistitem2]]]]]]]]]'
     },
