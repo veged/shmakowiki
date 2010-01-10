@@ -1,6 +1,0 @@
-[submodule "ometa-highlighter"]
-	path = ometa-highlighter
-	url = git://github.com/veged/ometa-highlighter.git
-[submodule "ometa-js"]
-	path = ometa-js
-	url = git@github.com:veged/ometa-js.git

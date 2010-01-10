@@ -1,0 +1,3 @@
+#!/usr/bin/env narwhal
+
+require('shmakowiki/2html').main();

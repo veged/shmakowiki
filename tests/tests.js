@@ -141,29 +141,25 @@ var tests = [
     },
 ];
 
-include('./ometa-js/ometajs');
-include('./ometa-highlighter/ometa-highlighter.ometajs.js');
-include('./ometa-highlighter/ometa-highlighter2html.ometajs.js');
-include('./shmakowiki.ometajs.js');
-include('./shmakowiki2html.ometajs.js');
+var m = require('shmakowiki');
 
 var totalFail = 0;
 for (var i = 0; i < tests.length; i++) {
     var test = tests[i];
 
-    test.res = ShmakoWiki.matchAll(test['in'], 'topLevel');
+    test.res = m.ShmakoWiki.matchAll(test['in'], 'topLevel');
     var isOk = test.res == test.out;
 
-    system.stdout('Test in:\n' + test['in'] + '\n: ' + (isOk ? 'ok' : 'FAIL') + '\n');
-    system.stdout('Test result:\n' + test.res + '\n');
+    print('Test in:\n' + test['in'] + '\n: ' + (isOk ? 'ok' : 'FAIL'));
+    print('Test result:\n' + test.res);
     if (!isOk) {
         totalFail++;
-        system.stdout('Test out:\n' + test.out + '\n');
+        print('Test out:\n' + test.out);
     }
 
-    test.html = ShmakoWikiToHtml.match(test.res, 'topLevel');
-    system.stdout('Test html:\n' + test.html + '\n');
+    test.html = m.ShmakoWikiToHtml.match(test.res, 'topLevel');
+    print('Test html:\n' + test.html);
 
-    system.stdout('-----------------------------------------------------');
+    print('-----------------------------------------------------');
 }
-system.stdout('\n' + (totalFail ? 'Total FAIL: ' + totalFail : 'All Ok') + '\n');
+print('\n' + (totalFail ? 'Total FAIL: ' + totalFail : 'All Ok'));

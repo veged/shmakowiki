@@ -1,8 +1,9 @@
-
-all: $(patsubst %.ometajs,%.ometajs.js,$(wildcard *.ometajs))
-
-%.ometajs.js: %.ometajs
-	./ometa-js/translate.js -o $@ $?
+ometajs:
+	$(MAKE) -C src
+	-rm lib/shmakowiki.js
+	cat src/shmakowiki.js >> lib/shmakowiki.js
+	cat src/shmakowiki.ometajs.js >> lib/shmakowiki.js
+	cat src/shmakowiki2html.ometajs.js >> lib/shmakowiki.js
 
 test:
-	v8cgi tests.js
+	narwhal tests/tests.js
