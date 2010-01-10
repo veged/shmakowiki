@@ -70,7 +70,7 @@ ometa ShmakoWiki {
 
 
     spacesNoNl   = (~'\n' space)*,
-    spacesNlSpaces = spacesNoNl:s1 '\n' spacesNoNl ~end -> ' ',
+    spacesNlSpaces = spacesNoNl '\n' spacesNoNl ~end -> ' ',
 
     nl = '\n' (spacesNoNl '\n')+,
 
