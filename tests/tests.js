@@ -145,7 +145,7 @@ var tests = [
     },
 ];
 
-var m = require('shmakowiki');
+var m = require('../lib/shmakowiki');
 
 var totalFail = 0;
 for (var i = 0; i < tests.length; i++) {

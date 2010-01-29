@@ -1,3 +1,3 @@
 #!/usr/bin/env narwhal
 
-require('shmakowiki/2html').main();
+require('../lib/shmakowiki/2html').main();
