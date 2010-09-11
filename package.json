@@ -9,7 +9,7 @@
         "url" : "http://github.com/veged/shmakowiki.git"
     },
     "directories" : { "lib" : "./lib" },
-    "bin" : { "shmakowiki2html " : "./bin/shmakowiki2html" },
+    "bin" : { "shmakowiki2html" : "./bin/shmakowiki2html" },
     "dependencies" : {
         "ometajs" : ">= 2.0.1",
         "ometa-highlighter" : ">= 0.1.1"
