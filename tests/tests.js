@@ -145,25 +145,25 @@ var tests = [
     },
 ];
 
-var m = require('../lib/shmakowiki');
+var shmakowiki = require('shmakowiki'),
+    totalFail = 0;
 
-var totalFail = 0;
 for (var i = 0; i < tests.length; i++) {
     var test = tests[i];
 
-    test.res = m.ShmakoWiki.matchAll(test['in'], 'topLevel');
+    test.res = shmakowiki.ShmakoWiki.matchAll(test['in'], 'topLevel');
     var isOk = test.res == test.out;
 
-    print('Test in:\n' + test['in'] + '\n: ' + (isOk ? 'ok' : 'FAIL'));
-    print('Test result:\n' + test.res);
+    console.log('Test in:\n' + test['in'] + '\n: ' + (isOk ? 'ok' : 'FAIL'));
+    console.log('Test result:\n' + test.res);
     if (!isOk) {
         totalFail++;
-        print('Test out:\n' + test.out);
+        console.log('Test out:\n' + test.out);
     }
 
-    test.html = m.ShmakoWikiToHtml.match(test.res, 'topLevel');
-    print('Test html:\n' + test.html);
+    test.html = shmakowiki.ShmakoWikiToHtml.match(test.res, 'topLevel');
+    console.log('Test html:\n' + test.html);
 
-    print('-----------------------------------------------------');
+    console.log('-----------------------------------------------------');
 }
-print('\n' + (totalFail ? 'Total FAIL: ' + totalFail : 'All Ok'));
+console.log('\n' + (totalFail ? 'Total FAIL: ' + totalFail : 'All Ok'));

@@ -80,7 +80,7 @@ ometa ShmakoWiki {
 
     blockEnd = ('\n' ~~extBlockStart) | nl | ('\n' ~~anyLi) | ('\n' ~~headerStart) | ('\n'* end),
 
-    para = (~blockEnd (spacesNlSpaces | char))+:c -> c.join('') blockEnd -> [`para, ShmakoWiki.matchAll(c, 'topInline')],
+    para = ((~blockEnd (spacesNlSpaces | char))+:c -> c.join('')) blockEnd -> [`para, ShmakoWiki.matchAll(c, 'topInline')],
 
     uli = spacesNoNl:s '*' ~'*' spacesNoNl -> s.join(''),
     oli = spacesNoNl:s digit+ '.' spacesNoNl -> s.join(''),
