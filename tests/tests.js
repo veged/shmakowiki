@@ -145,7 +145,7 @@ var tests = [
     },
 ];
 
-var shmakowiki = require('shmakowiki'),
+var shmakowiki = require('..'),
     totalFail = 0;
 
 for (var i = 0; i < tests.length; i++) {
@@ -163,6 +163,9 @@ for (var i = 0; i < tests.length; i++) {
 
     test.html = shmakowiki.ShmakoWikiToHtml.match(test.res, 'topLevel');
     console.log('Test html:\n' + test.html);
+
+    test.bemjson = shmakowiki.ShmakoWikiToBemjson.match(test.res, 'topLevel');
+        console.log('Test bemjson:\n' + JSON.stringify(test.bemjson));
 
     console.log('-----------------------------------------------------');
 }

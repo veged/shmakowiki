@@ -1,0 +1,102 @@
+ometa ShmakoWikiToBemjson {
+    keyword = 'para'
+            | 'header1' | 'header2' | 'header3'
+            | 'header4' | 'header5' | 'header6'
+            | 'olist' | 'ulist' | 'olistItem' | 'ulistItem'
+            | 'bold' | 'bold_'
+            | 'italic' | 'italic_'
+            | 'underline' | 'underline_'
+            | 'strike' | 'strike_'
+            | 'monospace' | 'monospace_'
+            | 'superscript' | 'superscript_'
+            | 'subscript' | 'subscript_'
+            | 'link' | 'link_'
+            | 'lineBreak'
+            | 'escaped'
+            | 'extention',
+
+    token = [keyword:t apply(t):ans] -> ans
+          | :c -> ShmakoWikiToBemjson._escape(c),
+    tokens = [token*:c] -> c,
+
+
+    bold tokens:c -> { tag: 'b', content: c },
+    bold_ tokens:c -> { tag: 'b', content: c },
+
+    italic tokens:c -> { tag: 'i', content: c },
+    italic_ tokens:c -> { tag: 'i', content: c },
+
+    underline tokens:c -> { tag: 'u', content: c },
+    underline_ tokens:c -> { tag: 'u', content: c },
+
+    strike tokens:c -> { tag: 's', content: c },
+    strike_ tokens:c -> { tag: 's', content: c },
+
+    monospace tokens:c -> { tag: 'tt', content: c },
+    monospace_ tokens:c -> { tag: 'tt', content: c },
+
+    superscript tokens:c -> { tag: 'sup', content: c },
+    superscript_ tokens:c -> { tag: 'sup', content: c },
+
+    subscript tokens:c -> { tag: 'sub', content: c },
+    subscript_ tokens:c -> { tag: 'sub', content: c },
+
+    link token:c [] -> { block: 'b-link', url: c, content: c },
+    link token:c tokens:cc -> { block: 'b-link', url: c, content: cc },
+    link_ token:c -> { block: 'b-link', url: c, content: c },
+
+    lineBreak :c -> { tag: 'br' },
+
+    escaped tokens:c -> { tag: 'span', content: c },
+
+    para tokens:c -> { elem: 'p', content: c },
+
+    header1 tokens:c -> { elem: 'h1', content: c },
+    header2 tokens:c -> { elem: 'h2', content: c },
+    header3 tokens:c -> { elem: 'h3', content: c },
+    header4 tokens:c -> { elem: 'h4', content: c },
+    header5 tokens:c -> { elem: 'h5', content: c },
+    header6 tokens:c -> { elem: 'h6', content: c },
+
+    olist tokens:c -> { elem: 'ol', content: c },
+    ulist tokens:c -> { elem: 'ul', content: c },
+    olistItem tokens:c -> { elem: 'li', content: c },
+    ulistItem tokens:c -> { elem: 'li', content: c },
+
+    extention :t :c :p -> (ShmakoWikiToBemjson.extentions.hasOwnProperty(t) ?
+                           ShmakoWikiToBemjson.extentions[t](c, p) :
+                           { tag: 'div', content: ShmakoWikiToBemjson._escape(c) }),
+
+    topLevel = tokens:c -> { block: 'b-text', content: c }
+}
+
+ShmakoWikiToBemjson.extentions = {
+    'html': function(c) { return c },
+    'ohl': function(c, p) { return OmetaHighlighterToHtml.match(c, 'topLevel') },
+    'hljs': function(c, p) {
+            return {
+                tag: 'pre',
+                content: '<code class="'+ p + '">' +
+                    ShmakoWikiToBemjson._escape(c) +
+                '</code>'
+            };
+        }
+};
+ShmakoWikiToBemjson.extentions.hl = ShmakoWikiToBemjson.extentions.ohl;
+
+ShmakoWikiToBemjson._escape = (function() {
+    var amp = new RegExp('&', 'g'),
+        lt = new RegExp('<', 'g'),
+        gt = new RegExp('>', 'g'),
+        apos = new RegExp("'", 'g'),
+        quot = new RegExp('"', 'g');
+
+    return function(s) {
+        return String(s)
+            .replace(amp, '&amp;')
+            .replace(lt, '&lt;')
+            .replace(gt, '&gt;')
+            .replace(apos, '&apos;')
+            .replace(quot, '&quot;');
+    }
+})();
