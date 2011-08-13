@@ -10,7 +10,10 @@
     },
     "main": "./lib/shmakowiki",
     "directories" : { "lib" : "./lib" },
-    "bin" : { "shmakowiki2html" : "./bin/shmakowiki2html" },
+    "bin" : {
+        "shmakowiki2html" : "./bin/shmakowiki2html",
+        "shmakowiki2bemjson" : "./bin/shmakowiki2bemjson"
+    },
     "dependencies" : {
         "ometajs" : ">= 2.0.1",
         "ometa-highlighter" : ">= 0.1.1"
