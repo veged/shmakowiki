@@ -72,13 +72,12 @@ ometa ShmakoWikiToBemjson {
 
 ShmakoWikiToBemjson.extentions = {
     'html': function(c) { return c },
-    'ohl': function(c, p) { return OmetaHighlighterToHtml.match(c, 'topLevel') },
+    'ohl': function(c, p) { return OmetaHighlighterToBemjson.match(c, 'topLevel') },
     'hljs': function(c, p) {
             return {
-                tag: 'pre',
-                content: '<code class="'+ p + '">' +
-                    ShmakoWikiToBemjson._escape(c) +
-                '</code>'
+                block: 'b-code',
+                cls: p,
+                content: ShmakoWikiToBemjson._escape(c)
             };
         }
 };
