@@ -1,3 +1,0 @@
-#!/usr/bin/env node
-
-require('../lib/2html').main();
