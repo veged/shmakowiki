@@ -11,7 +11,8 @@
     "main": "./lib/shmakowiki",
     "directories" : { "lib" : "./lib" },
     "bin" : {
-        "shmakowiki" : "./bin/shmakowiki"
+        "shmakowiki" : "./bin/shmakowiki",
+        "shmakowiki2html" : "./bin/shmakowiki2html"
     },
     "dependencies" : {
         "ometajs" : ">= 2.0.1",
