@@ -116,8 +116,8 @@ ometa ShmakoWiki {
 
 ShmakoWiki.extentions = {
     'ohl': function(c, p) {
-            return OmetaHighlighter.matchAll(c, p);
-        }
+        return OmetaHighlighter.matchAll(c, p);
+    }
 };
 ShmakoWiki.extentions.hl = ShmakoWiki.extentions.ohl;
 

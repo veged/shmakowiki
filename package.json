@@ -1,7 +1,7 @@
 {
     "name": "shmakowiki",
     "description": "Yet another wiki dialect, inspired by WackoWiki and WikiCreole",
-    "version" : "0.1.4",
+    "version" : "0.2.0",
     "homepage": "http://github.com/veged/shmakowiki",
     "author" : "Sergey Berezhnoy <veged@mail.ru> (http://github.com/veged)",
     "repository" : {
@@ -10,11 +10,15 @@
     },
     "main": "./lib/shmakowiki",
     "directories" : { "lib" : "./lib" },
-    "bin" : { "shmakowiki2html" : "./bin/shmakowiki2html" },
+    "bin" : {
+        "shmakowiki" : "./bin/shmakowiki",
+        "shmakowiki2html" : "./bin/shmakowiki2html"
+    },
     "dependencies" : {
         "ometajs" : ">= 2.0.1",
-        "ometa-highlighter" : ">= 0.1.1"
+        "ometa-highlighter" : ">= 0.2.0",
+        "coa" : ">= 0.0.5"
     },
-    "engines" : { "node" : ">=0.2.0" },
+    "engines" : { "node" : ">=0.4.0" },
     "licenses" : [ { "type" : "AS IS" } ]
 }

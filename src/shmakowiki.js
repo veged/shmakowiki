@@ -3,3 +3,4 @@ var ometajs = require('ometajs'),
     ohl = require('ometa-highlighter'),
     OmetaHighlighter = ohl.OmetaHighlighter,
     OmetaHighlighterToHtml = ohl.OmetaHighlighterToHtml;
+    OmetaHighlighterToBemjson = ohl.OmetaHighlighterToBemjson;
