@@ -1,24 +1,33 @@
 {
-    "name": "shmakowiki",
-    "description": "Yet another wiki dialect, inspired by WackoWiki and WikiCreole",
-    "version" : "0.2.1",
-    "homepage": "http://github.com/veged/shmakowiki",
-    "author" : "Sergey Berezhnoy <veged@mail.ru> (http://github.com/veged)",
-    "repository" : {
-        "type" : "git",
-        "url" : "http://github.com/veged/shmakowiki.git"
-    },
-    "main": "./lib/shmakowiki",
-    "directories" : { "lib" : "./lib" },
-    "bin" : {
-        "shmakowiki" : "./bin/shmakowiki",
-        "shmakowiki2html" : "./bin/shmakowiki2html"
-    },
-    "dependencies" : {
-        "ometajs" : "2.0.x",
-        "ometa-highlighter" : ">= 0.2.0",
-        "coa" : ">= 0.1.1"
-    },
-    "engines" : { "node" : ">=0.4.0" },
-    "licenses" : [ { "type" : "AS IS" } ]
+  "name": "shmakowiki",
+  "description": "Yet another wiki dialect, inspired by WackoWiki and WikiCreole",
+  "version": "0.2.2",
+  "homepage": "http://github.com/veged/shmakowiki",
+  "author": "Sergey Berezhnoy <veged@mail.ru> (http://github.com/veged)",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/veged/shmakowiki.git"
+  },
+  "main": "./lib/shmakowiki",
+  "directories": {
+    "lib": "./lib"
+  },
+  "bin": {
+    "shmakowiki": "./bin/shmakowiki",
+    "shmakowiki2html": "./bin/shmakowiki2html"
+  },
+  "dependencies": {
+    "ometajs": "2.0.x",
+    "ometa-highlighter": ">= 0.2.0",
+    "coa": ">= 0.1.1"
+  },
+  "engines": {
+    "node": ">=0.4.0"
+  },
+  "licenses": [
+    {
+      "type": "AS IS"
+    }
+  ],
+  "devDependencies": {}
 }
