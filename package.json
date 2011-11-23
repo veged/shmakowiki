@@ -15,7 +15,7 @@
         "shmakowiki2html" : "./bin/shmakowiki2html"
     },
     "dependencies" : {
-        "ometajs" : ">= 2.0.1",
+        "ometajs" : "2.0.x",
         "ometa-highlighter" : ">= 0.2.0",
         "coa" : ">= 0.1.1"
     },
