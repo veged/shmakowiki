@@ -18,8 +18,9 @@
   },
   "dependencies": {
     "ometajs": "2.0.x",
-    "ometa-highlighter": ">= 0.2.0",
-    "coa": ">= 0.1.1"
+    "ometa-highlighter": "0.2.x",
+    "q": "0.7.x",
+    "coa": "0.3.x"
   },
   "engines": {
     "node": ">=0.4.0"
