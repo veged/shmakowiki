@@ -252,21 +252,21 @@ var tests = [
     {
         'in': '==header11**bold1**\n\npara2\n===header22\npara2\n====header33==',
         'out': [
-          ['header1', null, ['header11', ['bold', ['bold1']]]],
+          ['header1', ['headeranchor', ''], ['header11', ['bold', ['bold1']]]],
           ['para', ['para2']],
-          ['header2', null, ['header22']],
+          ['header2', ['headeranchor', ''], ['header22']],
           ['para', ['para2']],
-          ['header3', null, ['header33']]
+          ['header3', ['headeranchor', ''], ['header33']]
         ]
     },
     {
         'in': '==**xbold1**\n\n**para2**\n===**header22**\n**para2**\n====**header33**==',
         'out': [
-          ['header1', null, [['bold', ['xbold1']]]],
+          ['header1', ['headeranchor', ''], [['bold', ['xbold1']]]],
           ['para', [['bold', ['para2']]]],
-          ['header2', null, [['bold', ['header22']]]],
+          ['header2', ['headeranchor', ''], [['bold', ['header22']]]],
           ['para', [['bold', ['para2']]]],
-          ['header3', null, [['bold', ['header33']]]]
+          ['header3', ['headeranchor', ''], [['bold', ['header33']]]]
         ]
     },
     {

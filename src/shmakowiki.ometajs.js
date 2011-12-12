@@ -604,7 +604,7 @@ if (global === ometajs_) {
                         return this._apply("char");
                     }.call(this);
                 });
-                return [ "headeranchor", anchor.join("") ];
+                return anchor.join("");
             }.call(this);
         },
         headerEnd: function() {
@@ -633,7 +633,7 @@ if (global === ometajs_) {
                 }, function() {
                     return this._apply("end");
                 });
-                return anchor["length"] ? anchor[0] : null;
+                return [ "headeranchor", anchor["length"] ? anchor[0] : "" ];
             }.call(this);
         },
         header: function() {
