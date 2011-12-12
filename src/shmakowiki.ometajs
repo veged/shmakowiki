@@ -75,8 +75,9 @@ ometa ShmakoWiki {
     nl = '\n' (spacesNoNl '\n')+,
 
     headerStart = '='+:c spacesNoNl -> (c.join('').length - 1),
-    headerEnd = '='* (('\n' (spacesNoNl '\n')*) | end),
-    header = headerStart:l ((~headerEnd char)+:cc -> cc.join('')):c headerEnd -> ['header' + (l <= 6 ? l : 6), ShmakoWiki.matchAll(c, 'topInline')],
+    headerAnchor = '#' (~'\n' char)+:anchor -> ['headeranchor', anchor.join('')],
+    headerEnd = '='* headerAnchor*:anchor (('\n' (spacesNoNl '\n')*) | end) -> { anchor.length ? anchor[0] : null },
+    header = headerStart:l ((~headerEnd char)+:cc -> cc.join('')):c headerEnd:anchor -> ['header' + (l <= 6 ? l : 6), anchor, ShmakoWiki.matchAll(c, 'topInline')],
 
     blockEnd = ('\n' ~~extBlockStart) | nl | ('\n' ~~anyLi) | ('\n' ~~headerStart) | ('\n'* end),
 
@@ -144,4 +145,3 @@ ShmakoWiki.arrAdd = function(arr, elem) {
     arr[arr.length] = elem;
     return arr;
 };
-

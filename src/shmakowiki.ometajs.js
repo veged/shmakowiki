@@ -592,13 +592,31 @@ if (global === ometajs_) {
                 return c.join("")["length"] - 1;
             }.call(this);
         },
+        headerAnchor: function() {
+            var $elf = this, _fromIdx = this.input.idx, anchor;
+            return function() {
+                this._applyWithArgs("exactly", "#");
+                anchor = this._many1(function() {
+                    return function() {
+                        this._not(function() {
+                            return this._applyWithArgs("exactly", "\n");
+                        });
+                        return this._apply("char");
+                    }.call(this);
+                });
+                return [ "headeranchor", anchor.join("") ];
+            }.call(this);
+        },
         headerEnd: function() {
-            var $elf = this, _fromIdx = this.input.idx;
+            var $elf = this, _fromIdx = this.input.idx, anchor;
             return function() {
                 this._many(function() {
                     return this._applyWithArgs("exactly", "=");
                 });
-                return this._or(function() {
+                anchor = this._many(function() {
+                    return this._apply("headerAnchor");
+                });
+                this._or(function() {
                     return function() {
                         switch (this._apply("anything")) {
                           case "\n":
@@ -615,10 +633,11 @@ if (global === ometajs_) {
                 }, function() {
                     return this._apply("end");
                 });
+                return anchor["length"] ? anchor[0] : null;
             }.call(this);
         },
         header: function() {
-            var $elf = this, _fromIdx = this.input.idx, l, cc, c;
+            var $elf = this, _fromIdx = this.input.idx, l, cc, c, anchor;
             return function() {
                 l = this._apply("headerStart");
                 c = function() {
@@ -632,8 +651,8 @@ if (global === ometajs_) {
                     });
                     return cc.join("");
                 }.call(this);
-                this._apply("headerEnd");
-                return [ "header" + (l <= 6 ? l : 6), ShmakoWiki.matchAll(c, "topInline") ];
+                anchor = this._apply("headerEnd");
+                return [ "header" + (l <= 6 ? l : 6), anchor, ShmakoWiki.matchAll(c, "topInline") ];
             }.call(this);
         },
         blockEnd: function() {
