@@ -2,6 +2,7 @@ ometa ShmakoWikiToHtml {
     keyword = 'para'
             | 'header1' | 'header2' | 'header3'
             | 'header4' | 'header5' | 'header6'
+            | 'headeranchor'
             | 'olist' | 'ulist' | 'olistItem' | 'ulistItem'
             | 'bold' | 'bold_'
             | 'italic' | 'italic_'
@@ -51,12 +52,14 @@ ometa ShmakoWikiToHtml {
 
     para tokens:c -> ('<p>' + c + '</p>'),
 
-    header1 tokens:c -> ('<h1>' + c + '</h1>'),
-    header2 tokens:c -> ('<h2>' + c + '</h2>'),
-    header3 tokens:c -> ('<h3>' + c + '</h3>'),
-    header4 tokens:c -> ('<h4>' + c + '</h4>'),
-    header5 tokens:c -> ('<h5>' + c + '</h5>'),
-    header6 tokens:c -> ('<h6>' + c + '</h6>'),
+    headeranchor :c -> { c.length ? '<a name="' + c + '"></a>' : '' },
+
+    header1 token:a tokens:c -> (a + '<h1>' + c + '</h1>'),
+    header2 token:a tokens:c -> (a + '<h2>' + c + '</h2>'),
+    header3 token:a tokens:c -> (a + '<h3>' + c + '</h3>'),
+    header4 token:a tokens:c -> (a + '<h4>' + c + '</h4>'),
+    header5 token:a tokens:c -> (a + '<h5>' + c + '</h5>'),
+    header6 token:a tokens:c -> (a + '<h6>' + c + '</h6>'),
 
     olist tokens:c -> ('<ol>' + c + '</ol>'),
     ulist tokens:c -> ('<ul>' + c + '</ul>'),
