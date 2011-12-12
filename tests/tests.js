@@ -278,6 +278,16 @@ var tests = [
         ]
     },
     {
+        'in': '==**xbold1**#id1\n\n**para2**\n===**header22**#id2\n**para2**\n====**header33**==#id3',
+        'out': [
+            ['header1', ['headeranchor', 'id1'], [['bold', ['xbold1']]]],
+            ['para', [['bold', ['para2']]]],
+            ['header2', ['headeranchor', 'id2'], [['bold', ['header22']]]],
+            ['para', [['bold', ['para2']]]],
+            ['header3', ['headeranchor', 'id3'], [['bold', ['header33']]]]
+        ]
+    },
+    {
         'in': '* listitem **bold**\n* listitem //italic//\n* listitem **bo//italic_**',
         'out': [[
           'ulist',
