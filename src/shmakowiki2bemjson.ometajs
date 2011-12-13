@@ -2,6 +2,7 @@ ometa ShmakoWikiToBemjson {
     keyword = 'para'
             | 'header1' | 'header2' | 'header3'
             | 'header4' | 'header5' | 'header6'
+            | 'headeranchor'
             | 'olist' | 'ulist' | 'olistItem' | 'ulistItem'
             | 'bold' | 'bold_'
             | 'italic' | 'italic_'
@@ -51,12 +52,14 @@ ometa ShmakoWikiToBemjson {
 
     para tokens:c -> { elem: 'p', content: c },
 
-    header1 tokens:c -> { elem: 'h1', content: c },
-    header2 tokens:c -> { elem: 'h2', content: c },
-    header3 tokens:c -> { elem: 'h3', content: c },
-    header4 tokens:c -> { elem: 'h4', content: c },
-    header5 tokens:c -> { elem: 'h5', content: c },
-    header6 tokens:c -> { elem: 'h6', content: c },
+    headeranchor :c -> { tag: 'a', attrs: { 'name': c } },
+
+    header1 token:a tokens:c -> [ a, { elem: 'h1', content: c } ],
+    header2 token:a tokens:c -> [ a, { elem: 'h2', content: c } ],
+    header3 token:a tokens:c -> [ a, { elem: 'h3', content: c } ],
+    header4 token:a tokens:c -> [ a, { elem: 'h4', content: c } ],
+    header5 token:a tokens:c -> [ a, { elem: 'h5', content: c } ],
+    header6 token:a tokens:c -> [ a, { elem: 'h6', content: c } ],
 
     olist tokens:c -> { elem: 'ol', content: c },
     ulist tokens:c -> { elem: 'ul', content: c },

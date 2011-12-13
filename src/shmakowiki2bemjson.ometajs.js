@@ -60,10 +60,10 @@ if (global === ometajs_) {
                     return "underline";
                   case "header5":
                     return "header5";
+                  case "headeranchor":
+                    return "headeranchor";
                   case "strike_":
                     return "strike_";
-                  case "link_":
-                    return "link_";
                   case "subscript":
                     return "subscript";
                   case "escaped":
@@ -72,6 +72,8 @@ if (global === ometajs_) {
                     return "superscript";
                   case "ulistItem":
                     return "ulistItem";
+                  case "link_":
+                    return "link_";
                   case "olistItem":
                     return "olistItem";
                   case "header1":
@@ -337,64 +339,82 @@ if (global === ometajs_) {
                 };
             }.call(this);
         },
-        header1: function() {
+        headeranchor: function() {
             var $elf = this, _fromIdx = this.input.idx, c;
             return function() {
-                c = this._apply("tokens");
+                c = this._apply("anything");
                 return {
+                    tag: "a",
+                    attrs: {
+                        name: c
+                    }
+                };
+            }.call(this);
+        },
+        header1: function() {
+            var $elf = this, _fromIdx = this.input.idx, a, c;
+            return function() {
+                a = this._apply("token");
+                c = this._apply("tokens");
+                return [ a, {
                     elem: "h1",
                     content: c
-                };
+                } ];
             }.call(this);
         },
         header2: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
+            var $elf = this, _fromIdx = this.input.idx, a, c;
             return function() {
+                a = this._apply("token");
                 c = this._apply("tokens");
-                return {
+                return [ a, {
                     elem: "h2",
                     content: c
-                };
+                } ];
             }.call(this);
         },
         header3: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
+            var $elf = this, _fromIdx = this.input.idx, a, c;
             return function() {
+                a = this._apply("token");
                 c = this._apply("tokens");
-                return {
+                return [ a, {
                     elem: "h3",
                     content: c
-                };
+                } ];
             }.call(this);
         },
         header4: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
+            var $elf = this, _fromIdx = this.input.idx, a, c;
             return function() {
+                a = this._apply("token");
                 c = this._apply("tokens");
-                return {
+                return [ a, {
                     elem: "h4",
                     content: c
-                };
+                } ];
             }.call(this);
         },
         header5: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
+            var $elf = this, _fromIdx = this.input.idx, a, c;
             return function() {
+                a = this._apply("token");
                 c = this._apply("tokens");
-                return {
+                return [ a, {
                     elem: "h5",
                     content: c
-                };
+                } ];
             }.call(this);
         },
         header6: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
+            var $elf = this, _fromIdx = this.input.idx, a, c;
             return function() {
+                a = this._apply("token");
                 c = this._apply("tokens");
-                return {
+                return [ a, {
                     elem: "h6",
                     content: c
-                };
+                } ];
             }.call(this);
         },
         olist: function() {
