@@ -288,6 +288,13 @@ var tests = [
         ]
     },
     {
+        'in': '=== header\n#id\nsometext',
+        'out': [
+            ['header2', ['headeranchor', ''], ['header']],
+            ['para', ['#id sometext']]
+        ]
+    },
+    {
         'in': '* listitem **bold**\n* listitem //italic//\n* listitem **bo//italic_**',
         'out': [[
           'ulist',
