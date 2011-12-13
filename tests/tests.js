@@ -428,16 +428,16 @@ for (var i = 0; i < tests.length; i++) {
     var test = tests[i];
 
     test.res = shmakowiki.ShmakoWiki.matchAll(test['in'], 'topLevel');
-    test.res = JSON.stringify(test.res);
-    test.out = JSON.stringify(test.out);
 
-    var isOk = test.res == test.out;
+    var res = JSON.stringify(test.res),
+        out = JSON.stringify(test.out),
+        isOk = res == out;
 
     console.log('Test in:\n' + test['in'] + '\n: ' + (isOk ? 'ok' : 'FAIL'));
-    console.log('Test result:\n' + test.res);
+    console.log('Test result:\n' + res);
     if (!isOk) {
         totalFail++;
-        console.log('Test out:\n' + test.out);
+        console.log('Test out:\n' + out);
     }
 
     test.html = shmakowiki.ShmakoWikiToHtml.match(test.res, 'topLevel');
