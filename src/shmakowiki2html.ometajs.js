@@ -88,12 +88,12 @@ if (global === ometajs_) {
                     return "ulist";
                   case "lineBreak":
                     return "lineBreak";
-                  case "extention":
-                    return "extention";
                   case "superscript_":
                     return "superscript_";
                   case "link":
                     return "link";
+                  case "extension":
+                    return "extension";
                   case "bold":
                     return "bold";
                   default:
@@ -351,13 +351,13 @@ if (global === ometajs_) {
                 return "<li>" + c + "</li>";
             }.call(this);
         },
-        extention: function() {
+        extension: function() {
             var $elf = this, _fromIdx = this.input.idx, t, c, p;
             return function() {
                 t = this._apply("anything");
                 c = this._apply("anything");
                 p = this._apply("anything");
-                return ShmakoWikiToHtml["extentions"].hasOwnProperty(t) ? ShmakoWikiToHtml["extentions"][t](c, p) : "<div>" + ShmakoWikiToHtml._escape(c) + "</div>";
+                return ShmakoWikiToHtml["extensions"].hasOwnProperty(t) ? ShmakoWikiToHtml["extensions"][t](c, p) : "<div>" + ShmakoWikiToHtml._escape(c) + "</div>";
             }.call(this);
         },
         topLevel: function() {
@@ -368,7 +368,7 @@ if (global === ometajs_) {
             }.call(this);
         }
     });
-    ShmakoWikiToHtml["extentions"] = {
+    ShmakoWikiToHtml["extensions"] = {
         html: function(c) {
             return c;
         },
@@ -379,7 +379,7 @@ if (global === ometajs_) {
             return '<pre><code class="' + p + '">' + ShmakoWikiToHtml._escape(c) + "</code></pre>";
         }
     };
-    ShmakoWikiToHtml["extentions"]["hl"] = ShmakoWikiToHtml["extentions"]["ohl"];
+    ShmakoWikiToHtml["extensions"]["hl"] = ShmakoWikiToHtml["extensions"]["ohl"];
     ShmakoWikiToHtml["_escape"] = function() {
         var amp = new RegExp("&", "g"), lt = new RegExp("<", "g"), gt = new RegExp(">", "g"), apos = new RegExp("'", "g"), quot = new RegExp('"', "g");
         return function(s) {

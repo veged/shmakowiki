@@ -382,23 +382,23 @@ var tests = [
         'in': 'line1\n%%\next1\n%%\n%%A%\next2\n%A%%\n%%A%html\n<b>bol%%d</b>\n%A%%\n\n%%bla\nblabla\n%%',
         'out': [
           ['para', ['line1']],
-          ['extention', '', 'ext1', ''],
-          ['extention', '', 'ext2', ''],
-          ['extention', 'html', '<b>bol%%d</b>', ''],
-          ['extention', 'bla', 'blabla', '']
+          ['extension', '', 'ext1', ''],
+          ['extension', '', 'ext2', ''],
+          ['extension', 'html', '<b>bol%%d</b>', ''],
+          ['extension', 'bla', 'blabla', '']
         ]
     },
     {
         'in': '%%ext params\nextcont\n%%',
         'out': [
-          ['extention', 'ext', 'extcont', 'params']
+          ['extension', 'ext', 'extcont', 'params']
         ]
     },
     {
         'in': '%%ohl js\nvar b = \'bla\';\n%%',
         'out': [
           [
-            'extention', 'ohl',
+            'extension', 'ohl',
             [
               'js',
               [
@@ -422,7 +422,7 @@ var tests = [
         'in': '%%hl js\nvar b = \'bla\';\n%%',
         'out': [
           [
-            'extention', 'hl',
+            'extension', 'hl',
             [
               'js',
               [
@@ -444,7 +444,7 @@ var tests = [
         'in': 'bla\n%%hljs javascript\nfunction() { return true }\n%%\nbla',
         'out': [
           ['para', ['bla']],
-          ['extention', 'hljs', 'function() { return true }', 'javascript'],
+          ['extension', 'hljs', 'function() { return true }', 'javascript'],
           ['para', ['bla']]
         ]
     },
