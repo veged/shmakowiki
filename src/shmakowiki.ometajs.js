@@ -949,7 +949,7 @@ if (global === ometajs_) {
                         }
                     }.call(this);
                 });
-                return [ "extention", s[1], ShmakoWiki["extentions"].hasOwnProperty(s[1]) ? ShmakoWiki["extentions"][s[1]](c, s[2]) : c, s[2] ];
+                return [ "extension", s[1], ShmakoWiki["extensions"].hasOwnProperty(s[1]) ? ShmakoWiki["extensions"][s[1]](c, s[2]) : c, s[2] ];
             }.call(this);
         },
         allBlock: function() {
@@ -975,12 +975,12 @@ if (global === ometajs_) {
             });
         }
     });
-    ShmakoWiki["extentions"] = {
+    ShmakoWiki["extensions"] = {
         ohl: function(c, p) {
             return OmetaHighlighter.matchAll(c, p);
         }
     };
-    ShmakoWiki["extentions"]["hl"] = ShmakoWiki["extentions"]["ohl"];
+    ShmakoWiki["extensions"]["hl"] = ShmakoWiki["extensions"]["ohl"];
     ShmakoWiki["arrJoin"] = function(arr1, arr2) {
         var newArr = ShmakoWiki.arrCopy(arr1);
         for (var i = 0; i < arr2["length"]; i++) {

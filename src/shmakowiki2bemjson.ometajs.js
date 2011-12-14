@@ -88,12 +88,12 @@ if (global === ometajs_) {
                     return "ulist";
                   case "lineBreak":
                     return "lineBreak";
-                  case "extention":
-                    return "extention";
                   case "superscript_":
                     return "superscript_";
                   case "link":
                     return "link";
+                  case "extension":
+                    return "extension";
                   case "bold":
                     return "bold";
                   default:
@@ -461,13 +461,13 @@ if (global === ometajs_) {
                 };
             }.call(this);
         },
-        extention: function() {
+        extension: function() {
             var $elf = this, _fromIdx = this.input.idx, t, c, p;
             return function() {
                 t = this._apply("anything");
                 c = this._apply("anything");
                 p = this._apply("anything");
-                return ShmakoWikiToBemjson["extentions"].hasOwnProperty(t) ? ShmakoWikiToBemjson["extentions"][t](c, p) : {
+                return ShmakoWikiToBemjson["extensions"].hasOwnProperty(t) ? ShmakoWikiToBemjson["extensions"][t](c, p) : {
                     tag: "div",
                     content: ShmakoWikiToBemjson._escape(c)
                 };
@@ -484,7 +484,7 @@ if (global === ometajs_) {
             }.call(this);
         }
     });
-    ShmakoWikiToBemjson["extentions"] = {
+    ShmakoWikiToBemjson["extensions"] = {
         html: function(c) {
             return c;
         },
@@ -499,7 +499,7 @@ if (global === ometajs_) {
             };
         }
     };
-    ShmakoWikiToBemjson["extentions"]["hl"] = ShmakoWikiToBemjson["extentions"]["ohl"];
+    ShmakoWikiToBemjson["extensions"]["hl"] = ShmakoWikiToBemjson["extensions"]["ohl"];
     ShmakoWikiToBemjson["_escape"] = function() {
         var amp = new RegExp("&", "g"), lt = new RegExp("<", "g"), gt = new RegExp(">", "g"), apos = new RegExp("'", "g"), quot = new RegExp('"', "g");
         return function(s) {

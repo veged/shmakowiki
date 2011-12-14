@@ -13,7 +13,7 @@ ometa ShmakoWikiToBemjson {
             | 'link' | 'link_'
             | 'lineBreak'
             | 'escaped'
-            | 'extention',
+            | 'extension',
 
     token = [keyword:t apply(t):ans] -> ans
           | :c -> ShmakoWikiToBemjson._escape(c),
@@ -63,14 +63,14 @@ ometa ShmakoWikiToBemjson {
     olistItem tokens:c -> { elem: 'li', content: c },
     ulistItem tokens:c -> { elem: 'li', content: c },
 
-    extention :t :c :p -> (ShmakoWikiToBemjson.extentions.hasOwnProperty(t) ?
-                           ShmakoWikiToBemjson.extentions[t](c, p) :
+    extension :t :c :p -> (ShmakoWikiToBemjson.extensions.hasOwnProperty(t) ?
+                           ShmakoWikiToBemjson.extensions[t](c, p) :
                            { tag: 'div', content: ShmakoWikiToBemjson._escape(c) }),
 
     topLevel = tokens:c -> { block: 'b-text', content: c }
 }
 
-ShmakoWikiToBemjson.extentions = {
+ShmakoWikiToBemjson.extensions = {
     'html': function(c) { return c },
     'ohl': function(c, p) { return OmetaHighlighterToBemjson.match(c, 'topLevel') },
     'hljs': function(c, p) {
@@ -81,7 +81,7 @@ ShmakoWikiToBemjson.extentions = {
             };
         }
 };
-ShmakoWikiToBemjson.extentions.hl = ShmakoWikiToBemjson.extentions.ohl;
+ShmakoWikiToBemjson.extensions.hl = ShmakoWikiToBemjson.extensions.ohl;
 
 ShmakoWikiToBemjson._escape = (function() {
     var amp = new RegExp('&', 'g'),

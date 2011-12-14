@@ -13,7 +13,7 @@ ometa ShmakoWikiToHtml {
             | 'link' | 'link_'
             | 'lineBreak'
             | 'escaped'
-            | 'extention',
+            | 'extension',
 
     token = [keyword:t apply(t):ans] -> ans
           | :c -> ShmakoWikiToHtml._escape(c),
@@ -63,14 +63,14 @@ ometa ShmakoWikiToHtml {
     olistItem tokens:c -> ('<li>' + c + '</li>'),
     ulistItem tokens:c -> ('<li>' + c + '</li>'),
 
-    extention :t :c :p -> (ShmakoWikiToHtml.extentions.hasOwnProperty(t) ?
-                           ShmakoWikiToHtml.extentions[t](c, p) :
+    extension :t :c :p -> (ShmakoWikiToHtml.extensions.hasOwnProperty(t) ?
+                           ShmakoWikiToHtml.extensions[t](c, p) :
                            '<div>' + ShmakoWikiToHtml._escape(c) + '</div>'),
 
     topLevel = tokens:c -> ('<div class="shmakowiki">' + c + '</div>')
 }
 
-ShmakoWikiToHtml.extentions = {
+ShmakoWikiToHtml.extensions = {
     'html': function(c) { return c },
     'ohl': function(c, p) { return OmetaHighlighterToHtml.match(c, 'topLevel') },
     'hljs': function(c, p) {
@@ -79,7 +79,7 @@ ShmakoWikiToHtml.extentions = {
                 '</code></pre>'
         }
 };
-ShmakoWikiToHtml.extentions.hl = ShmakoWikiToHtml.extentions.ohl;
+ShmakoWikiToHtml.extensions.hl = ShmakoWikiToHtml.extensions.ohl;
 
 ShmakoWikiToHtml._escape = (function() {
     var amp = new RegExp('&', 'g'),
