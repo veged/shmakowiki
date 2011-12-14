@@ -51,12 +51,12 @@ ometa ShmakoWikiToHtml {
 
     para tokens:c -> ('<p>' + c + '</p>'),
 
-    header1 tokens:c -> ('<h1>' + c + '</h1>'),
-    header2 tokens:c -> ('<h2>' + c + '</h2>'),
-    header3 tokens:c -> ('<h3>' + c + '</h3>'),
-    header4 tokens:c -> ('<h4>' + c + '</h4>'),
-    header5 tokens:c -> ('<h5>' + c + '</h5>'),
-    header6 tokens:c -> ('<h6>' + c + '</h6>'),
+    header1 tokens:c :a -> ('<h1 id="' + a + '">' + c + '</h1>'),
+    header2 tokens:c :a -> ('<h2 id="' + a + '">' + c + '</h2>'),
+    header3 tokens:c :a -> ('<h3 id="' + a + '">' + c + '</h3>'),
+    header4 tokens:c :a -> ('<h4 id="' + a + '">' + c + '</h4>'),
+    header5 tokens:c :a -> ('<h5 id="' + a + '">' + c + '</h5>'),
+    header6 tokens:c :a -> ('<h6 id="' + a + '">' + c + '</h6>'),
 
     olist tokens:c -> ('<ol>' + c + '</ol>'),
     ulist tokens:c -> ('<ul>' + c + '</ul>'),

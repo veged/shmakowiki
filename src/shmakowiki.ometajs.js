@@ -594,31 +594,50 @@ if (global === ometajs_) {
         },
         headerEnd: function() {
             var $elf = this, _fromIdx = this.input.idx;
-            return function() {
-                this._many(function() {
-                    return this._applyWithArgs("exactly", "=");
-                });
-                return this._or(function() {
-                    return function() {
-                        switch (this._apply("anything")) {
-                          case "\n":
-                            return this._many(function() {
-                                return function() {
-                                    this._apply("spacesNoNl");
-                                    return this._applyWithArgs("exactly", "\n");
-                                }.call(this);
+            return this._or(function() {
+                return function() {
+                    switch (this._apply("anything")) {
+                      case "\n":
+                        return this._many(function() {
+                            return function() {
+                                this._apply("spacesNoNl");
+                                return this._applyWithArgs("exactly", "\n");
+                            }.call(this);
+                        });
+                      default:
+                        throw fail();
+                    }
+                }.call(this);
+            }, function() {
+                return this._apply("end");
+            });
+        },
+        headerAnchor: function() {
+            var $elf = this, _fromIdx = this.input.idx, a;
+            return this._or(function() {
+                return function() {
+                    this._many1(function() {
+                        return this._applyWithArgs("exactly", "=");
+                    });
+                    a = this._many(function() {
+                        return function() {
+                            this._not(function() {
+                                return this._applyWithArgs("exactly", "\n");
                             });
-                          default:
-                            throw fail();
-                        }
-                    }.call(this);
-                }, function() {
-                    return this._apply("end");
-                });
-            }.call(this);
+                            return this._apply("char");
+                        }.call(this);
+                    });
+                    return a.join("");
+                }.call(this);
+            }, function() {
+                return function() {
+                    this._apply("empty");
+                    return "";
+                }.call(this);
+            });
         },
         header: function() {
-            var $elf = this, _fromIdx = this.input.idx, l, cc, c;
+            var $elf = this, _fromIdx = this.input.idx, l, cc, c, anchor;
             return function() {
                 l = this._apply("headerStart");
                 c = function() {
@@ -627,13 +646,20 @@ if (global === ometajs_) {
                             this._not(function() {
                                 return this._apply("headerEnd");
                             });
+                            this._not(function() {
+                                return this._applyWithArgs("exactly", "=");
+                            });
                             return this._apply("char");
                         }.call(this);
                     });
                     return cc.join("");
                 }.call(this);
+                anchor = this._apply("headerAnchor");
                 this._apply("headerEnd");
-                return [ "header" + (l <= 6 ? l : 6), ShmakoWiki.matchAll(c, "topInline") ];
+                return function() {
+                    var hAST = ShmakoWiki.matchAll(c, "topInline"), hAnchor = utils.transliterate("ru", anchor["length"] ? anchor : ShmakoWikiToPlain.match(hAST, "topLevel"));
+                    return [ "header" + (l <= 6 ? l : 6), hAST, hAnchor ];
+                }.call(this);
             }.call(this);
         },
         blockEnd: function() {

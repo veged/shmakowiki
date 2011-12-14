@@ -338,61 +338,85 @@ if (global === ometajs_) {
             }.call(this);
         },
         header1: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
+            var $elf = this, _fromIdx = this.input.idx, c, a;
             return function() {
                 c = this._apply("tokens");
+                a = this._apply("anything");
                 return {
                     elem: "h1",
+                    attrs: {
+                        id: a
+                    },
                     content: c
                 };
             }.call(this);
         },
         header2: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
+            var $elf = this, _fromIdx = this.input.idx, c, a;
             return function() {
                 c = this._apply("tokens");
+                a = this._apply("anything");
                 return {
                     elem: "h2",
+                    attrs: {
+                        id: a
+                    },
                     content: c
                 };
             }.call(this);
         },
         header3: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
+            var $elf = this, _fromIdx = this.input.idx, c, a;
             return function() {
                 c = this._apply("tokens");
+                a = this._apply("anything");
                 return {
                     elem: "h3",
+                    attrs: {
+                        id: a
+                    },
                     content: c
                 };
             }.call(this);
         },
         header4: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
+            var $elf = this, _fromIdx = this.input.idx, c, a;
             return function() {
                 c = this._apply("tokens");
+                a = this._apply("anything");
                 return {
                     elem: "h4",
+                    attrs: {
+                        id: a
+                    },
                     content: c
                 };
             }.call(this);
         },
         header5: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
+            var $elf = this, _fromIdx = this.input.idx, c, a;
             return function() {
                 c = this._apply("tokens");
+                a = this._apply("anything");
                 return {
                     elem: "h5",
+                    attrs: {
+                        id: a
+                    },
                     content: c
                 };
             }.call(this);
         },
         header6: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
+            var $elf = this, _fromIdx = this.input.idx, c, a;
             return function() {
                 c = this._apply("tokens");
+                a = this._apply("anything");
                 return {
                     elem: "h6",
+                    attrs: {
+                        id: a
+                    },
                     content: c
                 };
             }.call(this);

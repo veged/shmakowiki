@@ -276,45 +276,51 @@ if (global === ometajs_) {
             }.call(this);
         },
         header1: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
+            var $elf = this, _fromIdx = this.input.idx, c, a;
             return function() {
                 c = this._apply("tokens");
-                return "<h1>" + c + "</h1>";
+                a = this._apply("anything");
+                return '<h1 id="' + a + '">' + c + "</h1>";
             }.call(this);
         },
         header2: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
+            var $elf = this, _fromIdx = this.input.idx, c, a;
             return function() {
                 c = this._apply("tokens");
-                return "<h2>" + c + "</h2>";
+                a = this._apply("anything");
+                return '<h2 id="' + a + '">' + c + "</h2>";
             }.call(this);
         },
         header3: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
+            var $elf = this, _fromIdx = this.input.idx, c, a;
             return function() {
                 c = this._apply("tokens");
-                return "<h3>" + c + "</h3>";
+                a = this._apply("anything");
+                return '<h3 id="' + a + '">' + c + "</h3>";
             }.call(this);
         },
         header4: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
+            var $elf = this, _fromIdx = this.input.idx, c, a;
             return function() {
                 c = this._apply("tokens");
-                return "<h4>" + c + "</h4>";
+                a = this._apply("anything");
+                return '<h4 id="' + a + '">' + c + "</h4>";
             }.call(this);
         },
         header5: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
+            var $elf = this, _fromIdx = this.input.idx, c, a;
             return function() {
                 c = this._apply("tokens");
-                return "<h5>" + c + "</h5>";
+                a = this._apply("anything");
+                return '<h5 id="' + a + '">' + c + "</h5>";
             }.call(this);
         },
         header6: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
+            var $elf = this, _fromIdx = this.input.idx, c, a;
             return function() {
                 c = this._apply("tokens");
-                return "<h6>" + c + "</h6>";
+                a = this._apply("anything");
+                return '<h6 id="' + a + '">' + c + "</h6>";
             }.call(this);
         },
         olist: function() {
