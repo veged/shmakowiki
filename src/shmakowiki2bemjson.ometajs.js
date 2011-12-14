@@ -60,10 +60,10 @@ if (global === ometajs_) {
                     return "underline";
                   case "header5":
                     return "header5";
-                  case "headeranchor":
-                    return "headeranchor";
                   case "strike_":
                     return "strike_";
+                  case "link_":
+                    return "link_";
                   case "subscript":
                     return "subscript";
                   case "escaped":
@@ -72,8 +72,6 @@ if (global === ometajs_) {
                     return "superscript";
                   case "ulistItem":
                     return "ulistItem";
-                  case "link_":
-                    return "link_";
                   case "olistItem":
                     return "olistItem";
                   case "header1":
@@ -339,82 +337,88 @@ if (global === ometajs_) {
                 };
             }.call(this);
         },
-        headeranchor: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
+        header1: function() {
+            var $elf = this, _fromIdx = this.input.idx, c, a;
             return function() {
-                c = this._apply("anything");
+                c = this._apply("tokens");
+                a = this._apply("anything");
                 return {
-                    tag: "a",
+                    elem: "h1",
                     attrs: {
-                        name: c
-                    }
+                        id: a
+                    },
+                    content: c
                 };
             }.call(this);
         },
-        header1: function() {
-            var $elf = this, _fromIdx = this.input.idx, a, c;
-            return function() {
-                a = this._apply("token");
-                c = this._apply("tokens");
-                return [ a, {
-                    elem: "h1",
-                    content: c
-                } ];
-            }.call(this);
-        },
         header2: function() {
-            var $elf = this, _fromIdx = this.input.idx, a, c;
+            var $elf = this, _fromIdx = this.input.idx, c, a;
             return function() {
-                a = this._apply("token");
                 c = this._apply("tokens");
-                return [ a, {
+                a = this._apply("anything");
+                return {
                     elem: "h2",
+                    attrs: {
+                        id: a
+                    },
                     content: c
-                } ];
+                };
             }.call(this);
         },
         header3: function() {
-            var $elf = this, _fromIdx = this.input.idx, a, c;
+            var $elf = this, _fromIdx = this.input.idx, c, a;
             return function() {
-                a = this._apply("token");
                 c = this._apply("tokens");
-                return [ a, {
+                a = this._apply("anything");
+                return {
                     elem: "h3",
+                    attrs: {
+                        id: a
+                    },
                     content: c
-                } ];
+                };
             }.call(this);
         },
         header4: function() {
-            var $elf = this, _fromIdx = this.input.idx, a, c;
+            var $elf = this, _fromIdx = this.input.idx, c, a;
             return function() {
-                a = this._apply("token");
                 c = this._apply("tokens");
-                return [ a, {
+                a = this._apply("anything");
+                return {
                     elem: "h4",
+                    attrs: {
+                        id: a
+                    },
                     content: c
-                } ];
+                };
             }.call(this);
         },
         header5: function() {
-            var $elf = this, _fromIdx = this.input.idx, a, c;
+            var $elf = this, _fromIdx = this.input.idx, c, a;
             return function() {
-                a = this._apply("token");
                 c = this._apply("tokens");
-                return [ a, {
+                a = this._apply("anything");
+                return {
                     elem: "h5",
+                    attrs: {
+                        id: a
+                    },
                     content: c
-                } ];
+                };
             }.call(this);
         },
         header6: function() {
-            var $elf = this, _fromIdx = this.input.idx, a, c;
+            var $elf = this, _fromIdx = this.input.idx, c, a;
             return function() {
-                a = this._apply("token");
                 c = this._apply("tokens");
-                return [ a, {
+                a = this._apply("anything");
+                return {
                     elem: "h6",
+                    attrs: {
+                        id: a
+                    },
                     content: c
-                } ];
+                };
             }.call(this);
         },
         olist: function() {

@@ -15,6 +15,7 @@ lib/shmakowiki.js: src
 			shmakowiki.ometajs.js \
 			shmakowiki2html.ometajs.js \
 			shmakowiki2bemjson.ometajs.js \
+			shmakowiki2plain.ometajs.js \
 		; do \
 			cat $</$$i >> $@ \
 		; done

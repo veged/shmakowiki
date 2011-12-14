@@ -1,0 +1,52 @@
+ometa ShmakoWikiToPlain {
+    keyword = 'para'
+            | 'header1' | 'header2' | 'header3'
+            | 'header4' | 'header5' | 'header6'
+            | 'bold' | 'bold_'
+            | 'italic' | 'italic_'
+            | 'underline' | 'underline_'
+            | 'strike' | 'strike_'
+            | 'monospace' | 'monospace_'
+            | 'superscript' | 'superscript_'
+            | 'subscript' | 'subscript_'
+            | 'escaped',
+
+    token = [keyword:t apply(t):ans] -> ans
+          | :c -> c,
+    tokens = [token*:c] -> c,
+
+
+    bold tokens:c -> c.join(''),
+    bold_ tokens:c -> c.join(''),
+
+    italic tokens:c -> c.join(''),
+    italic_ tokens:c -> c.join(''),
+
+    underline tokens:c -> c.join(''),
+    underline_ tokens:c -> c.join(''),
+
+    strike tokens:c -> c.join(''),
+    strike_ tokens:c -> c.join(''),
+
+    monospace tokens:c -> c.join(''),
+    monospace_ tokens:c -> c.join(''),
+
+    superscript tokens:c -> c.join(''),
+    superscript_ tokens:c -> c.join(''),
+
+    subscript tokens:c -> c.join(''),
+    subscript_ tokens:c -> c.join(''),
+
+    escaped tokens:c -> c.join(''),
+
+    para tokens:c -> c.join(''),
+
+    header1 tokens:c -> c.join(''),
+    header2 tokens:c -> c.join(''),
+    header3 tokens:c -> c.join(''),
+    header4 tokens:c -> c.join(''),
+    header5 tokens:c -> c.join(''),
+    header6 tokens:c -> c.join(''),
+
+    topLevel = tokens:c -> c.join('')
+}
