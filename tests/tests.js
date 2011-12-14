@@ -272,9 +272,9 @@ var tests = [
     {
         'in': '==header11==#id1\n===header22===#idw\n====header33====#idq',
         'out': [
-            ['header1', ['header11'], '#id1'],
-            ['header2', ['header22'], '#idw'],
-            ['header3', ['header33'], '#idq']
+            ['header1', ['header11'], 'id1'],
+            ['header2', ['header22'], 'idw'],
+            ['header3', ['header33'], 'idq']
         ]
     },
     {
@@ -298,6 +298,12 @@ var tests = [
         'in': '===АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЪъЫыЬьЭэЮюЯя',
         'out': [
             ['header2', ['АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЪъЫыЬьЭэЮюЯя'], 'AaBbVvGgDdEeYoyoZhzhZzIiJjKkLlMmNnOoPpRrSsTtUuFfXxCcChchShshShhshhYyYyYyEeYuyuYaya']
+        ]
+    },
+    {
+        'in': '===**header** & __т е с т__',
+        'out': [
+            ['header2', [['bold', ['header']], ' & ', ['underline', ['т е с т']]], 'headertest']
         ]
     },
     {
