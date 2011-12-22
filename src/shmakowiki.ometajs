@@ -79,7 +79,7 @@ ometa ShmakoWiki {
     headerAnchor = '='+ (~'\n' char)*:a -> a.join('') | empty -> '',
 
     header = headerStart:l ((~headerEnd ~'=' char)+:cc -> cc.join('')):c headerAnchor:anchor headerEnd ->
-                { var hAST = ShmakoWiki.matchAll(c, 'topInline'),
+                { var hAST = ShmakoWiki.matchAll(c, 'topLevel'),
                       hAnchor = utils.transliterate('ru', anchor.length ? anchor : ShmakoWikiToPlain.match(hAST, 'topLevel'));
                   ['header' + (l <= 6 ? l : 6), hAST, hAnchor] },
 
@@ -122,8 +122,13 @@ ometa ShmakoWiki {
 ShmakoWiki.extensions = {
     'ohl': function(c, p) {
         return OmetaHighlighter.matchAll(c, p);
+    },
+    'toc': function(c, p) {
+        var x = ShmakoWikiToc.parse(c, p);
+        return [x.toc, x.ast];
     }
 };
+
 ShmakoWiki.extensions.hl = ShmakoWiki.extensions.ohl;
 
 ShmakoWiki.arrJoin = function(arr1, arr2) {
