@@ -81,7 +81,7 @@ ShmakoWikiToBemjson.extensions = {
             };
         },
     'toc': function(c, p) {
-        return ShmakoWikiToBemjson.tocToBemjson(c[0]);
+        return ShmakoWikiTocToBemjson.tocToBemjson(c[0], ShmakoWikiToBemjson);
     }
 };
 
