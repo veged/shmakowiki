@@ -377,6 +377,10 @@ if (global === ometajs_) {
         },
         hljs: function(c, p) {
             return '<pre><code class="' + p + '">' + ShmakoWikiToHtml._escape(c) + "</code></pre>";
+        },
+        toc: function(c, p) {
+            console.log(ShmakoWikiTocToHtml.tocToHtml(c[0], ShmakoWikiToHtml));
+            return ShmakoWikiTocToHtml.tocToHtml(c[0], ShmakoWikiToHtml);
         }
     };
     ShmakoWikiToHtml["extensions"]["hl"] = ShmakoWikiToHtml["extensions"]["ohl"];

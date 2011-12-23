@@ -980,8 +980,7 @@ if (global === ometajs_) {
             return OmetaHighlighter.matchAll(c, p);
         },
         toc: function(c, p) {
-            var x = ShmakoWikiToc.parse(c, p, ShmakoWiki);
-            return [ x["toc"], x["ast"] ];
+            return ShmakoWiki.matchAll(c, "topLevel");
         }
     };
     ShmakoWiki["extensions"]["hl"] = ShmakoWiki["extensions"]["ohl"];

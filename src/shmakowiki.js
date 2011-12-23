@@ -7,4 +7,5 @@ var ometajs = require('ometajs'),
     OmetaHighlighterToHtml = ohl.OmetaHighlighterToHtml,
     OmetaHighlighterToBemjson = ohl.OmetaHighlighterToBemjson,
     ShmakoWikiToc = shtoc.ShmakoWikiToc,
-    ShmakoWikiTocToBemjson = shtoc.ShmakoWikiTocToBemjson;
+    ShmakoWikiTocToBemjson = shtoc.ShmakoWikiTocToBemjson,
+    ShmakoWikiTocToHtml = shtoc.ShmakoWikiTocToHtml;

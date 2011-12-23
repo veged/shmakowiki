@@ -6,9 +6,9 @@ src: $(patsubst %.ometajs,%.ometajs.js,$(wildcard src/*.ometajs))
 %.ometajs.js: %.ometajs
 	ometajs2js -i $< -o $@
 
-lib: lib/shmakowiki.js
+lib: lib/_shmakowiki.js
 
-lib/shmakowiki.js: src
+lib/_shmakowiki.js: src
 	-rm $@
 	for i in \
 			shmakowiki.js \
