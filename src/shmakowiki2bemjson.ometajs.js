@@ -499,7 +499,7 @@ if (global === ometajs_) {
             };
         },
         toc: function(c, p) {
-            return ShmakoWikiTocToBemjson.tocToBemjson(c[0], ShmakoWikiToBemjson);
+            return [ ShmakoWikiToBemjson.match([ c[0] ], "topLevel"), ShmakoWikiToBemjson.match(c[1], "topLevel") ];
         }
     };
     ShmakoWikiToBemjson["extensions"]["hl"] = ShmakoWikiToBemjson["extensions"]["ohl"];
