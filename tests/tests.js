@@ -455,16 +455,16 @@ var tests = [
           ['para', ['para2 para2']],
           ['para', ['para3']]
         ]
-    },
+    }
 ];
 
-var shmakowiki = require('..'),
+var api = require('../lib/shmakowiki.js'),
     totalFail = 0;
 
 for (var i = 0; i < tests.length; i++) {
     var test = tests[i];
 
-    test.res = shmakowiki.ShmakoWiki.matchAll(test['in'], 'topLevel');
+    test.res = api.shmakowikiToAST(test['in']);
 
     var res = JSON.stringify(test.res),
         out = JSON.stringify(test.out),
@@ -477,11 +477,11 @@ for (var i = 0; i < tests.length; i++) {
         console.log('Test out:\n' + out);
     }
 
-    test.html = shmakowiki.ShmakoWikiToHtml.match(test.res, 'topLevel');
+    test.html = api.astToHtml(test.res);
     console.log('Test html:\n' + test.html);
 
-    test.bemjson = shmakowiki.ShmakoWikiToBemjson.match(test.res, 'topLevel');
-        console.log('Test bemjson:\n' + JSON.stringify(test.bemjson));
+    test.bemjson = api.astToBemjson(test.res);
+    console.log('Test bemjson:\n' + JSON.stringify(test.bemjson));
 
     console.log('-----------------------------------------------------');
 }
