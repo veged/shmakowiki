@@ -497,6 +497,13 @@ if (global === ometajs_) {
                 cls: p,
                 content: ShmakoWikiToBemjson._escape(c)
             };
+        },
+        toc: function(c, p) {
+            return [ {
+                block: "b-wiki",
+                elem: "toc",
+                content: ShmakoWikiToBemjson.match([ c[0] ], "topLevel")["content"]
+            }, ShmakoWikiToBemjson.match(c[1], "topLevel") ];
         }
     };
     ShmakoWikiToBemjson["extensions"]["hl"] = ShmakoWikiToBemjson["extensions"]["ohl"];

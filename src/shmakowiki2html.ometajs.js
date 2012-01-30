@@ -377,6 +377,9 @@ if (global === ometajs_) {
         },
         hljs: function(c, p) {
             return '<pre><code class="' + p + '">' + ShmakoWikiToHtml._escape(c) + "</code></pre>";
+        },
+        toc: function(c, p) {
+            return ShmakoWikiToHtml.match([ c[0] ], "topLevel") + ShmakoWikiToHtml.match(c[1], "topLevel");
         }
     };
     ShmakoWikiToHtml["extensions"]["hl"] = ShmakoWikiToHtml["extensions"]["ohl"];

@@ -657,7 +657,7 @@ if (global === ometajs_) {
                 anchor = this._apply("headerAnchor");
                 this._apply("headerEnd");
                 return function() {
-                    var hAST = ShmakoWiki.matchAll(c, "topInline"), hAnchor = utils.transliterate("ru", anchor["length"] ? anchor : ShmakoWikiToPlain.match(hAST, "topLevel"));
+                    var hAST = ShmakoWiki.matchAll(c, "topLevel"), hAnchor = utils.transliterate("ru", anchor["length"] ? anchor : ShmakoWikiToPlain.match(hAST, "topLevel"));
                     return [ "header" + (l <= 6 ? l : 6), hAST, hAnchor ];
                 }.call(this);
             }.call(this);
@@ -978,6 +978,9 @@ if (global === ometajs_) {
     ShmakoWiki["extensions"] = {
         ohl: function(c, p) {
             return OmetaHighlighter.matchAll(c, p);
+        },
+        toc: function(c, p) {
+            return ShmakoWiki.matchAll(c, "topLevel");
         }
     };
     ShmakoWiki["extensions"]["hl"] = ShmakoWiki["extensions"]["ohl"];

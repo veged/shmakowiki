@@ -3,5 +3,5 @@ var ometajs = require('ometajs'),
     ohl = require('ometa-highlighter'),
     utils = require('./utils.js'),
     OmetaHighlighter = ohl.OmetaHighlighter,
-    OmetaHighlighterToHtml = ohl.OmetaHighlighterToHtml;
+    OmetaHighlighterToHtml = ohl.OmetaHighlighterToHtml,
     OmetaHighlighterToBemjson = ohl.OmetaHighlighterToBemjson;

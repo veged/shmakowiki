@@ -252,58 +252,58 @@ var tests = [
     {
         'in': '==header11**bold1**\n\npara2\n===header22\npara2\n====header33==',
         'out': [
-            ['header1', ['header11', ['bold', ['bold1']]], 'header11bold1'],
-            ['para', ['para2']],
-            ['header2', ['header22'], 'header22'],
-            ['para', ['para2']],
-            ['header3', ['header33'], 'header33']
+          ['header1', [['para', ['header11', ['bold', ['bold1']]]]], 'header11bold1'],
+          ['para', ['para2']],
+          ['header2',[['para',['header22']]],'header22'],
+          ['para', ['para2']],
+          ['header3',[['para',['header33']]],'header33']
         ]
     },
     {
         'in': '==**xbold1**\n\n**para2**\n===**header22**\n**para2**\n====**header33**==',
         'out': [
-            ['header1', [['bold', ['xbold1']]], 'xbold1'],
-            ['para', [['bold', ['para2']]]],
-            ['header2', [['bold', ['header22']]], 'header22'],
-            ['para', [['bold', ['para2']]]],
-            ['header3', [['bold', ['header33']]], 'header33']
+          ['header1', [['para', [['bold', ['xbold1']]]]], 'xbold1'],
+          ['para', [['bold', ['para2']]]],
+          ['header2', [['para', [['bold', ['header22']]]]], 'header22'],
+          ['para', [['bold', ['para2']]]],
+          ['header3', [['para', [['bold', ['header33']]]]], 'header33']
         ]
     },
     {
         'in': '==header11==#id1\n===header22===#idw\n====header33====#idq',
         'out': [
-            ['header1', ['header11'], 'id1'],
-            ['header2', ['header22'], 'idw'],
-            ['header3', ['header33'], 'idq']
+          ['header1', [['para', ['header11']]], 'id1'],
+          ['header2', [['para', ['header22']]], 'idw'],
+          ['header3', [['para', ['header33']]], 'idq']
         ]
     },
     {
         'in': '==**xbold1**id1\n\n**para2**\n===**header22**id2\n**para2**\n====**header33**==id3',
         'out': [
-            ['header1', [['bold', ['xbold1']], 'id1'], 'xbold1id1'],
-            ['para', [['bold', ['para2']]]],
-            ['header2', [['bold', ['header22']], 'id2'], 'header22id2'],
-            ['para', [['bold', ['para2']]]],
-            ['header3', [['bold', ['header33']]], 'id3']
+          ['header1', [['para', [['bold', ['xbold1']], 'id1']]], 'xbold1id1'],
+          ['para', [['bold', ['para2']]]],
+          ['header2', [['para', [['bold', ['header22']], 'id2']]], 'header22id2'],
+          ['para', [['bold', ['para2']]]],
+          ['header3', [['para', [['bold', ['header33']]]]], 'id3']
         ]
     },
     {
         'in': '=== header\n#id\nsometext',
         'out': [
-            ['header2', ['header'], 'header'],
-            ['para', ['#id sometext']]
+          ['header2', [['para', ['header']]], 'header'],
+          ['para', ['#id sometext']]
         ]
     },
     {
         'in': '===АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЪъЫыЬьЭэЮюЯя',
         'out': [
-            ['header2', ['АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЪъЫыЬьЭэЮюЯя'], 'AaBbVvGgDdEeYoyoZhzhZzIiJjKkLlMmNnOoPpRrSsTtUuFfXxCcChchShshShhshhYyYyYyEeYuyuYaya']
+          ['header2', [['para', ['АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЪъЫыЬьЭэЮюЯя']]], 'AaBbVvGgDdEeYoyoZhzhZzIiJjKkLlMmNnOoPpRrSsTtUuFfXxCcChchShshShhshhYyYyYyEeYuyuYaya']
         ]
     },
     {
         'in': '===**header** & __т е с т__',
         'out': [
-            ['header2', [['bold', ['header']], ' & ', ['underline', ['т е с т']]], 'headertest']
+          ['header2', [['para', [['bold', ['header']], ' & ', ['underline', ['т е с т']]]]], 'headertest']
         ]
     },
     {
@@ -455,16 +455,16 @@ var tests = [
           ['para', ['para2 para2']],
           ['para', ['para3']]
         ]
-    },
+    }
 ];
 
-var shmakowiki = require('..'),
+var api = require('../lib/shmakowiki.js'),
     totalFail = 0;
 
 for (var i = 0; i < tests.length; i++) {
     var test = tests[i];
 
-    test.res = shmakowiki.ShmakoWiki.matchAll(test['in'], 'topLevel');
+    test.res = api.shmakowikiToAST(test['in']);
 
     var res = JSON.stringify(test.res),
         out = JSON.stringify(test.out),
@@ -477,11 +477,11 @@ for (var i = 0; i < tests.length; i++) {
         console.log('Test out:\n' + out);
     }
 
-    test.html = shmakowiki.ShmakoWikiToHtml.match(test.res, 'topLevel');
+    test.html = api.astToHtml(test.res);
     console.log('Test html:\n' + test.html);
 
-    test.bemjson = shmakowiki.ShmakoWikiToBemjson.match(test.res, 'topLevel');
-        console.log('Test bemjson:\n' + JSON.stringify(test.bemjson));
+    test.bemjson = api.astToBemjson(test.res);
+    console.log('Test bemjson:\n' + JSON.stringify(test.bemjson));
 
     console.log('-----------------------------------------------------');
 }
