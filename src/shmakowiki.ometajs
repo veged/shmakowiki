@@ -79,7 +79,7 @@ ometa ShmakoWiki {
     headerAnchor = '='+ (~'\n' char)*:a -> a.join('') | empty -> '',
 
     header = headerStart:l ((~headerEnd ~'=' char)+:cc -> cc.join('')):c headerAnchor:anchor headerEnd ->
-                { var hAST = ShmakoWiki.matchAll(c, 'topLevel'),
+                { var hAST = ShmakoWiki.matchAll(c, 'topInline'),
                       hAnchor = utils.transliterate('ru', anchor.length ? anchor : ShmakoWikiToPlain.match(hAST, 'topLevel'));
                   ['header' + (l <= 6 ? l : 6), hAST, hAnchor] },
 
