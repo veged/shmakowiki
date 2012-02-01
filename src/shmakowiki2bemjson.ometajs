@@ -16,7 +16,7 @@ ometa ShmakoWikiToBemjson {
             | 'extension',
 
     token = [keyword:t apply(t):ans] -> ans
-          | :c -> ShmakoWikiToBemjson._escape(c),
+          | :c -> utils.htmlEscape(c),
     tokens = [token*:c] -> c,
 
 
@@ -63,48 +63,11 @@ ometa ShmakoWikiToBemjson {
     olistItem tokens:c -> { elem: 'li', content: c },
     ulistItem tokens:c -> { elem: 'li', content: c },
 
-    extension :t :c :p -> (ShmakoWikiToBemjson.extensions.hasOwnProperty(t) ?
-                           ShmakoWikiToBemjson.extensions[t](c, p) :
-                           { tag: 'div', content: ShmakoWikiToBemjson._escape(c) }),
+    extension :t :c :p -> utils.getExtension(t, 'astToBemjson', function(c, p) {
+        return { tag: 'div', content: utils.htmlEscape(c) };
+    })(c, p),
+
+    topInline = tokens:c -> c,
 
     topLevel = tokens:c -> { block: 'b-text', content: c }
 }
-
-ShmakoWikiToBemjson.extensions = {
-    'html': function(c) { return c },
-    'ohl': function(c, p) { return OmetaHighlighterToBemjson.match(c, 'topLevel') },
-    'hljs': function(c, p) {
-            return {
-                block: 'b-code',
-                cls: p,
-                content: ShmakoWikiToBemjson._escape(c)
-            };
-        },
-    'toc': function(c, p) {
-        return [
-                { block: 'b-wiki',
-                  elem: 'toc',
-                  content: ShmakoWikiToBemjson.match([c[0]], 'topLevel').content },
-                ShmakoWikiToBemjson.match(c[1], 'topLevel')
-               ];
-    }
-};
-
-ShmakoWikiToBemjson.extensions.hl = ShmakoWikiToBemjson.extensions.ohl;
-
-ShmakoWikiToBemjson._escape = (function() {
-    var amp = new RegExp('&', 'g'),
-        lt = new RegExp('<', 'g'),
-        gt = new RegExp('>', 'g'),
-        apos = new RegExp("'", 'g'),
-        quot = new RegExp('"', 'g');
-
-    return function(s) {
-        return String(s)
-            .replace(amp, '&amp;')
-            .replace(lt, '&lt;')
-            .replace(gt, '&gt;')
-            .replace(apos, '&apos;')
-            .replace(quot, '&quot;');
-    }
-})();

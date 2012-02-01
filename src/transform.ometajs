@@ -1,0 +1,25 @@
+ometa Transform {
+    keyword = 'para'
+            | 'header1' | 'header2' | 'header3'
+            | 'header4' | 'header5' | 'header6'
+            | 'bold' | 'bold_'
+            | 'italic' | 'italic_'
+            | 'underline' | 'underline_'
+            | 'strike' | 'strike_'
+            | 'monospace' | 'monospace_'
+            | 'superscript' | 'superscript_'
+            | 'subscript' | 'subscript_',
+
+    token = [keyword:t tokens:ans] -> [t, ans]
+          | escaped
+          | extension
+          | :c,
+
+    tokens = [token*:c] -> c,
+
+    escaped = ['escaped':t :c] -> [t, c],
+
+    extension = ['extension':t :tt :c :p] -> [t, tt, utils.getExtension(tt, 'transformAst')(c, p), p],
+
+    topLevel = tokens:c -> c
+}

@@ -464,7 +464,7 @@ var api = require('../lib/shmakowiki.js'),
 for (var i = 0; i < tests.length; i++) {
     var test = tests[i];
 
-    test.res = api.shmakowikiToAST(test['in']);
+    test.res = api.shmakowikiToAst(test['in']);
 
     var res = JSON.stringify(test.res),
         out = JSON.stringify(test.out),

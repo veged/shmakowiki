@@ -112,23 +112,12 @@ ometa ShmakoWiki {
     extBlock = extBlockStart:s
                ((~extBlockEnd(s[0]) char)+:cc -> cc.join('')):c
                extBlockEnd(s[0]) (blockEnd | '\n') -> [`extension, s[1],
-                   (ShmakoWiki.extensions.hasOwnProperty(s[1]) ? ShmakoWiki.extensions[s[1]](c, s[2]) : c), s[2]],
+                   utils.getExtension(s[1], 'shmakowikiToAst')(c, s[2]), s[2]],
 
     allBlock = extBlock | (anyList:l blockEnd) -> l | header | para,
 
-    topLevel = allBlock+
+    topLevel = (spacesNoNl '\n')* allBlock+:t -> t
 }
-
-ShmakoWiki.extensions = {
-    'ohl': function(c, p) {
-        return OmetaHighlighter.matchAll(c, p);
-    },
-    'toc': function(c, p) {
-        return ShmakoWiki.matchAll(c, 'topLevel');
-    }
-};
-
-ShmakoWiki.extensions.hl = ShmakoWiki.extensions.ohl;
 
 ShmakoWiki.arrJoin = function(arr1, arr2) {
     var newArr = ShmakoWiki.arrCopy(arr1);

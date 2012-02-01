@@ -16,7 +16,7 @@ ometa ShmakoWikiToHtml {
             | 'extension',
 
     token = [keyword:t apply(t):ans] -> ans
-          | :c -> ShmakoWikiToHtml._escape(c),
+          | :c -> utils.htmlEscape(c),
     tokens = [token*:c] -> c.join(''),
 
 
@@ -63,40 +63,11 @@ ometa ShmakoWikiToHtml {
     olistItem tokens:c -> ('<li>' + c + '</li>'),
     ulistItem tokens:c -> ('<li>' + c + '</li>'),
 
-    extension :t :c :p -> (ShmakoWikiToHtml.extensions.hasOwnProperty(t) ?
-                           ShmakoWikiToHtml.extensions[t](c, p) :
-                           '<div>' + ShmakoWikiToHtml._escape(c) + '</div>'),
+    extension :t :c :p -> utils.getExtension(t, 'astToHtml', function(c, p) {
+        return '<div>' + utils.htmlEscape(c) + '</div>';
+    })(c, p),
+
+    topInline = tokens:c -> c,
 
     topLevel = tokens:c -> ('<div class="shmakowiki">' + c + '</div>')
 }
-
-ShmakoWikiToHtml.extensions = {
-    'html': function(c) { return c },
-    'ohl': function(c, p) { return OmetaHighlighterToHtml.match(c, 'topLevel') },
-    'hljs': function(c, p) {
-            return '<pre><code class="'+ p + '">' +
-                    ShmakoWikiToHtml._escape(c) +
-                '</code></pre>'
-        },
-    'toc': function(c, p) {
-        return ShmakoWikiToHtml.match([c[0]], 'topLevel') + ShmakoWikiToHtml.match(c[1], 'topLevel');
-    }
-};
-ShmakoWikiToHtml.extensions.hl = ShmakoWikiToHtml.extensions.ohl;
-
-ShmakoWikiToHtml._escape = (function() {
-    var amp = new RegExp('&', 'g'),
-        lt = new RegExp('<', 'g'),
-        gt = new RegExp('>', 'g'),
-        apos = new RegExp("'", 'g'),
-        quot = new RegExp('"', 'g');
-
-    return function(s) {
-        return String(s)
-            .replace(amp, '&amp;')
-            .replace(lt, '&lt;')
-            .replace(gt, '&gt;')
-            .replace(apos, '&apos;')
-            .replace(quot, '&quot;');
-    }
-})()
