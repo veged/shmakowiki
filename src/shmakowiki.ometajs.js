@@ -657,7 +657,7 @@ if (global === ometajs_) {
                 anchor = this._apply("headerAnchor");
                 this._apply("headerEnd");
                 return function() {
-                    var hAST = ShmakoWiki.matchAll(c, "topLevel"), hAnchor = utils.transliterate("ru", anchor["length"] ? anchor : ShmakoWikiToPlain.match(hAST, "topLevel"));
+                    var hAST = ShmakoWiki.matchAll(c, "topInline"), hAnchor = utils.transliterate("ru", anchor["length"] ? anchor : ShmakoWikiToPlain.match(hAST, "topLevel"));
                     return [ "header" + (l <= 6 ? l : 6), hAST, hAnchor ];
                 }.call(this);
             }.call(this);
@@ -949,7 +949,7 @@ if (global === ometajs_) {
                         }
                     }.call(this);
                 });
-                return [ "extension", s[1], ShmakoWiki["extensions"].hasOwnProperty(s[1]) ? ShmakoWiki["extensions"][s[1]](c, s[2]) : c, s[2] ];
+                return [ "extension", s[1], utils.getExtension(s[1], "shmakowikiToAst")(c, s[2]), s[2] ];
             }.call(this);
         },
         allBlock: function() {
@@ -969,21 +969,21 @@ if (global === ometajs_) {
             });
         },
         topLevel: function() {
-            var $elf = this, _fromIdx = this.input.idx;
-            return this._many1(function() {
-                return this._apply("allBlock");
-            });
+            var $elf = this, _fromIdx = this.input.idx, t;
+            return function() {
+                this._many(function() {
+                    return function() {
+                        this._apply("spacesNoNl");
+                        return this._applyWithArgs("exactly", "\n");
+                    }.call(this);
+                });
+                t = this._many1(function() {
+                    return this._apply("allBlock");
+                });
+                return t;
+            }.call(this);
         }
     });
-    ShmakoWiki["extensions"] = {
-        ohl: function(c, p) {
-            return OmetaHighlighter.matchAll(c, p);
-        },
-        toc: function(c, p) {
-            return ShmakoWiki.matchAll(c, "topLevel");
-        }
-    };
-    ShmakoWiki["extensions"]["hl"] = ShmakoWiki["extensions"]["ohl"];
     ShmakoWiki["arrJoin"] = function(arr1, arr2) {
         var newArr = ShmakoWiki.arrCopy(arr1);
         for (var i = 0; i < arr2["length"]; i++) {

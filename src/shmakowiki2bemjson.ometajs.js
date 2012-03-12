@@ -30,487 +30,465 @@ if (global === ometajs_) {
     return function() { return fail };
   })(fail);
   OMeta = require('ometajs').OMeta;
-}{
-    var ShmakoWikiToBemjson = exports.ShmakoWikiToBemjson = objectThatDelegatesTo(OMeta, {
-        keyword: function() {
-            var $elf = this, _fromIdx = this.input.idx;
-            return function() {
-                switch (this._apply("anything")) {
-                  case "monospace":
-                    return "monospace";
-                  case "strike":
-                    return "strike";
-                  case "header6":
-                    return "header6";
-                  case "header3":
-                    return "header3";
-                  case "para":
-                    return "para";
-                  case "italic":
-                    return "italic";
-                  case "underline_":
-                    return "underline_";
-                  case "header2":
-                    return "header2";
-                  case "header4":
-                    return "header4";
-                  case "italic_":
-                    return "italic_";
-                  case "underline":
-                    return "underline";
-                  case "header5":
-                    return "header5";
-                  case "strike_":
-                    return "strike_";
-                  case "link_":
-                    return "link_";
-                  case "subscript":
-                    return "subscript";
-                  case "escaped":
-                    return "escaped";
-                  case "superscript":
-                    return "superscript";
-                  case "ulistItem":
-                    return "ulistItem";
-                  case "olistItem":
-                    return "olistItem";
-                  case "header1":
-                    return "header1";
-                  case "subscript_":
-                    return "subscript_";
-                  case "bold_":
-                    return "bold_";
-                  case "monospace_":
-                    return "monospace_";
-                  case "olist":
-                    return "olist";
-                  case "ulist":
-                    return "ulist";
-                  case "lineBreak":
-                    return "lineBreak";
-                  case "superscript_":
-                    return "superscript_";
-                  case "link":
-                    return "link";
-                  case "extension":
-                    return "extension";
-                  case "bold":
-                    return "bold";
-                  default:
-                    throw fail();
-                }
-            }.call(this);
-        },
-        token: function() {
-            var $elf = this, _fromIdx = this.input.idx, t, ans, c;
-            return this._or(function() {
-                return function() {
-                    this._form(function() {
-                        return function() {
-                            t = this._apply("keyword");
-                            return ans = this._applyWithArgs("apply", t);
-                        }.call(this);
-                    });
-                    return ans;
-                }.call(this);
-            }, function() {
-                return function() {
-                    c = this._apply("anything");
-                    return ShmakoWikiToBemjson._escape(c);
-                }.call(this);
-            });
-        },
-        tokens: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
+}var ShmakoWikiToBemjson = exports.ShmakoWikiToBemjson = objectThatDelegatesTo(OMeta, {
+    keyword: function() {
+        var $elf = this, _fromIdx = this.input.idx;
+        return function() {
+            switch (this._apply("anything")) {
+              case "olistItem":
+                return "olistItem";
+              case "underline_":
+                return "underline_";
+              case "strike":
+                return "strike";
+              case "header4":
+                return "header4";
+              case "link_":
+                return "link_";
+              case "escaped":
+                return "escaped";
+              case "lineBreak":
+                return "lineBreak";
+              case "italic_":
+                return "italic_";
+              case "bold_":
+                return "bold_";
+              case "underline":
+                return "underline";
+              case "header5":
+                return "header5";
+              case "subscript":
+                return "subscript";
+              case "link":
+                return "link";
+              case "olist":
+                return "olist";
+              case "superscript":
+                return "superscript";
+              case "monospace_":
+                return "monospace_";
+              case "header6":
+                return "header6";
+              case "extension":
+                return "extension";
+              case "monospace":
+                return "monospace";
+              case "strike_":
+                return "strike_";
+              case "italic":
+                return "italic";
+              case "para":
+                return "para";
+              case "ulistItem":
+                return "ulistItem";
+              case "header2":
+                return "header2";
+              case "header1":
+                return "header1";
+              case "header3":
+                return "header3";
+              case "ulist":
+                return "ulist";
+              case "subscript_":
+                return "subscript_";
+              case "superscript_":
+                return "superscript_";
+              case "bold":
+                return "bold";
+              default:
+                throw fail();
+            }
+        }.call(this);
+    },
+    token: function() {
+        var $elf = this, _fromIdx = this.input.idx, t, ans, c;
+        return this._or(function() {
             return function() {
                 this._form(function() {
-                    return c = this._many(function() {
-                        return this._apply("token");
-                    });
+                    return function() {
+                        t = this._apply("keyword");
+                        return ans = this._applyWithArgs("apply", t);
+                    }.call(this);
                 });
-                return c;
+                return ans;
             }.call(this);
-        },
-        bold: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
+        }, function() {
             return function() {
-                c = this._apply("tokens");
-                return {
-                    tag: "b",
-                    content: c
-                };
+                c = this._apply("anything");
+                return utils.htmlEscape(c);
             }.call(this);
-        },
-        bold_: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
-            return function() {
-                c = this._apply("tokens");
-                return {
-                    tag: "b",
-                    content: c
-                };
-            }.call(this);
-        },
-        italic: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
-            return function() {
-                c = this._apply("tokens");
-                return {
-                    tag: "i",
-                    content: c
-                };
-            }.call(this);
-        },
-        italic_: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
-            return function() {
-                c = this._apply("tokens");
-                return {
-                    tag: "i",
-                    content: c
-                };
-            }.call(this);
-        },
-        underline: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
-            return function() {
-                c = this._apply("tokens");
-                return {
-                    tag: "u",
-                    content: c
-                };
-            }.call(this);
-        },
-        underline_: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
-            return function() {
-                c = this._apply("tokens");
-                return {
-                    tag: "u",
-                    content: c
-                };
-            }.call(this);
-        },
-        strike: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
-            return function() {
-                c = this._apply("tokens");
-                return {
-                    tag: "s",
-                    content: c
-                };
-            }.call(this);
-        },
-        strike_: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
-            return function() {
-                c = this._apply("tokens");
-                return {
-                    tag: "s",
-                    content: c
-                };
-            }.call(this);
-        },
-        monospace: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
-            return function() {
-                c = this._apply("tokens");
-                return {
-                    tag: "tt",
-                    content: c
-                };
-            }.call(this);
-        },
-        monospace_: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
-            return function() {
-                c = this._apply("tokens");
-                return {
-                    tag: "tt",
-                    content: c
-                };
-            }.call(this);
-        },
-        superscript: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
-            return function() {
-                c = this._apply("tokens");
-                return {
-                    tag: "sup",
-                    content: c
-                };
-            }.call(this);
-        },
-        superscript_: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
-            return function() {
-                c = this._apply("tokens");
-                return {
-                    tag: "sup",
-                    content: c
-                };
-            }.call(this);
-        },
-        subscript: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
-            return function() {
-                c = this._apply("tokens");
-                return {
-                    tag: "sub",
-                    content: c
-                };
-            }.call(this);
-        },
-        subscript_: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
-            return function() {
-                c = this._apply("tokens");
-                return {
-                    tag: "sub",
-                    content: c
-                };
-            }.call(this);
-        },
-        link: function() {
-            var $elf = this, _fromIdx = this.input.idx, c, c, cc;
-            return this._or(function() {
-                return function() {
-                    c = this._apply("token");
-                    this._form(function() {
-                        return undefined;
-                    });
-                    return {
-                        block: "b-link",
-                        url: c,
-                        content: c
-                    };
-                }.call(this);
-            }, function() {
-                return function() {
-                    c = this._apply("token");
-                    cc = this._apply("tokens");
-                    return {
-                        block: "b-link",
-                        url: c,
-                        content: cc
-                    };
-                }.call(this);
+        });
+    },
+    tokens: function() {
+        var $elf = this, _fromIdx = this.input.idx, c;
+        return function() {
+            this._form(function() {
+                return c = this._many(function() {
+                    return this._apply("token");
+                });
             });
-        },
-        link_: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
+            return c;
+        }.call(this);
+    },
+    bold: function() {
+        var $elf = this, _fromIdx = this.input.idx, c;
+        return function() {
+            c = this._apply("tokens");
+            return {
+                tag: "b",
+                content: c
+            };
+        }.call(this);
+    },
+    bold_: function() {
+        var $elf = this, _fromIdx = this.input.idx, c;
+        return function() {
+            c = this._apply("tokens");
+            return {
+                tag: "b",
+                content: c
+            };
+        }.call(this);
+    },
+    italic: function() {
+        var $elf = this, _fromIdx = this.input.idx, c;
+        return function() {
+            c = this._apply("tokens");
+            return {
+                tag: "i",
+                content: c
+            };
+        }.call(this);
+    },
+    italic_: function() {
+        var $elf = this, _fromIdx = this.input.idx, c;
+        return function() {
+            c = this._apply("tokens");
+            return {
+                tag: "i",
+                content: c
+            };
+        }.call(this);
+    },
+    underline: function() {
+        var $elf = this, _fromIdx = this.input.idx, c;
+        return function() {
+            c = this._apply("tokens");
+            return {
+                tag: "u",
+                content: c
+            };
+        }.call(this);
+    },
+    underline_: function() {
+        var $elf = this, _fromIdx = this.input.idx, c;
+        return function() {
+            c = this._apply("tokens");
+            return {
+                tag: "u",
+                content: c
+            };
+        }.call(this);
+    },
+    strike: function() {
+        var $elf = this, _fromIdx = this.input.idx, c;
+        return function() {
+            c = this._apply("tokens");
+            return {
+                tag: "s",
+                content: c
+            };
+        }.call(this);
+    },
+    strike_: function() {
+        var $elf = this, _fromIdx = this.input.idx, c;
+        return function() {
+            c = this._apply("tokens");
+            return {
+                tag: "s",
+                content: c
+            };
+        }.call(this);
+    },
+    monospace: function() {
+        var $elf = this, _fromIdx = this.input.idx, c;
+        return function() {
+            c = this._apply("tokens");
+            return {
+                tag: "tt",
+                content: c
+            };
+        }.call(this);
+    },
+    monospace_: function() {
+        var $elf = this, _fromIdx = this.input.idx, c;
+        return function() {
+            c = this._apply("tokens");
+            return {
+                tag: "tt",
+                content: c
+            };
+        }.call(this);
+    },
+    superscript: function() {
+        var $elf = this, _fromIdx = this.input.idx, c;
+        return function() {
+            c = this._apply("tokens");
+            return {
+                tag: "sup",
+                content: c
+            };
+        }.call(this);
+    },
+    superscript_: function() {
+        var $elf = this, _fromIdx = this.input.idx, c;
+        return function() {
+            c = this._apply("tokens");
+            return {
+                tag: "sup",
+                content: c
+            };
+        }.call(this);
+    },
+    subscript: function() {
+        var $elf = this, _fromIdx = this.input.idx, c;
+        return function() {
+            c = this._apply("tokens");
+            return {
+                tag: "sub",
+                content: c
+            };
+        }.call(this);
+    },
+    subscript_: function() {
+        var $elf = this, _fromIdx = this.input.idx, c;
+        return function() {
+            c = this._apply("tokens");
+            return {
+                tag: "sub",
+                content: c
+            };
+        }.call(this);
+    },
+    link: function() {
+        var $elf = this, _fromIdx = this.input.idx, c, c, cc;
+        return this._or(function() {
             return function() {
                 c = this._apply("token");
+                this._form(function() {
+                    return undefined;
+                });
                 return {
                     block: "b-link",
                     url: c,
                     content: c
                 };
             }.call(this);
-        },
-        lineBreak: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
+        }, function() {
             return function() {
-                c = this._apply("anything");
+                c = this._apply("token");
+                cc = this._apply("tokens");
                 return {
-                    tag: "br"
+                    block: "b-link",
+                    url: c,
+                    content: cc
                 };
             }.call(this);
-        },
-        escaped: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
-            return function() {
-                c = this._apply("tokens");
-                return {
-                    tag: "span",
-                    content: c
-                };
-            }.call(this);
-        },
-        para: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
-            return function() {
-                c = this._apply("tokens");
-                return {
-                    elem: "p",
-                    content: c
-                };
-            }.call(this);
-        },
-        header1: function() {
-            var $elf = this, _fromIdx = this.input.idx, c, a;
-            return function() {
-                c = this._apply("tokens");
-                a = this._apply("anything");
-                return {
-                    elem: "h1",
-                    attrs: {
-                        id: a
-                    },
-                    content: c
-                };
-            }.call(this);
-        },
-        header2: function() {
-            var $elf = this, _fromIdx = this.input.idx, c, a;
-            return function() {
-                c = this._apply("tokens");
-                a = this._apply("anything");
-                return {
-                    elem: "h2",
-                    attrs: {
-                        id: a
-                    },
-                    content: c
-                };
-            }.call(this);
-        },
-        header3: function() {
-            var $elf = this, _fromIdx = this.input.idx, c, a;
-            return function() {
-                c = this._apply("tokens");
-                a = this._apply("anything");
-                return {
-                    elem: "h3",
-                    attrs: {
-                        id: a
-                    },
-                    content: c
-                };
-            }.call(this);
-        },
-        header4: function() {
-            var $elf = this, _fromIdx = this.input.idx, c, a;
-            return function() {
-                c = this._apply("tokens");
-                a = this._apply("anything");
-                return {
-                    elem: "h4",
-                    attrs: {
-                        id: a
-                    },
-                    content: c
-                };
-            }.call(this);
-        },
-        header5: function() {
-            var $elf = this, _fromIdx = this.input.idx, c, a;
-            return function() {
-                c = this._apply("tokens");
-                a = this._apply("anything");
-                return {
-                    elem: "h5",
-                    attrs: {
-                        id: a
-                    },
-                    content: c
-                };
-            }.call(this);
-        },
-        header6: function() {
-            var $elf = this, _fromIdx = this.input.idx, c, a;
-            return function() {
-                c = this._apply("tokens");
-                a = this._apply("anything");
-                return {
-                    elem: "h6",
-                    attrs: {
-                        id: a
-                    },
-                    content: c
-                };
-            }.call(this);
-        },
-        olist: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
-            return function() {
-                c = this._apply("tokens");
-                return {
-                    elem: "ol",
-                    content: c
-                };
-            }.call(this);
-        },
-        ulist: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
-            return function() {
-                c = this._apply("tokens");
-                return {
-                    elem: "ul",
-                    content: c
-                };
-            }.call(this);
-        },
-        olistItem: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
-            return function() {
-                c = this._apply("tokens");
-                return {
-                    elem: "li",
-                    content: c
-                };
-            }.call(this);
-        },
-        ulistItem: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
-            return function() {
-                c = this._apply("tokens");
-                return {
-                    elem: "li",
-                    content: c
-                };
-            }.call(this);
-        },
-        extension: function() {
-            var $elf = this, _fromIdx = this.input.idx, t, c, p;
-            return function() {
-                t = this._apply("anything");
-                c = this._apply("anything");
-                p = this._apply("anything");
-                return ShmakoWikiToBemjson["extensions"].hasOwnProperty(t) ? ShmakoWikiToBemjson["extensions"][t](c, p) : {
-                    tag: "div",
-                    content: ShmakoWikiToBemjson._escape(c)
-                };
-            }.call(this);
-        },
-        topLevel: function() {
-            var $elf = this, _fromIdx = this.input.idx, c;
-            return function() {
-                c = this._apply("tokens");
-                return {
-                    block: "b-text",
-                    content: c
-                };
-            }.call(this);
-        }
-    });
-    ShmakoWikiToBemjson["extensions"] = {
-        html: function(c) {
-            return c;
-        },
-        ohl: function(c, p) {
-            return OmetaHighlighterToBemjson.match(c, "topLevel");
-        },
-        hljs: function(c, p) {
+        });
+    },
+    link_: function() {
+        var $elf = this, _fromIdx = this.input.idx, c;
+        return function() {
+            c = this._apply("token");
             return {
-                block: "b-code",
-                cls: p,
-                content: ShmakoWikiToBemjson._escape(c)
+                block: "b-link",
+                url: c,
+                content: c
             };
-        },
-        toc: function(c, p) {
-            return [ {
-                block: "b-wiki",
-                elem: "toc",
-                content: ShmakoWikiToBemjson.match([ c[0] ], "topLevel")["content"]
-            }, ShmakoWikiToBemjson.match(c[1], "topLevel") ];
-        }
-    };
-    ShmakoWikiToBemjson["extensions"]["hl"] = ShmakoWikiToBemjson["extensions"]["ohl"];
-    ShmakoWikiToBemjson["_escape"] = function() {
-        var amp = new RegExp("&", "g"), lt = new RegExp("<", "g"), gt = new RegExp(">", "g"), apos = new RegExp("'", "g"), quot = new RegExp('"', "g");
-        return function(s) {
-            return String(s).replace(amp, "&amp;").replace(lt, "&lt;").replace(gt, "&gt;").replace(apos, "&apos;").replace(quot, "&quot;");
-        };
-    }();
-}
+        }.call(this);
+    },
+    lineBreak: function() {
+        var $elf = this, _fromIdx = this.input.idx, c;
+        return function() {
+            c = this._apply("anything");
+            return {
+                tag: "br"
+            };
+        }.call(this);
+    },
+    escaped: function() {
+        var $elf = this, _fromIdx = this.input.idx, c;
+        return function() {
+            c = this._apply("tokens");
+            return {
+                tag: "span",
+                content: c
+            };
+        }.call(this);
+    },
+    para: function() {
+        var $elf = this, _fromIdx = this.input.idx, c;
+        return function() {
+            c = this._apply("tokens");
+            return {
+                elem: "p",
+                content: c
+            };
+        }.call(this);
+    },
+    header1: function() {
+        var $elf = this, _fromIdx = this.input.idx, c, a;
+        return function() {
+            c = this._apply("tokens");
+            a = this._apply("anything");
+            return {
+                elem: "h1",
+                attrs: {
+                    id: a
+                },
+                content: c
+            };
+        }.call(this);
+    },
+    header2: function() {
+        var $elf = this, _fromIdx = this.input.idx, c, a;
+        return function() {
+            c = this._apply("tokens");
+            a = this._apply("anything");
+            return {
+                elem: "h2",
+                attrs: {
+                    id: a
+                },
+                content: c
+            };
+        }.call(this);
+    },
+    header3: function() {
+        var $elf = this, _fromIdx = this.input.idx, c, a;
+        return function() {
+            c = this._apply("tokens");
+            a = this._apply("anything");
+            return {
+                elem: "h3",
+                attrs: {
+                    id: a
+                },
+                content: c
+            };
+        }.call(this);
+    },
+    header4: function() {
+        var $elf = this, _fromIdx = this.input.idx, c, a;
+        return function() {
+            c = this._apply("tokens");
+            a = this._apply("anything");
+            return {
+                elem: "h4",
+                attrs: {
+                    id: a
+                },
+                content: c
+            };
+        }.call(this);
+    },
+    header5: function() {
+        var $elf = this, _fromIdx = this.input.idx, c, a;
+        return function() {
+            c = this._apply("tokens");
+            a = this._apply("anything");
+            return {
+                elem: "h5",
+                attrs: {
+                    id: a
+                },
+                content: c
+            };
+        }.call(this);
+    },
+    header6: function() {
+        var $elf = this, _fromIdx = this.input.idx, c, a;
+        return function() {
+            c = this._apply("tokens");
+            a = this._apply("anything");
+            return {
+                elem: "h6",
+                attrs: {
+                    id: a
+                },
+                content: c
+            };
+        }.call(this);
+    },
+    olist: function() {
+        var $elf = this, _fromIdx = this.input.idx, c;
+        return function() {
+            c = this._apply("tokens");
+            return {
+                elem: "ol",
+                content: c
+            };
+        }.call(this);
+    },
+    ulist: function() {
+        var $elf = this, _fromIdx = this.input.idx, c;
+        return function() {
+            c = this._apply("tokens");
+            return {
+                elem: "ul",
+                content: c
+            };
+        }.call(this);
+    },
+    olistItem: function() {
+        var $elf = this, _fromIdx = this.input.idx, c;
+        return function() {
+            c = this._apply("tokens");
+            return {
+                elem: "li",
+                content: c
+            };
+        }.call(this);
+    },
+    ulistItem: function() {
+        var $elf = this, _fromIdx = this.input.idx, c;
+        return function() {
+            c = this._apply("tokens");
+            return {
+                elem: "li",
+                content: c
+            };
+        }.call(this);
+    },
+    extension: function() {
+        var $elf = this, _fromIdx = this.input.idx, t, c, p;
+        return function() {
+            t = this._apply("anything");
+            c = this._apply("anything");
+            p = this._apply("anything");
+            return utils.getExtension(t, "astToBemjson", function(c, p) {
+                return {
+                    tag: "div",
+                    content: utils.htmlEscape(c)
+                };
+            })(c, p);
+        }.call(this);
+    },
+    topInline: function() {
+        var $elf = this, _fromIdx = this.input.idx, c;
+        return function() {
+            c = this._apply("tokens");
+            return c;
+        }.call(this);
+    },
+    topLevel: function() {
+        var $elf = this, _fromIdx = this.input.idx, c;
+        return function() {
+            c = this._apply("tokens");
+            return {
+                block: "b-text",
+                content: c
+            };
+        }.call(this);
+    }
+});

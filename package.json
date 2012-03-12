@@ -1,7 +1,7 @@
 {
   "name": "shmakowiki",
   "description": "Yet another wiki dialect, inspired by WackoWiki and WikiCreole",
-  "version": "0.2.4",
+  "version": "0.3.0",
   "homepage": "http://github.com/veged/shmakowiki",
   "author": "Sergey Berezhnoy <veged@mail.ru> (http://github.com/veged)",
   "repository": {
@@ -30,5 +30,6 @@
       "type": "AS IS"
     }
   ],
-  "devDependencies": {}
+  "devDependencies": {},
+  "optionalDependencies": {}
 }

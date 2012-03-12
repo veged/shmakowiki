@@ -35,46 +35,46 @@ if (global === ometajs_) {
         var $elf = this, _fromIdx = this.input.idx;
         return function() {
             switch (this._apply("anything")) {
-              case "monospace":
-                return "monospace";
-              case "strike":
-                return "strike";
-              case "underline":
-                return "underline";
-              case "header3":
-                return "header3";
-              case "para":
-                return "para";
-              case "italic":
-                return "italic";
               case "underline_":
                 return "underline_";
-              case "header6":
-                return "header6";
+              case "strike":
+                return "strike";
               case "header4":
                 return "header4";
-              case "italic_":
-                return "italic_";
-              case "strike_":
-                return "strike_";
-              case "header5":
-                return "header5";
               case "escaped":
                 return "escaped";
-              case "header2":
-                return "header2";
+              case "italic_":
+                return "italic_";
+              case "bold_":
+                return "bold_";
+              case "underline":
+                return "underline";
+              case "header5":
+                return "header5";
               case "subscript":
                 return "subscript";
               case "superscript":
                 return "superscript";
-              case "header1":
-                return "header1";
-              case "subscript_":
-                return "subscript_";
-              case "bold_":
-                return "bold_";
               case "monospace_":
                 return "monospace_";
+              case "header6":
+                return "header6";
+              case "monospace":
+                return "monospace";
+              case "strike_":
+                return "strike_";
+              case "italic":
+                return "italic";
+              case "para":
+                return "para";
+              case "header1":
+                return "header1";
+              case "header2":
+                return "header2";
+              case "header3":
+                return "header3";
+              case "subscript_":
+                return "subscript_";
               case "superscript_":
                 return "superscript_";
               case "bold":

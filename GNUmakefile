@@ -13,6 +13,7 @@ lib/_shmakowiki.js: src
 	for i in \
 			shmakowiki.js \
 			shmakowiki.ometajs.js \
+			transform.ometajs.js \
 			shmakowiki2html.ometajs.js \
 			shmakowiki2bemjson.ometajs.js \
 			shmakowiki2plain.ometajs.js \
