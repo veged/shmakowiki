@@ -95,9 +95,12 @@ ometa ShmakoWiki {
     listItemContent = (~blockEnd char)+:c -> ShmakoWiki.matchAll(c.join(''), 'topInline'),
 
     anySubList :l = '\n' ~~(anyLi:s) ?(s.length > l.length) anyList:sl -> sl,
+    
+    anySupList :l = ~~(anyLi:s) ?(s.length < l.length) anyList:sl -> sl,
 
     listItem :t :l = apply(t):s ?(s.length == l.length) listItemContent:c
-                     (anySubList(s)+ | (('\n' ~~apply(t)) | ~~blockEnd) -> ''):cc -> { if(cc) c = c.concat(cc); [t + 'stItem', c] },
+                     (anySubList(s)+ | (('\n' ~~anySupList(s) | '\n' ~~apply(t)) | ~~blockEnd) -> ''):cc -> { if(cc) c = c.concat(cc); [t + 'stItem', c] },
+                     
 
     list :t = ~~(apply(t):s) listItem(t, s)+:c -> [t + 'st', c],
 
