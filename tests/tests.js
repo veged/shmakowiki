@@ -261,6 +261,39 @@ var tests = [
           ]
         ]]
     },
+    {
+      'in':('1. oli1\n'+
+            '2. oli2\n'+
+            '  * uli21\n'+
+            '  * uli22\n'+
+            '    1. oli221\n'+
+            '    2. oli222\n'+
+            '      * uli2221\n'+
+            '      * uli2222\n'+
+            '      * uli2223\n'+
+            '    3. oli223\n'+
+            '  * uli23\n'+
+            '3. li3\n'),
+      'out':[["olist",
+              [["olistItem", ["oli1"]],
+               ["olistItem",
+                ["oli2",
+                 ["ulist",
+                  [["ulistItem", ["uli21"]],
+                   ["ulistItem",
+                    ["uli22",
+                     ["olist",
+                      [["olistItem", ["oli221"]],
+                       ["olistItem",
+                        ["oli222",
+                         ["ulist",
+                          [["ulistItem", ["uli2221"]],
+                           ["ulistItem", ["uli2222"]],
+                           ["ulistItem", ["uli2223"]]]]]],
+                       ["olistItem", ["oli223"]]]]]],
+                   ["ulistItem", ["uli23"]]]]]],
+               ["olistItem", ["li3"]]]]]
+    },
     
     {
         'in': 'para1\n* listitem1\n* listitem2\n\npara2',
