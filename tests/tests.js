@@ -236,6 +236,33 @@ var tests = [
         ]]
     },
     {
+        'in': '1. listitem1\n2. listitem2\n  * sublistitem21\n3. listitem3\n  * sublistitem31\n  * sublistitem32',
+        'out': [[
+          'olist',
+          [
+            ['olistItem', ['listitem1']],
+            [
+              'olistItem',
+              ['listitem2', ['ulist', [['ulistItem', ['sublistitem21']]]]]
+            ],
+            [
+              'olistItem',
+              [
+                'listitem3',
+                [
+                  'ulist',
+                  [
+                    ['ulistItem', ['sublistitem31']],
+                    ['ulistItem', ['sublistitem32']]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]]
+    },
+    
+    {
         'in': 'para1\n* listitem1\n* listitem2\n\npara2',
         'out': [
           ['para', ['para1']],
