@@ -111,7 +111,7 @@ ometa ShmakoWiki {
 
     list = list1(0),
     list1 :n =
-      ~~(noNlSpace*:s bullet:b) ?(n<=s.length)
+      ~~(noNlSpace*:s bullet:b) ?(s.length>=n)
       listItem(b,s.length)+:ss
       ('\n' noNlSpace*)* -> [b+`list,ss],
 
