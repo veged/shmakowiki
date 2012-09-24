@@ -99,21 +99,21 @@ ometa ShmakoWiki {
     uliBullet = '*' ~'*' noNlSpace* -> 'u',
     oliBullet = digit+ '.' noNlSpace* -> 'o',
 
-    bullet = uliBullet|oliBullet,
+    bullet = uliBullet | oliBullet,
     bullet1 :t = apply(t+'liBullet'),
 
     listItemContent = (~blockEnd char)+:c -> ShmakoWiki.matchAll(c.join(''), 'topInline'),
 
     listItem :t :n =
-        ' '*:s ?(s.length==n) bullet1(t)
-        listItemContent:p ('\n'|end)
-        list1(n+1)*:b -> [t+`listItem,p.concat(b)],
+        ' '*:s ?(n == s.length) bullet1(t)
+        listItemContent:p ('\n' | end)
+        list1(n+1)*:b -> [t+`listItem, p.concat(b)],
 
     list = list1(0),
     list1 :n =
-        ~~(noNlSpace*:s bullet:b) ?(s.length>=n)
-        listItem(b,s.length)+:ss
-        ('\n' noNlSpace*)* -> [b+`list,ss],
+        ~~(noNlSpace*:s bullet:b) ?(n >= s.length)
+        listItem(b, s.length)+:ss
+        ('\n' noNlSpace*)* -> [b+`list, ss],
 
 
     extBlockStart = ((ext char:t '%') -> t | ext -> ''):tt
