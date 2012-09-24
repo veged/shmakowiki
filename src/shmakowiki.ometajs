@@ -105,7 +105,7 @@ ometa ShmakoWiki {
     listItemContent = (~blockEnd char)+:c -> ShmakoWiki.matchAll(c.join(''), 'topInline'),
 
     listItem :t :n =
-      ' '*:s ?(n==s.length) bullet1(t)
+      ' '*:s ?(s.length==n) bullet1(t)
       listItemContent:p ('\n'|end)
       list1(n+1)*:b -> [t+`listItem,p.concat(b)],
 
