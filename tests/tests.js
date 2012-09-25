@@ -236,6 +236,66 @@ var tests = [
         ]]
     },
     {
+        'in': '1. listitem1\n2. listitem2\n  * sublistitem21\n3. listitem3\n  * sublistitem31\n  * sublistitem32',
+        'out': [[
+          'olist',
+          [
+            ['olistItem', ['listitem1']],
+            [
+              'olistItem',
+              ['listitem2', ['ulist', [['ulistItem', ['sublistitem21']]]]]
+            ],
+            [
+              'olistItem',
+              [
+                'listitem3',
+                [
+                  'ulist',
+                  [
+                    ['ulistItem', ['sublistitem31']],
+                    ['ulistItem', ['sublistitem32']]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]]
+    },
+    {
+      'in':['1. oli1',
+            '2. oli2',
+            '  * uli21',
+            '  * uli22',
+            '    1. oli221',
+            '    2. oli222',
+            '      * uli2221',
+            '      * uli2222',
+            '      * uli2223',
+            '    3. oli223',
+            '  * uli23',
+            '3. li3'].join('\n'),
+      'out':[["olist",
+              [["olistItem", ["oli1"]],
+               ["olistItem",
+                ["oli2",
+                 ["ulist",
+                  [["ulistItem", ["uli21"]],
+                   ["ulistItem",
+                    ["uli22",
+                     ["olist",
+                      [["olistItem", ["oli221"]],
+                       ["olistItem",
+                        ["oli222",
+                         ["ulist",
+                          [["ulistItem", ["uli2221"]],
+                           ["ulistItem", ["uli2222"]],
+                           ["ulistItem", ["uli2223"]]]]]],
+                       ["olistItem", ["oli223"]]]]]],
+                   ["ulistItem", ["uli23"]]]]]],
+               ["olistItem", ["li3"]]]]]
+    },
+    
+    {
         'in': 'para1\n* listitem1\n* listitem2\n\npara2',
         'out': [
           ['para', ['para1']],

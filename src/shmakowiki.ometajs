@@ -68,40 +68,52 @@ ometa ShmakoWiki {
     allInline :n = inline(n) | (~inline(n) inline_),
     topInline = allInline([])+,
 
-
-    spacesNoNl   = (~'\n' space)*,
+  
+    noNlSpace = (~'\n' space), //quantifiers to be used in-place
+    spacesNoNl = noNlSpace*,
+  
     spacesNlSpaces = spacesNoNl '\n' spacesNoNl ~end -> ' ',
 
     nl = '\n' (spacesNoNl '\n')+,
 
-    headerStart = '='+:c spacesNoNl -> (c.join('').length - 1),
-    headerEnd = (('\n' (spacesNoNl '\n')*) | end),
+    headerStart = '='+:c noNlSpace* -> (c.length - 1),
+    headerEnd = '\n' (noNlSpace* '\n')* | end,
     headerAnchor = '='+ (~'\n' char)*:a -> a.join('') | empty -> '',
 
     header = headerStart:l ((~headerEnd ~'=' char)+:cc -> cc.join('')):c headerAnchor:anchor headerEnd ->
                 { var hAST = ShmakoWiki.matchAll(c, 'topInline'),
                       hAnchor = utils.transliterate('ru', anchor.length ? anchor : ShmakoWikiToPlain.match(hAST, 'topLevel'));
                   ['header' + (l <= 6 ? l : 6), hAST, hAnchor] },
+  
+    blockEnd = ('\n' ~~extBlockStart)
+             | ('\n' (noNlSpace* '\n')+)
+             | ('\n' ~~listStart)
+             | ('\n' ~~headerStart)
+             | ('\n'* end),
 
-    blockEnd = ('\n' ~~extBlockStart) | nl | ('\n' ~~anyLi) | ('\n' ~~headerStart) | ('\n'* end),
+    para = ((~blockEnd (noNlSpace* '\n' noNlSpace* ~end -> ' ' | char))+:c -> c.join(''))
+        blockEnd -> [`para, ShmakoWiki.matchAll(c, 'topInline')],
 
-    para = ((~blockEnd (spacesNlSpaces | char))+:c -> c.join('')) blockEnd -> [`para, ShmakoWiki.matchAll(c, 'topInline')],
+    listStart = noNlSpace* bullet,
 
-    uli = spacesNoNl:s '*' ~'*' spacesNoNl -> s.join(''),
-    oli = spacesNoNl:s digit+ '.' spacesNoNl -> s.join(''),
+    uliBullet = '*' ~'*' noNlSpace* -> 'u',
+    oliBullet = digit+ '.' noNlSpace* -> 'o',
 
-    anyLi = uli | oli,
+    bullet = uliBullet | oliBullet,
+    bullet1 :t = apply(t + 'liBullet'),
 
     listItemContent = (~blockEnd char)+:c -> ShmakoWiki.matchAll(c.join(''), 'topInline'),
 
-    anySubList :l = '\n' ~~(anyLi:s) ?(s.length > l.length) anyList:sl -> sl,
+    listItem :t :n =
+        ' '*:s ?(n == s.length) bullet1(t)
+        listItemContent:p ('\n' | end)
+        list1(n+1)*:b -> [t+`listItem, p.concat(b)],
 
-    listItem :t :l = apply(t):s ?(s.length == l.length) listItemContent:c
-                     (anySubList(s)+ | (('\n' ~~apply(t)) | ~~blockEnd) -> ''):cc -> { if(cc) c = c.concat(cc); [t + 'stItem', c] },
-
-    list :t = ~~(apply(t):s) listItem(t, s)+:c -> [t + 'st', c],
-
-    anyList = list('uli') | list('oli'),
+    list = list1(0),
+    list1 :n =
+        ~~(noNlSpace*:s bullet:b) ?(n <= s.length)
+        listItem(b,s.length)+:ss
+        ('\n' noNlSpace*)* -> [b+`list, ss],
 
 
     extBlockStart = ((ext char:t '%') -> t | ext -> ''):tt
@@ -114,7 +126,7 @@ ometa ShmakoWiki {
                extBlockEnd(s[0]) (blockEnd | '\n') -> [`extension, s[1],
                    utils.getExtension(s[1], 'shmakowikiToAst')(c, s[2]), s[2]],
 
-    allBlock = extBlock | (anyList:l blockEnd) -> l | header | para,
+    allBlock = extBlock | list | header | para,
 
     topLevel = (spacesNoNl '\n')* allBlock+:t -> t
 }
