@@ -100,7 +100,7 @@ ometa ShmakoWiki {
     oliBullet = digit+ '.' noNlSpace* -> 'o',
 
     bullet = uliBullet | oliBullet,
-    bullet1 :t = apply(t+'liBullet'),
+    bullet1 :t = apply(t + 'liBullet'),
 
     listItemContent = (~blockEnd char)+:c -> ShmakoWiki.matchAll(c.join(''), 'topInline'),
 

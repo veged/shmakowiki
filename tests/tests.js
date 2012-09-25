@@ -262,18 +262,18 @@ var tests = [
         ]]
     },
     {
-      'in':('1. oli1\n'+
-            '2. oli2\n'+
-            '  * uli21\n'+
-            '  * uli22\n'+
-            '    1. oli221\n'+
-            '    2. oli222\n'+
-            '      * uli2221\n'+
-            '      * uli2222\n'+
-            '      * uli2223\n'+
-            '    3. oli223\n'+
-            '  * uli23\n'+
-            '3. li3\n'),
+      'in':['1. oli1',
+            '2. oli2',
+            '  * uli21',
+            '  * uli22',
+            '    1. oli221',
+            '    2. oli222',
+            '      * uli2221',
+            '      * uli2222',
+            '      * uli2223',
+            '    3. oli223',
+            '  * uli23',
+            '3. li3'].join('\n'),
       'out':[["olist",
               [["olistItem", ["oli1"]],
                ["olistItem",
