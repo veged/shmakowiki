@@ -55,7 +55,14 @@ var tests = [
         'out': [['para', [['bold', [['italic', ['bolditalic']]]]]]]
     },
     {
-        'in': 'para1**bla**\n//dsds//\n\npara2 \n para2\n\npara3',
+        'in': [
+          'para1**bla**',
+          '//dsds//',
+          '',
+          'para2 ',
+          ' para2',
+          '',
+          'para3'],
         'out': [
           ['para', ['para1', ['bold', ['bla']], ' ', ['italic', ['dsds']]]],
           ['para', ['para2 para2']],
@@ -63,11 +70,21 @@ var tests = [
         ]
     },
     {
-        'in': 'para11  \n  para11\n\npara2\n',
-        'out': [['para', ['para11 para11']], ['para', ['para2']]]
+        'in': [
+          'para11  ',
+          '  para11',
+          '',
+          'para2',
+          ''],
+        'out': [['para',
+                 ['para11 para11']],
+                ['para', ['para2']]]
     },
     {
-        'in': '* listitem1\n* listitem2\n  * sublistitem2',
+        'in': [
+          '* listitem1',
+          '* listitem2',
+          '  * sublistitem2'],
         'out': [[
           'ulist',
           [
@@ -83,7 +100,10 @@ var tests = [
         ]]
     },
     {
-        'in': '1. listitem1\n2. listitem2\n  1. sublistitem2',
+        'in': [
+          '1. listitem1',
+          '2. listitem2',
+          '  1. sublistitem2'],
         'out': [[
           'olist',
           [
@@ -96,7 +116,9 @@ var tests = [
         ]]
     },
     {
-        'in': '1. olistitem1\n* ulistitem2',
+        'in': [
+          '1. olistitem1',
+          '* ulistitem2'],
         'out': [
           [
             'olist',
@@ -106,7 +128,10 @@ var tests = [
         ]
     },
     {
-        'in': '* listitem1\n  * sublistitem1\n    * subsublistitem1',
+        'in': [
+          '* listitem1',
+          '  * sublistitem1',
+          '    * subsublistitem1'],
         'out': [[
           'ulist',
           [[
@@ -128,7 +153,11 @@ var tests = [
         ]]
     },
     {
-        'in': '* listitem1\n  * sublistitem1\n    * subsublistitem1\n  * sublistitem2',
+        'in': [
+          '* listitem1',
+          '  * sublistitem1',
+          '    * subsublistitem1',
+          '  * sublistitem2'],
         'out': [[
           'ulist',
           [[
@@ -153,7 +182,12 @@ var tests = [
         ]]
     },
     {
-        'in': '* listitem1\n  * sublistitem1\n    1. osubsublistitem1\n    * usubsublistitem1\n  * sublistitem2',
+        'in':[
+          '* listitem1',
+          '  * sublistitem1',
+          '    1. osubsublistitem1',
+          '    * usubsublistitem1',
+          '  * sublistitem2'],
         'out': [[
           'ulist',
           [[
@@ -179,7 +213,12 @@ var tests = [
         ]]
     },
     {
-        'in': '* listitem1\n  * sublistitem1\n    * subsublistitem1\n  * sublistitem2\n    * subsublistitem2',
+        'in':[
+          '* listitem1',
+          '  * sublistitem1',
+          '    * subsublistitem1',
+          '  * sublistitem2',
+          '    * subsublistitem2'],
         'out': [[
           'ulist',
           [[
@@ -210,7 +249,13 @@ var tests = [
         ]]
     },
     {
-        'in': '* listitem1\n* listitem2\n  * sublistitem21\n* listitem3\n  * sublistitem31\n  * sublistitem32',
+        'in': [
+          '* listitem1',
+          '* listitem2',
+          '  * sublistitem21',
+          '* listitem3',
+          '  * sublistitem31',
+          '  * sublistitem32'],
         'out': [[
           'ulist',
           [
@@ -236,7 +281,13 @@ var tests = [
         ]]
     },
     {
-        'in': '1. listitem1\n2. listitem2\n  * sublistitem21\n3. listitem3\n  * sublistitem31\n  * sublistitem32',
+        'in': [
+          '1. listitem1',
+          '2. listitem2',
+          '  * sublistitem21',
+          '3. listitem3',
+          '  * sublistitem31',
+          '  * sublistitem32'],
         'out': [[
           'olist',
           [
@@ -273,7 +324,7 @@ var tests = [
             '      * uli2223',
             '    3. oli223',
             '  * uli23',
-            '3. li3'].join('\n'),
+            '3. li3'],
       'out':[["olist",
               [["olistItem", ["oli1"]],
                ["olistItem",
@@ -296,7 +347,12 @@ var tests = [
     },
     
     {
-        'in': 'para1\n* listitem1\n* listitem2\n\npara2',
+        'in': [
+          'para1',
+          '* listitem1',
+          '* listitem2',
+          '',
+          'para2'],
         'out': [
           ['para', ['para1']],
           [
@@ -310,7 +366,13 @@ var tests = [
         ]
     },
     {
-        'in': '==header11**bold1**\n\npara2\n===header22\npara2\n====header33==',
+        'in': [
+          '==header11**bold1**',
+          '',
+          'para2',
+          '===header22',
+          'para2',
+          '====header33=='],
         'out': [
           ['header1', ['header11', ['bold', ['bold1']]], 'header11bold1'],
           ['para', ['para2']],
@@ -320,7 +382,13 @@ var tests = [
         ]
     },
     {
-        'in': '==**xbold1**\n\n**para2**\n===**header22**\n**para2**\n====**header33**==',
+        'in': [
+          '==**xbold1**',
+          '',
+          '**para2**',
+          '===**header22**',
+          '**para2**',
+          '====**header33**=='],
         'out': [
           ['header1', [['bold', ['xbold1']]], 'xbold1'],
           ['para', [['bold', ['para2']]]],
@@ -330,7 +398,10 @@ var tests = [
         ]
     },
     {
-        'in': '==header11==#id1\n===header22===#idw\n====header33====#idq',
+        'in': [
+          '==header11==#id1',
+          '===header22===#idw',
+          '====header33====#idq'],
         'out': [
           ['header1', ['header11'], 'id1'],
           ['header2', ['header22'], 'idw'],
@@ -338,7 +409,13 @@ var tests = [
         ]
     },
     {
-        'in': '==**xbold1**id1\n\n**para2**\n===**header22**id2\n**para2**\n====**header33**==id3',
+        'in': [
+          '==**xbold1**id1',
+          '',
+          '**para2**',
+          '===**header22**id2',
+          '**para2**',
+          '====**header33**==id3'],
         'out': [
           ['header1', [['bold', ['xbold1']], 'id1'], 'xbold1id1'],
           ['para', [['bold', ['para2']]]],
@@ -348,7 +425,10 @@ var tests = [
         ]
     },
     {
-        'in': '=== header\n#id\nsometext',
+        'in': [
+          '=== header',
+          '#id',
+          'sometext'],
         'out': [
           ['header2', ['header'], 'header'],
           ['para', ['#id sometext']]
@@ -367,7 +447,10 @@ var tests = [
         ]
     },
     {
-        'in': '* listitem **bold**\n* listitem //italic//\n* listitem **bo//italic_**',
+        'in': [
+          '* listitem **bold**',
+          '* listitem //italic//',
+          '* listitem **bo//italic_**'],
         'out': [[
           'ulist',
           [
@@ -381,7 +464,11 @@ var tests = [
         ]]
     },
     {
-        'in': '* listitem **bold**\n* listitem //italic//\n\n* listitem **bo//italic_**',
+        'in': [
+          '* listitem **bold**',
+          '* listitem //italic//',
+          '',
+          '* listitem **bo//italic_**'],
         'out': [
           [
             'ulist',
@@ -439,7 +526,21 @@ var tests = [
         ]]
     },
     {
-        'in': 'line1\n%%\next1\n%%\n%%A%\next2\n%A%%\n%%A%html\n<b>bol%%d</b>\n%A%%\n\n%%bla\nblabla\n%%',
+        'in': [
+          'line1',
+          '%%',
+          'ext1',
+          '%%',
+          '%%A%',
+          'ext2',
+          '%A%%',
+          '%%A%html',
+          '<b>bol%%d</b>',
+          '%A%%',
+          '',
+          '%%bla',
+          'blabla',
+          '%%'],
         'out': [
           ['para', ['line1']],
           ['extension', '', 'ext1', ''],
@@ -449,13 +550,19 @@ var tests = [
         ]
     },
     {
-        'in': '%%ext params\nextcont\n%%',
+        'in': [
+          '%%ext params',
+          'extcont',
+          '%%'],
         'out': [
           ['extension', 'ext', 'extcont', 'params']
         ]
     },
     {
-        'in': '%%ohl js\nvar b = \'bla\';\n%%',
+        'in': [
+          '%%ohl js',
+          'var b = \'bla\';',
+          '%%'],
         'out': [
           [
             'extension', 'ohl',
@@ -479,7 +586,10 @@ var tests = [
         ]
     },
     {
-        'in': '%%hl js\nvar b = \'bla\';\n%%',
+        'in': [
+          '%%hl js',
+          'var b = \'bla\';',
+          '%%'],
         'out': [
           [
             'extension', 'hl',
@@ -501,7 +611,12 @@ var tests = [
         ]
     },
     {
-        'in': 'bla\n%%hljs javascript\nfunction() { return true }\n%%\nbla',
+        'in': [
+          'bla',
+          '%%hljs javascript',
+          'function() { return true }',
+          '%%',
+          'bla'],
         'out': [
           ['para', ['bla']],
           ['extension', 'hljs', 'function() { return true }', 'javascript'],
@@ -509,7 +624,13 @@ var tests = [
         ]
     },
     {
-        'in': 'para1\n\npara2\npara2\n\npara3',
+        'in': [
+          'para1',
+          '',
+          'para2',
+          'para2',
+          '',
+          'para3'],
         'out': [
           ['para', ['para1']],
           ['para', ['para2 para2']],
@@ -524,6 +645,9 @@ var api = require('../lib/shmakowiki.js'),
 for (var i = 0; i < tests.length; i++) {
     var test = tests[i];
 
+    test['in'] = (typeof test['in'] === 'string' ?
+                  test['in'] : test['in'].join('\n'));
+    
     test.res = api.shmakowikiToAst(test['in']);
 
     var res = JSON.stringify(test.res),
