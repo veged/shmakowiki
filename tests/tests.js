@@ -1,4 +1,5 @@
 var tests = [
+  
     {
         'in': '**xboldx**',
         'out': [['para', [['bold', ['xboldx']]]]]
@@ -464,6 +465,7 @@ var tests = [
         ]]
     },
     {
+        'name':'empty lines terminate lists',
         'in': [
           '* listitem **bold**',
           '* listitem //italic//',
@@ -623,6 +625,7 @@ var tests = [
           ['para', ['bla']]
         ]
     },
+
     {
         'in': [
           'para1',
@@ -636,6 +639,110 @@ var tests = [
           ['para', ['para2 para2']],
           ['para', ['para3']]
         ]
+    },
+  
+    {
+      'in':[
+        '   * item1',
+        '     %%hljs',
+        '       smth.prop=a+b',
+        '     %%',
+        '   * item2',
+        '   * item3'],
+      'out':[
+        ['ulist', [
+          ['ulistItem',
+           ['item1',
+            ['extension','hljs',
+             '  smth.prop=a+b','']]],
+          ['ulistItem',['item2']],
+          ['ulistItem',['item3']]]]]},
+
+    {
+      'in':[
+        ' * item1',
+        '   * item2',
+        '  %%hljs',
+        '    anyjs();',
+        '%%', //should it be possible to close
+        //extension block this way (no indent)
+        '   %%',//or this way (a lots of)
+        '  %%', // or closing extension tag indent level should strictly
+        // match indent level of opening one?
+      ]
+    },
+
+    {
+      'in':[
+        ' * item1',
+        '   * item2',
+        '  %%A%hljs',
+        '', //empty lines don't break extension blocks
+        '  %A%%'],
+      //How does it go together with 'empty lines terminate lists' test?
+      //Shouldn't we rather allow empty lines in lists and split them
+      //according to indent level, like in the following case?
+    },
+
+    {
+      'name':'allow empty lines in lists',
+      'in':[
+        ' * item1',
+        ' * item2',
+        '',
+        '   * item22',
+        '',
+        '   * item23',
+        '',
+        ' * item3',
+        ' ',
+        ' * item4'],
+      'out':[
+        ['ulist',
+         [['ulistItem',['item1']],
+          ['ulistItem',
+           ['item2',
+            ['ulist',
+             [['ulistItem',['item22']],
+              ['ulistItem',['item23']]]]]],
+          ['ulistItem',['item3']],
+          ['ulistItem',['item4']]]]]},
+
+    {
+      'name':'block elements inside lists',
+      'in':[
+        ' * item1 something', //inline list contents
+        '',
+        ' * item2 para1', //more then one paragraph, so both go in `para
+        '',
+        '  item2 para2 something',
+        '   item2 para2 more',
+        '',
+        ' * item3'],
+      'out':[
+        ['ulist',
+         [['ulistItem',['item1 something']],
+          ['ulistItem',
+           ['para' ['item2 para1']],
+           ['para' ['item2 para2 something item2 para2 more']]],
+          ['ulistItem',['item3']]]]]
+    },
+
+    {
+      'name':'headers terminate lists',
+      'in':[
+        ' * item11',
+        ' * item12',
+        '',
+        '  ==header',
+        ' * item21'],
+      'out':[
+        ['ulist',
+         [['ulistItem',['item11']],
+          ['ulistItem',['item12']]]],
+        ['header1',['header'],'header'],
+        ['ulist',
+         [['ulistItem',['item21']]]]]
     }
 ];
 
