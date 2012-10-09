@@ -21,7 +21,7 @@
     "ometa-highlighter": "~ 0.2.3",
     "q": "0.7.x",
     "coa": "0.3.x",
-    "highlight.js": "~7.2.0"
+    "highlight.js": "7"
   },
   "engines": {
     "node": ">=0.4.0"
