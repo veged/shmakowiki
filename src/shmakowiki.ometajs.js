@@ -143,15 +143,15 @@ if (global === ometajs_) {
             var $elf = this, _fromIdx = this.input.idx;
             return function() {
                 switch (this._apply("anything")) {
-                  case "[":
-                    return function() {
-                        this._applyWithArgs("exactly", "[");
-                        return "[[";
-                    }.call(this);
                   case "(":
                     return function() {
                         this._applyWithArgs("exactly", "(");
                         return "((";
+                    }.call(this);
+                  case "[":
+                    return function() {
+                        this._applyWithArgs("exactly", "[");
+                        return "[[";
                     }.call(this);
                   default:
                     throw fail();
@@ -547,15 +547,19 @@ if (global === ometajs_) {
                 return this._applyWithArgs("allInline", []);
             });
         },
+        noNlSpace: function() {
+            var $elf = this, _fromIdx = this.input.idx;
+            return function() {
+                this._not(function() {
+                    return this._applyWithArgs("exactly", "\n");
+                });
+                return this._apply("space");
+            }.call(this);
+        },
         spacesNoNl: function() {
             var $elf = this, _fromIdx = this.input.idx;
             return this._many(function() {
-                return function() {
-                    this._not(function() {
-                        return this._applyWithArgs("exactly", "\n");
-                    });
-                    return this._apply("space");
-                }.call(this);
+                return this._apply("noNlSpace");
             });
         },
         spacesNlSpaces: function() {
@@ -588,8 +592,10 @@ if (global === ometajs_) {
                 c = this._many1(function() {
                     return this._applyWithArgs("exactly", "=");
                 });
-                this._apply("spacesNoNl");
-                return c.join("")["length"] - 1;
+                this._many(function() {
+                    return this._apply("noNlSpace");
+                });
+                return c["length"] - 1;
             }.call(this);
         },
         headerEnd: function() {
@@ -600,7 +606,9 @@ if (global === ometajs_) {
                       case "\n":
                         return this._many(function() {
                             return function() {
-                                this._apply("spacesNoNl");
+                                this._many(function() {
+                                    return this._apply("noNlSpace");
+                                });
                                 return this._applyWithArgs("exactly", "\n");
                             }.call(this);
                         });
@@ -668,25 +676,25 @@ if (global === ometajs_) {
                 return function() {
                     switch (this._apply("anything")) {
                       case "\n":
-                        return this._not(function() {
-                            return this._not(function() {
-                                return this._apply("extBlockStart");
-                            });
-                        });
-                      default:
-                        throw fail();
-                    }
-                }.call(this);
-            }, function() {
-                return this._apply("nl");
-            }, function() {
-                return function() {
-                    switch (this._apply("anything")) {
-                      case "\n":
                         return this._or(function() {
                             return this._not(function() {
                                 return this._not(function() {
-                                    return this._apply("anyLi");
+                                    return this._apply("extBlockStart");
+                                });
+                            });
+                        }, function() {
+                            return this._many1(function() {
+                                return function() {
+                                    this._many(function() {
+                                        return this._apply("noNlSpace");
+                                    });
+                                    return this._applyWithArgs("exactly", "\n");
+                                }.call(this);
+                            });
+                        }, function() {
+                            return this._not(function() {
+                                return this._not(function() {
+                                    return this._apply("listStart");
                                 });
                             });
                         }, function() {
@@ -718,7 +726,19 @@ if (global === ometajs_) {
                             return this._apply("blockEnd");
                         });
                         return this._or(function() {
-                            return this._apply("spacesNlSpaces");
+                            return function() {
+                                this._many(function() {
+                                    return this._apply("noNlSpace");
+                                });
+                                this._applyWithArgs("exactly", "\n");
+                                this._many(function() {
+                                    return this._apply("noNlSpace");
+                                });
+                                this._not(function() {
+                                    return this._apply("end");
+                                });
+                                return " ";
+                            }.call(this);
                         }, function() {
                             return this._apply("char");
                         });
@@ -729,37 +749,55 @@ if (global === ometajs_) {
                 return [ "para", ShmakoWiki.matchAll(c, "topInline") ];
             }.call(this);
         },
-        uli: function() {
-            var $elf = this, _fromIdx = this.input.idx, s;
+        listStart: function() {
+            var $elf = this, _fromIdx = this.input.idx;
             return function() {
-                s = this._apply("spacesNoNl");
+                this._many(function() {
+                    return this._apply("noNlSpace");
+                });
+                return this._apply("bullet");
+            }.call(this);
+        },
+        uliBullet: function() {
+            var $elf = this, _fromIdx = this.input.idx;
+            return function() {
                 this._applyWithArgs("exactly", "*");
                 this._not(function() {
                     return this._applyWithArgs("exactly", "*");
                 });
-                this._apply("spacesNoNl");
-                return s.join("");
+                this._many(function() {
+                    return this._apply("noNlSpace");
+                });
+                return "u";
             }.call(this);
         },
-        oli: function() {
-            var $elf = this, _fromIdx = this.input.idx, s;
+        oliBullet: function() {
+            var $elf = this, _fromIdx = this.input.idx;
             return function() {
-                s = this._apply("spacesNoNl");
                 this._many1(function() {
                     return this._apply("digit");
                 });
                 this._applyWithArgs("exactly", ".");
-                this._apply("spacesNoNl");
-                return s.join("");
+                this._many(function() {
+                    return this._apply("noNlSpace");
+                });
+                return "o";
             }.call(this);
         },
-        anyLi: function() {
+        bullet: function() {
             var $elf = this, _fromIdx = this.input.idx;
             return this._or(function() {
-                return this._apply("uli");
+                return this._apply("uliBullet");
             }, function() {
-                return this._apply("oli");
+                return this._apply("oliBullet");
             });
+        },
+        bullet1: function() {
+            var $elf = this, _fromIdx = this.input.idx, t;
+            return function() {
+                t = this._apply("anything");
+                return this._applyWithArgs("apply", t + "liBullet");
+            }.call(this);
         },
         listItemContent: function() {
             var $elf = this, _fromIdx = this.input.idx, c;
@@ -775,90 +813,67 @@ if (global === ometajs_) {
                 return ShmakoWiki.matchAll(c.join(""), "topInline");
             }.call(this);
         },
-        anySubList: function() {
-            var $elf = this, _fromIdx = this.input.idx, l, s, sl;
-            return function() {
-                l = this._apply("anything");
-                this._applyWithArgs("exactly", "\n");
-                this._not(function() {
-                    return this._not(function() {
-                        return s = this._apply("anyLi");
-                    });
-                });
-                this._pred(s["length"] > l["length"]);
-                sl = this._apply("anyList");
-                return sl;
-            }.call(this);
-        },
         listItem: function() {
-            var $elf = this, _fromIdx = this.input.idx, t, l, s, c, cc;
+            var $elf = this, _fromIdx = this.input.idx, t, n, s, p, b;
             return function() {
                 t = this._apply("anything");
-                l = this._apply("anything");
-                s = this._applyWithArgs("apply", t);
-                this._pred(s["length"] == l["length"]);
-                c = this._apply("listItemContent");
-                cc = this._or(function() {
-                    return this._many1(function() {
-                        return this._applyWithArgs("anySubList", s);
-                    });
-                }, function() {
-                    return function() {
-                        this._or(function() {
-                            return function() {
-                                switch (this._apply("anything")) {
-                                  case "\n":
-                                    return this._not(function() {
-                                        return this._not(function() {
-                                            return this._applyWithArgs("apply", t);
-                                        });
-                                    });
-                                  default:
-                                    throw fail();
-                                }
-                            }.call(this);
-                        }, function() {
-                            return this._not(function() {
-                                return this._not(function() {
-                                    return this._apply("blockEnd");
-                                });
-                            });
-                        });
-                        return "";
-                    }.call(this);
+                n = this._apply("anything");
+                s = this._many(function() {
+                    return this._applyWithArgs("exactly", " ");
                 });
-                return function() {
-                    if (cc) {
-                        c = c.concat(cc);
-                    } else {
-                        undefined;
-                    }
-                    return [ t + "stItem", c ];
-                }.call(this);
+                this._pred(n == s["length"]);
+                this._applyWithArgs("bullet1", t);
+                p = this._apply("listItemContent");
+                this._or(function() {
+                    return function() {
+                        switch (this._apply("anything")) {
+                          case "\n":
+                            return "\n";
+                          default:
+                            throw fail();
+                        }
+                    }.call(this);
+                }, function() {
+                    return this._apply("end");
+                });
+                b = this._many(function() {
+                    return this._applyWithArgs("list1", n + 1);
+                });
+                return [ t + "listItem", p.concat(b) ];
             }.call(this);
         },
         list: function() {
-            var $elf = this, _fromIdx = this.input.idx, t, s, c;
+            var $elf = this, _fromIdx = this.input.idx;
+            return this._applyWithArgs("list1", 0);
+        },
+        list1: function() {
+            var $elf = this, _fromIdx = this.input.idx, n, s, b, ss;
             return function() {
-                t = this._apply("anything");
+                n = this._apply("anything");
                 this._not(function() {
                     return this._not(function() {
-                        return s = this._applyWithArgs("apply", t);
+                        return function() {
+                            s = this._many(function() {
+                                return this._apply("noNlSpace");
+                            });
+                            return b = this._apply("bullet");
+                        }.call(this);
                     });
                 });
-                c = this._many1(function() {
-                    return this._applyWithArgs("listItem", t, s);
+                this._pred(n <= s["length"]);
+                ss = this._many1(function() {
+                    return this._applyWithArgs("listItem", b, s["length"]);
                 });
-                return [ t + "st", c ];
+                this._many(function() {
+                    return function() {
+                        this._applyWithArgs("exactly", "\n");
+                        return this._many(function() {
+                            return this._apply("noNlSpace");
+                        });
+                    }.call(this);
+                });
+                return [ b + "list", ss ];
             }.call(this);
-        },
-        anyList: function() {
-            var $elf = this, _fromIdx = this.input.idx;
-            return this._or(function() {
-                return this._applyWithArgs("list", "uli");
-            }, function() {
-                return this._applyWithArgs("list", "oli");
-            });
         },
         extBlockStart: function() {
             var $elf = this, _fromIdx = this.input.idx, t, tt, c, cc;
@@ -953,15 +968,11 @@ if (global === ometajs_) {
             }.call(this);
         },
         allBlock: function() {
-            var $elf = this, _fromIdx = this.input.idx, l;
+            var $elf = this, _fromIdx = this.input.idx;
             return this._or(function() {
                 return this._apply("extBlock");
             }, function() {
-                return function() {
-                    l = this._apply("anyList");
-                    this._apply("blockEnd");
-                    return l;
-                }.call(this);
+                return this._apply("list");
             }, function() {
                 return this._apply("header");
             }, function() {
