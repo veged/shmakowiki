@@ -1,3 +1,5 @@
+process.env.SHMAKOWIKI_HL = 'ohl';
+
 var tests = [
   
     {
@@ -777,3 +779,5 @@ for (var i = 0; i < tests.length; i++) {
     console.log('-----------------------------------------------------');
 }
 console.log('\n' + (totalFail ? 'Total FAIL: ' + totalFail : 'All Ok'));
+
+process.exit(totalFail);
