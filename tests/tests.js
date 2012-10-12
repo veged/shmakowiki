@@ -1,3 +1,5 @@
+process.env.SHMAKOWIKI_HL = 'ohl';
+
 var tests = [
     {
         'in': '**xboldx**',
