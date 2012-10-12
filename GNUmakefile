@@ -4,7 +4,7 @@ all: lib
 src: $(patsubst %.ometajs,%.ometajs.js,$(wildcard src/*.ometajs))
 
 %.ometajs.js: %.ometajs
-	ometajs2js -i $< -o $@
+	./node_modules/.bin/ometajs2js -i $< -o $@
 
 lib: lib/_shmakowiki.js
 
